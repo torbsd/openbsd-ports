@@ -1,0 +1,170 @@
+$OpenBSD$
+--- src/components/tl-process.js.orig	Wed Mar 18 14:44:37 2015
++++ src/components/tl-process.js	Mon Mar 30 11:12:39 2015
+@@ -309,9 +309,9 @@ TorProcessService.prototype =
+       // starting tor (but we don't know how to do that).  Instead, we
+       // rely on the TBB launcher to start Firefox from the right place.
+       var exeFile = this._getTorFile("tor");
+-      var torrcFile = this._getTorFile("torrc");
++      var torrcFile = this._getTorFile("torrc",true);
+       var torrcDefaultsFile = this._getTorFile("torrc-defaults");
+-      var dataDir = this._getTorFile("tordatadir");
++      var dataDir = this._getTorFile("tordatadir",true);
+       var hashedPassword = this.mProtocolSvc.TorGetPassword(true);
+ 
+       var detailsKey;
+@@ -324,6 +324,11 @@ TorProcessService.prototype =
+       else if (!hashedPassword)
+         detailsKey = "password_hash_missing";
+ 
++      TorLauncherLogger.log(5,"exeFile="+exeFile.path);
++      TorLauncherLogger.log(5,"torrc-defaults="+torrcDefaultsFile.path);
++      TorLauncherLogger.log(5,"torrcFile="+torrcFile.path);
++      TorLauncherLogger.log(5,"dataDir="+dataDir.path);
++
+       if (detailsKey)
+       {
+         var details = TorLauncherUtil.getLocalizedString(detailsKey);
+@@ -345,6 +350,7 @@ TorProcessService.prototype =
+       {
+         args.push("--defaults-torrc");
+         args.push(torrcDefaultsFile.path);
++        args.push("--ignore-missing-torrc");
+       }
+       args.push("-f");
+       args.push(torrcFile.path);
+@@ -634,20 +640,36 @@ TorProcessService.prototype =
+     return argsArray;
+   },
+ 
++  _expandPath: function(path)
++  {
++    // Deal with Unix "~/" notation, but NOT "~user/"
++    if (/^~\//.test(path))
++    {
++      var origPath = path.clone();
++      var homeDir = Cc["@mozilla.org/file/directory_service;1"]
++                      .getService(Ci.nsIProperties).get("Home", Ci.nsIFile).path;
++      if (!/\/$/.test(homeDir)) {
++	homeDir += "/";
++      }
++      path = homeDir + path.substr(2);
++      TorLauncherLogger.log(5, "_expandPath("+origPath+") homeDir="+homeDir+" => "+path);
++    }
++    return path;
++  },
++
+   // Returns an nsIFile.
+   // If file doesn't exist, null is returned.
+   _getTorFile: function(aTorFileType)
+   {
+     if (!aTorFileType)
+       return null;
++    var dontCheck = (arguments.length > 1) ? arguments[1] : false;
+ 
+-    var isRelativePath = true;
+     var prefName = "extensions.torlauncher." + aTorFileType + "_path";
+     var path = TorLauncherUtil.getCharPref(prefName);
+     if (path)
+     {
+-      var re = (TorLauncherUtil.isWindows) ?  /^[A-Za-z]:\\/ : /^\//;
+-      isRelativePath = !re.test(path);
++      path = this._expandPath(path);
+     }
+     else
+     {
+@@ -663,22 +685,25 @@ TorProcessService.prototype =
+         else if ("tordatadir" == aTorFileType)
+           path = "Data\\Tor";
+       }
+-      else // Linux, Mac OS and others.
++      else // BSD Unix (OpenBSD)
+       {
+         if ("tor" == aTorFileType)
+-          path = "Tor/tor";
++          path = "/usr/local/bin/tor";
+         else if ("torrc-defaults" == aTorFileType)
+-          path = "Data/Tor/torrc-defaults";
++          path = "/etc/tor/torrc";
+         else if ("torrc" == aTorFileType)
+-          path = "Data/Tor/torrc";
+-        else if ("tordatadir" == aTorFileType)
+-          path = "Data/Tor/";
++          path = "tor.rc";
++        else if ("tordatadir" == aTorFileType) {
++          path = "tor_data";
++	}
+       }
+     }
+-
+     if (!path)
+       return null;
+ 
++    var re = (TorLauncherUtil.isWindows) ?  /^[A-Za-z]:\\/ : /^\//;
++    var isRelativePath = !re.test(path);
++
+     try
+     {
+       var f;
+@@ -687,45 +712,10 @@ TorProcessService.prototype =
+         // Turn into an absolute path.
+         if (!this.mTorFileBaseDir)
+         {
+-          var topDir;
+-          var appInfo = Cc["@mozilla.org/xre/app-info;1"]
+-                          .getService(Ci.nsIXULAppInfo);
+-          if (appInfo.ID == this.kThunderbirdID || appInfo.ID == this.kInstantbirdID)
+-          {
+-            // For Thunderbird and Instantbird, paths are relative to this extension's folder.
+-            topDir = Cc["@mozilla.org/file/directory_service;1"]
+-                       .getService(Ci.nsIProperties).get("ProfD", Ci.nsIFile);
+-            topDir.append("extensions");
+-            topDir.append(this.kTorLauncherExtPath);
+-          }
+-          else
+-          {
+-            // For Firefox, paths are relative to the top of the TBB install.
+-            var tbbBrowserDepth = 0; // Windows and Linux
+-            if (TorLauncherUtil.isAppVersionAtLeast("21.0"))
+-            {
+-              // In FF21+, CurProcD is the "browser" directory that is next to
+-              // the firefox binary, e.g., <TorFileBaseDir>/Browser/browser
+-              ++tbbBrowserDepth;
+-            }
+-            if (TorLauncherUtil.isMac)
+-              tbbBrowserDepth += 2;
+-
+-            topDir = Cc["@mozilla.org/file/directory_service;1"]
+-                    .getService(Ci.nsIProperties).get("CurProcD", Ci.nsIFile);
+-            while (tbbBrowserDepth > 0)
+-            {
+-              var didRemove = (topDir.leafName != ".");
+-              topDir = topDir.parent;
+-              if (didRemove)
+-                tbbBrowserDepth--;
+-            }
+-          }
+-
+-          topDir.append("TorBrowser");
+-          this.mTorFileBaseDir = topDir;
++          this.mTorFileBaseDir = Cc["@mozilla.org/file/directory_service;1"]
++                                   .getService(Ci.nsIProperties).get("DefProfRt",Ci.nsIFile);
++          TorLauncherLogger.log(5,"caching tor file base dir: "+this.mTorFileBaseDir.path);
+         }
+-
+         f = this.mTorFileBaseDir.clone();
+         f.appendRelativePath(path);
+       }
+@@ -735,10 +725,11 @@ TorProcessService.prototype =
+         f.initWithPath(path);
+       }
+ 
+-      if (f.exists())
++      if (dontCheck || f.exists())
+       {
+         try { f.normalize(); } catch(e) {}
+ 
++        TorLauncherLogger.log(5, "_getTorFile: "+aTorFileType + " => " + f.path);
+         return f;
+       }
+ 

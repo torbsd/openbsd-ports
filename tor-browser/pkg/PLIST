@@ -1,0 +1,66 @@
+@comment $OpenBSD$
+@comment Adapted from www/firefox-esr for www/tor-browser, c.f. ../Makefile
+bin/${BROWSER_PROJECT}
+lib/${FULLPKGNAME}/
+lib/${FULLPKGNAME}/application.ini
+lib/${FULLPKGNAME}/browser/
+lib/${FULLPKGNAME}/browser/blocklist.xml
+lib/${FULLPKGNAME}/browser/chrome/
+lib/${FULLPKGNAME}/browser/chrome.manifest
+lib/${FULLPKGNAME}/browser/chrome/icons/
+lib/${FULLPKGNAME}/browser/chrome/icons/default/
+lib/${FULLPKGNAME}/browser/chrome/icons/default/default.png
+lib/${FULLPKGNAME}/browser/chrome/icons/default/default16.png
+lib/${FULLPKGNAME}/browser/chrome/icons/default/default32.png
+lib/${FULLPKGNAME}/browser/chrome/icons/default/default48.png
+lib/${FULLPKGNAME}/browser/components/
+lib/${FULLPKGNAME}/browser/components/components.manifest
+@lib lib/${FULLPKGNAME}/browser/components/libbrowsercomps.so.${LIBbrowsercomps_VERSION}
+lib/${FULLPKGNAME}/browser/defaults/
+lib/${FULLPKGNAME}/browser/defaults/preferences/
+lib/${FULLPKGNAME}/browser/defaults/preferences/all-openbsd.js
+lib/${FULLPKGNAME}/browser/extensions/
+lib/${FULLPKGNAME}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/
+lib/${FULLPKGNAME}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/icon.png
+lib/${FULLPKGNAME}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf
+lib/${FULLPKGNAME}/browser/icons/
+lib/${FULLPKGNAME}/browser/icons/mozicon128.png
+lib/${FULLPKGNAME}/browser/omni.ja
+lib/${FULLPKGNAME}/browser/searchplugins/
+lib/${FULLPKGNAME}/browser/searchplugins/amazondotcom.xml
+lib/${FULLPKGNAME}/browser/searchplugins/bing.xml
+lib/${FULLPKGNAME}/browser/searchplugins/duckduckgo.xml
+lib/${FULLPKGNAME}/browser/searchplugins/eBay.xml
+lib/${FULLPKGNAME}/browser/searchplugins/google.xml
+lib/${FULLPKGNAME}/browser/searchplugins/startpage.xml
+lib/${FULLPKGNAME}/browser/searchplugins/twitter.xml
+lib/${FULLPKGNAME}/browser/searchplugins/wikipedia.xml
+lib/${FULLPKGNAME}/browser/searchplugins/yahoo.xml
+lib/${FULLPKGNAME}/chrome.manifest
+lib/${FULLPKGNAME}/components/
+lib/${FULLPKGNAME}/components/components.manifest
+@lib lib/${FULLPKGNAME}/components/libmozgnome.so.${LIBmozgnome_VERSION}
+lib/${FULLPKGNAME}/defaults/
+lib/${FULLPKGNAME}/defaults/pref/
+lib/${FULLPKGNAME}/defaults/pref/channel-prefs.js
+lib/${FULLPKGNAME}/dependentlibs.list
+lib/${FULLPKGNAME}/dictionaries/
+lib/${FULLPKGNAME}/dictionaries/en-US.aff
+lib/${FULLPKGNAME}/dictionaries/en-US.dic
+@lib lib/${FULLPKGNAME}/libmozalloc.so.${LIBmozalloc_VERSION}
+@lib lib/${FULLPKGNAME}/libxul.so.${LIBxul_VERSION}
+@bin lib/${FULLPKGNAME}/mozilla-xremote-client
+lib/${FULLPKGNAME}/omni.ja
+lib/${FULLPKGNAME}/platform.ini
+@bin lib/${FULLPKGNAME}/plugin-container
+lib/${FULLPKGNAME}/removed-files
+lib/${FULLPKGNAME}/run-mozilla.sh
+@bin lib/${FULLPKGNAME}/${BROWSER_PROJECT}
+@bin lib/${FULLPKGNAME}/${BROWSER_PROJECT}-bin
+lib/${FULLPKGNAME}/webapprt/
+@bin lib/${FULLPKGNAME}/webapprt-stub
+lib/${FULLPKGNAME}/webapprt/omni.ja
+lib/${FULLPKGNAME}/webapprt/webapprt.ini
+share/applications/${BROWSER_PROJECT}.desktop
+share/pixmaps/
+share/pixmaps/${BROWSER_PROJECT}.png

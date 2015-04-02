@@ -1,0 +1,17 @@
+@comment $OpenBSD$
+@dir ${EXTDIR_ROOT}
+@dir ${EXTDIR_BASE}
+@dir ${EXTDIR}
+@dir ${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}
+${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/GPL.txt
+${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/NoScript_License.txt
+@dir ${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/chrome
+${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/chrome.manifest
+${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/chrome/noscript.jar
+@dir ${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/components
+${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/components/noscriptService.js
+@dir ${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/defaults
+@dir ${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/defaults/preferences
+${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/defaults/preferences/noscript.js
+${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/install.rdf
+${EXTDIR}/{73a6fe31-595d-460b-a920-fcc0f8843232}/mozilla.cfg
