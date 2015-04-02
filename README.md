@@ -1,4 +1,4 @@
-# OpenBSD Ports #
+# OpenBSD Ports for the Tor Browser Bundle (TBB) #
 
 These are the OpenBSD ports that correspond to the Tor browser bundle.
 They are a work in progress.  Please beware that until we make release
