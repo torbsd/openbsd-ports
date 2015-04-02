@@ -9,6 +9,7 @@
 ## Tor opens a socks proxy on port 9050 by default -- even if you don't
 ## configure one below. Set "SocksPort 0" if you plan to run Tor only
 ## as a relay, and not make any local application connections yourself.
+# don't use default port under openbsd so tbb doesn't clash
 SocksPort 9050 # Default: Bind to localhost:9050 for local connections.
 #SocksPort 192.168.0.1:9100 # Bind to this address:port too.
 

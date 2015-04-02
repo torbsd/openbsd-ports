@@ -25,8 +25,11 @@ PKGNAME ?=		tbb-${TBB_DISTNAME}-${V}
 DISTNAME ?=		${TBB_DISTNAME}-${TBB_DISTVERS}
 HOMEPAGE ?=		http://www.torproject.org
 
-MASTER_SITES ?=		http://bits.haqistan.net/openbsd-tbb/
-
+.if !defined(MASTER_SITES)
+GH_ACCOUNT ?=		torbsd
+GH_PROJECT ?=		${TBB_DISTNAME}
+GH_TAGNAME ?=		${TBB_DISTVERS}
+.endif
 CATEGORIES =		www
 
 # MPL
@@ -41,7 +44,7 @@ TBB_BUILD_SUBDIR ?=	pkg
 TBB_BUILDDIR ?= 	${WRKBUILD}/${TBB_BUILD_SUBDIR}
 
 # This isn't right: how to keep this synchronized with tor-browser?
-TBB_VERSION ?=		4.0
+TBB_VERSION ?=		4.0.6
 
 # needed for the naming of the libsubprocess.so
 # the xpi, and the arch matching within mozilla
@@ -63,7 +66,7 @@ EXTDIR_BASE ?=  	${EXTDIR_ROOT}/distribution
 EXTDIR ?=		${EXTDIR_BASE}/extensions/
 REAL_EXTDIR ?=		${PREFIX}/${EXTDIR}
 
-SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR
+SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
 
 .if !defined(GUID)
 ERRORS += "GUID missing: tbb ports module requires it"

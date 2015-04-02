@@ -5,16 +5,16 @@ COMMENT =	Tor Browser, based on Firefox Extended Support Release (esr)
 HOMEPAGE =	http://www.torproject.org
 MAINTAINER =	sean levy <attila@stalphonsos.com>
 
-GH_ACCOUNT =	StAlphonsos
+GH_ACCOUNT =	torbsd
 GH_PROJECT =	torb
-GH_TAGNAME =	v4.0-esr31.4.0
+GH_TAGNAME =	v4.0-esr31.5.0
 GH_COMMIT =	323bfe0932391871d27f176ca862993622e8ef2c
 
 DISTNAME =	${GH_PROJECT}-${GH_TAGNAME}
 
 BROWSER_PROJECT =	tor-browser
 BROWSER_NAME =		${BROWSER_PROJECT}
-BROWSER_VERSION = 	4.0
+BROWSER_VERSION = 	4.0.6
 BROWSER_VER =		${BROWSER_VERSION}
 MOZILLA_CODENAME =	browser
 

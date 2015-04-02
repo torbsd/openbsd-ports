@@ -1,8 +1,7 @@
 $OpenBSD$
 
-HIGH security by default
---- src/defaults/preferences/preferences.js.orig	Wed Mar  4 14:14:38 2015
-+++ src/defaults/preferences/preferences.js	Mon Mar 30 11:35:34 2015
+--- src/defaults/preferences/preferences.js.orig	Thu Apr  2 08:28:22 2015
++++ src/defaults/preferences/preferences.js	Thu Apr  2 08:31:16 2015
 @@ -1,7 +1,7 @@
  // debug prefs
  pref("extensions.torbutton.debug",true);
@@ -12,8 +11,8 @@ HIGH security by default
 +pref("extensions.torbutton.logmethod",0); // 0=stdout, 1=errorconsole, 2=debuglog
  
  // Display prefs
- pref("extensions.torbutton.display_circuit", true);
-@@ -31,7 +31,7 @@ pref("extensions.torbutton.local_tor_check",true);
+ pref("extensions.torbutton.display_panel",true);
+@@ -30,7 +30,7 @@ pref("extensions.torbutton.local_tor_check",true);
  pref("extensions.torbutton.test_failed",false);
  pref("extensions.torbutton.no_proxies_on","");
  pref("extensions.torbutton.versioncheck_url","https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions");
@@ -22,36 +21,3 @@ HIGH security by default
  
  // XXX: wtf prefs? These seem not actually connected, but govern
  // if user wants own tor proxy settings
-@@ -81,10 +81,10 @@ pref("extensions.torbutton.saved.dom_storage", true);
- pref("extensions.torbutton.saved.mem_cache", true);
- pref("extensions.torbutton.saved.offline_cache", true);
- pref("extensions.torbutton.saved.http_cache", true);
--pref("extensions.torbutton.saved.extension_update", true);
--pref("extensions.torbutton.saved.app_update", true);
--pref("extensions.torbutton.saved.auto_update", true);
--pref("extensions.torbutton.saved.search_update", true);
-+pref("extensions.torbutton.saved.extension_update", false);
-+pref("extensions.torbutton.saved.app_update", false);
-+pref("extensions.torbutton.saved.auto_update", false);
-+pref("extensions.torbutton.saved.search_update", false);
- pref("extensions.torbutton.saved.geo_enabled", true);
- pref("extensions.torbutton.saved.zoom_specific", true);
- pref("extensions.torbutton.saved.accept_languages", "");
-@@ -130,7 +130,7 @@ pref("extensions.torbutton.block_thread",true);
- pref("extensions.torbutton.block_thwrite",true);
- pref("extensions.torbutton.block_nthread",false);
- pref("extensions.torbutton.block_nthwrite",false);
--pref("extensions.torbutton.no_updates",false);
-+pref("extensions.torbutton.no_updates",true);
- pref("extensions.torbutton.isolate_content",true);
- pref("extensions.torbutton.no_search",true);
- pref("extensions.torbutton.set_uagent",true);
-@@ -175,7 +175,7 @@ pref("extensions.torbutton.block_disk", true);
- pref("extensions.torbutton.resist_fingerprinting", true);
- pref("extensions.torbutton.restrict_thirdparty", true);
- // Security Slider
--pref("extensions.torbutton.security_slider", 1);
-+pref("extensions.torbutton.security_slider", 4);
- pref("extensions.torbutton.security_custom", false);
- 
- // Google Captcha prefs

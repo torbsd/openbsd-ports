@@ -1666,3 +1666,39 @@ read our own config somehow.
 Not sure how this last bit is going to work out.  Am already midly
 terrified by all the shit I can do to the local machine from JS via
 XPCOM.
+* tbb
+** 2015-04-02
+I'm switching everything in TBB to use the 915x port numbers for socks
+and control by default, instead of patching everything to use the
+OpenBSD default 905x port numbers.  This is because we want TBB to be
+independent of whatever else is going on; if you are already running
+for with the default config for some reason and then fire up TBB this
+should not cause problems - two instances of tor, with two different
+data directories listening on different sets of ports will be started.
+
+It seemed to me that it would be even better if we let tor pick the
+port numbers (at least the control port number, from which everything
+else can be derived).  This is possible but would've required more
+patches to tor-launcher because it doesn't know about this or send the
+right command-line arguments to tor.  It's not a big patch and I might
+decide to do this later but the only real benefit I can see is that
+you could fire up multiple independent TBB sessions on the same
+machine without clashing.  I don't think this is really important but
+if someone does I'm willing to listen.
+
+Sadly there is a port number backed into tor-browser which means
+I have to wait another hour and a half for my tor-browser build
+to finish.  I've also started to tighten things up and am making
+sure I have the right versions of everything together for TBB 4.0.6.
+It turns out I was careless before and was using versions of both
+torbutton and tor-launcher that are very different than the ones
+that go in the bundle.  This has been rectified in the latest
+stuff and I've backed out all my port number patches.  Hopefully
+this all goes together now.
+
+There are also some mods that need to be made to tbb-noscript to make
+it the same as the noscript that ships with the TBB and probably some
+preferences tweaks that I've overlooked - there are a lot, in a lot of
+places.
+
+Beyond that we're down to HTTPSE and PT.

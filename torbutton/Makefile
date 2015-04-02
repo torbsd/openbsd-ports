@@ -1,7 +1,7 @@
 # $OpenBSD$
 
 TBB_DISTNAME =		torbutton
-TBB_DISTVERS =		1.9.0.0
+TBB_DISTVERS =		1.7.0.2
 COMMENT =		torbutton Firefox Add on: Part of Tor Browser Bundle
 
 MODULES =		www/tbb-addon
