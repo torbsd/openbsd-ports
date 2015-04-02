@@ -17,7 +17,9 @@ is why we're at Firefox ESR 35.1.0 right now (2015-04-02).
 I keep notes in [notes.org](notes.org).  You're welcome to look over
 my shoulder but then don't be offended by what I say :-) ...  This
 work is sometimes irritating; if I'm going to be transparent then I
-have to vent transparently sometimes, as well.
+have to vent transparently sometimes, as well... Also, we've started
+using [the GH issue tracker](https://github.com/torbsd/openbsd-ports/issues)
+to enumerate (if not organize) what we're working on.
 
 I generally build and test on amd64 first, i386 second.  Testing on
 other architectures greatly appreciated.
@@ -58,7 +60,7 @@ curious what's going on or come find me.
 
 ## Contact ##
 
-You can get my attention by posting issues to this repository if you
+You can get my attention by posting [issues](https://github.com/torbsd/openbsd-ports/issues) to this repository if you
 like, or use one of the contact methods mentioned on my
 [home page](http://trac.haqistan.net/~attila).
 
