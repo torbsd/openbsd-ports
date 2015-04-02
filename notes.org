@@ -1702,3 +1702,12 @@ preferences tweaks that I've overlooked - there are a lot, in a lot of
 places.
 
 Beyond that we're down to HTTPSE and PT.
+
+....
+
+Alright, my build finished, the defaults were wrong in
+tor-launcher/files/tbb-torrc but now that they're patched tor-browser
+comes up green once again, using the tbb standard ports.
+
+This is sort of a milestone.  We now have the right versions of the
+core components all playing together as ports.
