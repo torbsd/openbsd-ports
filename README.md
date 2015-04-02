@@ -44,14 +44,15 @@ surf without it.  I, at least, would appreciate this on new installs.
 ## Beware: Experimental Until Otherwise Stated ##
 
 You should be aware that there might be bugs or issues that could
-''e.g.'' screw over your non-tor `~/.mozilla` directory over if you
+**e.g.** screw over your non-tor `~/.mozilla` directory over if you
 aren't careful.  Naturally we try to avoid this but if you want to
 play along then be careful: don't run a non-tor-browser at the same
 time, make sure you back up all of your precious bits before using
 tor-browser (like `~/.mozilla`), etc.  Note that we have sort of
 hot-wired the profile root to be `~/.tor-browser` under OpenBSD and
 this does appear to work, but until we test it all more thoroughly
-''caveat emptor''.
+**caveat emptor**.  Read the [notes](notes.org) if you're really
+curious what's going on or come find me.
 
 ## Contact ##
 
