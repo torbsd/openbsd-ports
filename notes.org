@@ -1724,29 +1724,29 @@ properly.  This sounded like a 5min job to me yesterday but I'm still
 at it.  The simple-sounding thing I thought I would address was making
 sure noscript was configured as per the TBB.  They do this with a
 bunch of js pref() fu in extension-overrides.js, which they drop into
-the preferences/ subdirectory of the profile directory in the
+the preferences subdirectory of the profile directory in the
 pre-cooked profile they gen up with a sh script
 (c.f. gitian-bundle.yml and the other yml files in
-gitian/descriptors/linux).  They also cat more stuff onto this
+=gitian/descriptors/linux=).  They also cat more stuff onto this
 (bridge_prefs.js) if Pluggable Transports (PT) is installed (and it
 will be so we'll want to do this too).
 
 I wanted to find a more general way to do this given that we have a
-shared installation tree (/usr/local/lib/tor-browser-x.y.z) and
-per-user profile dirs (~/.tor-browser/foo.default) like a normal
+shared installation tree (=/usr/local/lib/tor-browser-x.y.z=) and
+per-user profile dirs (=~/.tor-browser/foo.default=) like a normal
 Mozillan app.  I've now read dozens of articles on MDN and (mostly
 outdated) blog posts everywhere and so far everything everyone tells
 me is wrong or doesn't work in this case.  Despite the many locations
 I've tried dropping something like extension-overrides.js (or really
-anything) under /usr/local/lib/tor-browser-4.0.6 in the end it hasn't
+anything) under =/usr/local/lib/tor-browser-4.0.6= in the end it hasn't
 worked yet.  I'm specifically looking at overriding
 noscript.ABE.enabled as a test.  The only way I've gotten this to work
 is to drop extension-overrides.js into
-~/.tor-browser/foo.default/preferences (we don't have any special
+=~/.tor-browser/foo.default/preferences= (we don't have any special
 profile.ini magic in place to keep foo from happening... another thing
 we might address).  Note that I have managed to get other preference
 mods to take hold by dropping stuff in various places under the
-installation dir (/usr/local/lib/...), but there are some prefs (like
+installation dir (=/usr/local/lib/...=), but there are some prefs (like
 noscript.ABE.enabled) that I have not been able to frob this
 way... all of this requires a lot of investigation and screwing around
 with e.g. ktrace.
@@ -1757,7 +1757,7 @@ those yml files and trying to understand how we address all of that in
 an OpenBSD context.  Even if I do figure out the magic formula for
 dealing with preference mods completely there is at least one other
 issue to deal with when it comes to PT and that's tor.rc.  In our case
-right now we expect it in ~/.tor-browser/tor.rc (can be missing as per
+right now we expect it in =~/.tor-browser/tor.rc= (can be missing as per
 our tweak to tor-launcher).  When we add PT into the mix, though, we
 need customizations there to hook in the various PT modules that ship
 with TBB.  This means writing stuff to that tor.rc or installing one
@@ -1765,28 +1765,28 @@ somehow.
 
 All of this is driving me in the same direction: we need a script that
 is run, either every time to start up tor-browser or just the first
-time to set up your ~/.tor-browser.  We could hack on run-mozilla.sh
+time to set up your =~/.tor-browser=.  We could hack on run-mozilla.sh
 that comes with Firefox if we go the latter way, and I'm beginning to
 think that we should.
 
 I don't want to use this as an excuse to sleaze out and go all
 "bundle": install random go programs and python cruft under
-~/.tor-browser, etc.  I still think that every independent piece of
+=~/.tor-browser=, etc.  I still think that every independent piece of
 software that is installed in TBB should be turned into a port and the
 dependency graph between those ports should be set up so that when you
 install TBB (whatever port that ends up being, maybe just tor-browser)
 you get all of the packages that it depends on installed.  It's just
 the final per-user configuration bits that we need some help with,
 since installing a package will not do anything to e.g. your
-~/.tor-browser/tor.rc file.
+=~/.tor-browser/tor.rc= file.
 
 So I guess the strategy must be to add a start-tor-browser script to
-the port and have it grovel over your ~/.tor-browser directory the
-first time it is run.  At minimum it munges your ~/.tor-browser/tor.rc
+the port and have it grovel over your =~/.tor-browser= directory the
+first time it is run.  At minimum it munges your =~/.tor-browser/tor.rc=
 file to hook in all of the PT stuff; if I don't find a more suitable
 way to deal with extension-overrides.js and bridge_prefs.js then it
 will have to do something about those as well.  It could also deal
-with ~/.tor-browser/profiles.ini to get rid of the foo (random prefix)
+with =~/.tor-browser/profiles.ini= to get rid of the foo (random prefix)
 problem so we have a known location for things.
 
 If this is the way forward then the plan is:
