@@ -1802,3 +1802,16 @@ setup-tor-browser script and a pkg/MESSAGE that tells the user to run
 setup-tor-browser first.  I'm not sure which is better or would find a
 better reception among the OpenBSD community, but start-tor-browser
 seems less error-prone to me.
+
+...
+
+Okay, scratch all that.  After writing it I had an epiphany: my
+concerns are all stupid.  All I have to do is create a ort, say,
+tbb-pt, which (a) depends on the individual PT pots I come up with and
+(b) contains a complete tor.rc file with all of the stuff we want in
+it that gets installed in some sane place.  We can then point at that
+file for torrc-defaults in tor-launcher and we don't need to do any
+tomfoolery with =~/.tor-browser/tor.rc= or anything else.
+
+So all that's left is figuring out the extension-overrides.js issue,
+which I'm sure I can.  Then we don't need no stinking sneaky script.
