@@ -66,7 +66,7 @@ REAL_EXTDIR ?=		${PREFIX}/${EXTDIR}
 SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
 
 .  if !defined(GUID)
-ERRORS += "GUID missing: tbb ports module requires it"
+ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
 .  endif
 
 SUBST_VARS +=		GUID
