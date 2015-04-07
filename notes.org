@@ -1815,3 +1815,20 @@ tomfoolery with =~/.tor-browser/tor.rc= or anything else.
 
 So all that's left is figuring out the extension-overrides.js issue,
 which I'm sure I can.  Then we don't need no stinking sneaky script.
+
+** 2015-04-07
+Had a couple of days of screwing around in meat.space, am back inside
+the computer now, where it's safe.
+
+After some feedback from Jiri B. <jiri@devio.us> I'm rearranging the
+structure of the ports tree to be saner.  We're ditching the tbb-addon
+port module and instead moving that stuff in to www/tbb/Makefile.inc,
+where the other addons will use it; I'll harmonize it with
+tor-browser's Makefile and then the situation will be more like
+e.g. baresip: a set of things that go together.  Nothing outside of
+the tor browser bundle wants anything under www/tbb.  The
+www/tbb/Makefile then will use bsd.port.subdir.mk and then to build
+the whole tbb you do
+  # cd /usr/ports/www/tbb; make install
+
+That makes much more sense.
