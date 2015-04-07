@@ -29,7 +29,7 @@ EXTRACT_SUFX = .xpi
 .  endif
 
 TBBNAME ?=			${ADDON_NAME}-${V}
-PKGNAME ?=			tbb-${TBBNAME}
+PKGNAME ?=			${TBBNAME}
 DISTNAME ?=			${TBBNAME}
 WRKDIST =			${WRKDIR}/${TBBNAME}
 ADDON_SUBDIR ?=		pkg
