@@ -1832,3 +1832,18 @@ the whole tbb you do
   # cd /usr/ports/www/tbb; make install
 
 That makes much more sense.
+
+...
+
+Okay, the reorg is complete and everything seems happy with
+Makefile.inc I also took the opportunity to strip out extraneous junk;
+there is some more lurking still but all the makefiles are a bit
+smaller now and there are no variables that are only used once.
+
+The naming convention is also cleaner and shorter.  Addons declare to
+Makefile.inc that they are addons by setting ADDON_NAME.  The
+tor-browser port itself doesn't do this so most of Makefile.inc is
+skipped in that case.
+
+This is a lot cleaner.  You can just build in www/tbb and that's that.
+Now back to that other crap...
