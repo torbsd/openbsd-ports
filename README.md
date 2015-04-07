@@ -38,13 +38,6 @@ Where possible I prefer to have ports pull source from some
 authoritative download area maintained by the project itself; in
 the case of noscript I do this, for example.
 
-It also may be of interest to some that there are related ports that don't have
-anything to do with Tor in [my personal openbsd-ports repo](https://github.com/StAlphonsos/openbsd-ports).
-I plan on doing non-TBB ports for noscript and HTTPS Everywhere that
-can be installed with plain old Firefox on OpenBSD so that you
-can e.g. pre-install noscript when you install firefox and never
-surf without it.  I, at least, would appreciate this on new installs.
-
 ## Beware: Experimental Until Otherwise Stated ##
 
 You should be aware that there might be bugs or issues that could
