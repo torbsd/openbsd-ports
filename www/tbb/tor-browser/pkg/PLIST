@@ -1,6 +1,6 @@
 @comment $OpenBSD$
 @comment Adapted from www/firefox-esr for www/tor-browser, c.f. ../Makefile
-bin/${BROWSER_PROJECT}
+bin/${BROWSER_NAME}
 lib/${FULLPKGNAME}/
 lib/${FULLPKGNAME}/application.ini
 lib/${FULLPKGNAME}/browser/
@@ -55,12 +55,12 @@ lib/${FULLPKGNAME}/platform.ini
 @bin lib/${FULLPKGNAME}/plugin-container
 lib/${FULLPKGNAME}/removed-files
 lib/${FULLPKGNAME}/run-mozilla.sh
-@bin lib/${FULLPKGNAME}/${BROWSER_PROJECT}
-@bin lib/${FULLPKGNAME}/${BROWSER_PROJECT}-bin
+@bin lib/${FULLPKGNAME}/${BROWSER_NAME}
+@bin lib/${FULLPKGNAME}/${BROWSER_NAME}-bin
 lib/${FULLPKGNAME}/webapprt/
 @bin lib/${FULLPKGNAME}/webapprt-stub
 lib/${FULLPKGNAME}/webapprt/omni.ja
 lib/${FULLPKGNAME}/webapprt/webapprt.ini
-share/applications/${BROWSER_PROJECT}.desktop
+share/applications/${BROWSER_NAME}.desktop
 share/pixmaps/
-share/pixmaps/${BROWSER_PROJECT}.png
+share/pixmaps/${BROWSER_NAME}.png
