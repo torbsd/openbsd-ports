@@ -15,12 +15,13 @@ RUN_DEPENDS +=		net/tor
 # Used by tor-launcher
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
 
+ADDON_NAME ?=
+.if !empty(ADDON_NAME)
 # Everything in this .if (most of the file) is for add-ons like
 # torbutton, tor-launcher, ... tor-browser does its own thing.
-.if !empty(ADDON_NAME)
 ZIP ?=				zip
+
 ADDON_XPI ?=
-ADDON_NAME ?=
 .  if ${ADDON_XPI:L} == "yes"
 EXTRACT_CASES = *.xpi) \
 	${UNZIP} -oq ${FULLDISTDIR}/$$archive -d ${WRKSRC};;
@@ -67,6 +68,8 @@ SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
 .  if !defined(GUID)
 ERRORS += "GUID missing: tbb ports module requires it"
 .  endif
+
+SUBST_VARS +=		GUID
 
 .  if ${ADDON_XPI:L} == "yes"
 pre-extract:
