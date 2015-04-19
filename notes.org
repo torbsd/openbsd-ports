@@ -1847,3 +1847,34 @@ skipped in that case.
 
 This is a lot cleaner.  You can just build in www/tbb and that's that.
 Now back to that other crap...
+** 2015-04-17
+
+Okay, I took a hiatus to work on some other stuff... Among other
+things, I wrote a driver for a HW TRNG (the Alea II) for OpenBSD.
+Yay: random numbers.
+
+Now back to tor-browser...
+
+The latest release is 4.0.8.  It is based on Firefox ESR 31.6 but of
+course there's a version in git for ESR 31.5.0 which is what we're
+using in openbsd-current as of now.
+
+*** Extensions
+
+torbutton 1.7.0.2
+tor-launcher 0.2.7.0.2
+https-everywhere 4.0.3
+noscript 2.6.9.21        # plus their prefs mods
+
+meek-http-helper 1.0     # alt "reflector" profile for meek tls camo
+
+*** Pluggable Transports and Deps
+
+fte 0.1.0
+obfsproxy 0.2.12-dirty   # "dirty"... nice
+flashproxy 1.4           # had to dive the source, no vers appears in tbb
+meek 0.17                # guessing, this is the latest tag
+
+Crypto  2.6.1            # Python Cryptography Toolkit
+M2Crypto 0.21.1          # Python OpenSSL wrapper
+argparse.py 1.2.1
