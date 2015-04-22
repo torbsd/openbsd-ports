@@ -1,14 +1,16 @@
 #-*- mode: Makefile; tab-width: 4; -*-
 # $OpenBSD$
-# Common fu mainly for tor browser addons.
+# Common fu mainly for TBB generally.
+# Most of the code here is for the firefox add-ons that
+# comprise most of the components of the TBB.
 
 # A few things are common across the board:
-MAINTAINER ?=		sean levy <attila@stalphonsos.com>
+MAINTAINER ?=		Sean Levy <attila@stalphonsos.com>
 HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		4.0.6
+TBB_VERSION =		4.0.8
 BUILD_DEPENDS +=	net/tor
 RUN_DEPENDS +=		net/tor
 
@@ -21,6 +23,8 @@ ADDON_NAME ?=
 # torbutton, tor-launcher, ... tor-browser does its own thing.
 ZIP ?=				zip
 
+# This should be set to Yes if the distfile for the addon is
+# the .xpi file itself, e.g. noscript.
 ADDON_XPI ?=
 .  if ${ADDON_XPI:L} == "yes"
 EXTRACT_CASES = *.xpi) \
@@ -32,6 +36,7 @@ TBBNAME ?=			${ADDON_NAME}-${V}
 PKGNAME ?=			${TBBNAME}
 DISTNAME ?=			${TBBNAME}
 WRKDIST =			${WRKDIR}/${TBBNAME}
+# Directory that the port's makexpi.sh script dumps into, if it has one
 ADDON_SUBDIR ?=		pkg
 ADDON_BUILDDIR ?= 	${WRKBUILD}/${ADDON_SUBDIR}
 .  if !defined(MASTER_SITES)
@@ -39,7 +44,7 @@ GH_PROJECT ?=		${ADDON_NAME}
 GH_TAGNAME ?=		${V}
 .  endif
 
-CONFIGURE_STYLE =	none
+CONFIGURE_STYLE ?=	none
 BUILD_DEPENDS +=	archivers/zip \
 					archivers/unzip
 

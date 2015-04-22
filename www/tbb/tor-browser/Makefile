@@ -1,12 +1,15 @@
 # $OpenBSD$
+# Many things here come from www/firefox-esr/Makefile and
+# www/mozilla/mozilla.port.mk.  Thanks to landry@ for doing all that.
 
 COMMENT =		Tor Browser (based on Firefox ESR)
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v4.0-esr31.5.0
+GH_TAGNAME =		v4.0-esr31.6.0
 
 DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
+
 SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
 
@@ -14,7 +17,6 @@ MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
 PERMIT_PACKAGE_CDROM=	Yes
 
 ## Many things beyond this point taken from www/firefox-esr
-
 MODULES =		devel/gettext lang/python
 
 MODPY_RUNDEP =		No
@@ -42,7 +44,7 @@ CONFIGURE_ARGS +=	--disable-debug-symbols
 
 # avoid conflict with other firefox installs (esr, regular)
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
-			--with-tor-browser-version=${TBB_VERSION} 		\
+			--with-tor-browser-version=${TBB_VERSION} 	\
 			--with-user-appdir=.${BROWSER_NAME}
 # these are useless in the OpenBSD context, probably need more here
 CONFIGURE_ARGS +=	--disable-updater 				\
@@ -74,6 +76,7 @@ OUR_AUTOCONF_DIRS +=	js/src
 SUBST_VARS += 		BROWSER_NAME
 
 ## >>> From here on taken liberally (and updated) from mozilla.port.mk
+
 SHARED_ONLY =		Yes
 ONLY_FOR_ARCHS=		amd64 arm i386 powerpc sparc64
 # gcc does ICE on alpha at some particular spots:
@@ -89,7 +92,7 @@ SHARED_LIBS +=	${_lib}	${SO_VERSION}
 .endfor
 
 RUN_DEPENDS +=		devel/desktop-file-utils
-BUILD_DEPENDS +=	archivers/gtar \
+BUILD_DEPENDS +=	archivers/gtar	\
 			archivers/unzip \
 			archivers/zip>=2.3
 
