@@ -1,6 +1,6 @@
 # $OpenBSD$
 # Many things here come from www/firefox-esr/Makefile and
-# www/mozilla/mozilla.port.mk.  Thanks to landry@ for doing all that.
+# www/mozilla/mozilla.port.mk, either directly or adapted.
 
 COMMENT =		Tor Browser (based on Firefox ESR)
 
@@ -45,9 +45,7 @@ CONFIGURE_ARGS +=	--disable-debug-symbols
 # avoid conflict with other firefox installs (esr, regular)
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 			--with-tor-browser-version=${TBB_VERSION} 	\
-			--with-user-appdir=.${BROWSER_NAME}
-# these are useless in the OpenBSD context, probably need more here
-CONFIGURE_ARGS +=	--disable-updater 				\
+			--with-user-appdir=.${BROWSER_NAME}		\
 			--disable-tor-browser-update
 
 # relies on pulseaudio for sound and broken at runtime
@@ -62,7 +60,8 @@ CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 #WANTLIB += gstvideo-0.10 xml2
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
-RUN_DEPENDS +=		net/tor multimedia/gstreamer1/plugins-good
+RUN_DEPENDS +=		multimedia/gstreamer1/plugins-good
+RUN_DEPENDS +=		net/tor
 
 # needs 3.0.10 when not using gcc
 # CONFIGURE_ARGS += --with-system-ffi

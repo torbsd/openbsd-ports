@@ -1,0 +1,33 @@
+$OpenBSD$
+--- makexpi.sh.orig	Thu Jan 22 17:05:49 2015
++++ makexpi.sh	Thu Apr 23 19:13:46 2015
+@@ -21,7 +21,7 @@ ANDROID_APP_ID=org.mozilla.firefox
+ [ -d pkg ] || mkdir pkg
+ 
+ # If the command line argument is a tag name, check that out and build it
+-if [ -n "$1" ] && [ "$2" != "--no-recurse" ] && [ "$1" != "--fast" ] ; then
++if [ -n "$1" ] && [ "$2" != "--no-recurse" ] && [ "$1" != "--fast" ] && [ "$1" != "--openbsd" ]; then
+ 	BRANCH=`git branch | head -n 1 | cut -d \  -f 2-`
+ 	SUBDIR=checkout
+ 	[ -d $SUBDIR ] || mkdir $SUBDIR
+@@ -111,7 +111,7 @@ fi
+ 
+ # The name/version of the XPI we're building comes from src/install.rdf
+ XPI_NAME="pkg/$APP_NAME-`grep em:version src/install.rdf | sed -e 's/[<>]/	/g' | cut -f3`"
+-if [ "$1" ] && [ "$1" != "--fast" ] ; then
++if [ -n "$1" -a \( "$1" == "--openbsd" -o  "$1" != "--fast" \) ]; then
+ 	XPI_NAME="$XPI_NAME.xpi"
+ else
+ 	XPI_NAME="$XPI_NAME~pre.xpi"
+@@ -131,9 +131,9 @@ cd src
+ 
+ # Build the XPI!
+ rm -f "../$XPI_NAME"
+-#zip -q -X -9r "../$XPI_NAME" . "-x@../.build_exclusions"
++zip -q -X -9r "../$XPI_NAME" . "-x@../.build_exclusions"
+ 
+-python2.7 ../utils/create_xpi.py -n "../$XPI_NAME" -x "../.build_exclusions" "."
++#python2.7 ../utils/create_xpi.py -n "../$XPI_NAME" -x "../.build_exclusions" "."
+ 
+ ret="$?"
+ if [ "$ret" != 0 ]; then

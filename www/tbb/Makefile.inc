@@ -1,8 +1,10 @@
-#-*- mode: Makefile; tab-width: 4; -*-
 # $OpenBSD$
-# Common fu mainly for TBB generally.
-# Most of the code here is for the firefox add-ons that
-# comprise most of the components of the TBB.
+#-*- mode: Makefile; tab-width: 4; -*-
+# Most of the code here is for the firefox add-ons that comprise most
+# of the components of the TBB.
+#
+# Many things here come from www/firefox-esr/Makefile and
+# www/mozilla/mozilla.port.mk, either directly or adapted.
 
 # A few things are common across the board:
 MAINTAINER ?=		Sean Levy <attila@stalphonsos.com>
@@ -61,8 +63,6 @@ XPCOM_ABI =			sparc
 .  endif
 SUBST_VARS += 		XPCOM_ABI
 
-# Gleaned via ktrace, I don't think this is where it
-# normally goes:
 EXTDIR_ROOT ?=		lib/${BROWSER_NAME}-${TBB_VERSION}
 EXTDIR_BASE ?=  	${EXTDIR_ROOT}/distribution
 EXTDIR ?=			${EXTDIR_BASE}/extensions/
@@ -77,6 +77,9 @@ ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
 SUBST_VARS +=		GUID
 
 .  if ${ADDON_XPI:L} == "yes"
+# We just extract the xpi to "build", effectively.
+# I think we might just be able to install the .xpi directly
+# somewhere...
 pre-extract:
 	mkdir -p ${ADDON_BUILDDIR}
 

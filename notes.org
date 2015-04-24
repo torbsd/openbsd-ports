@@ -1878,3 +1878,28 @@ meek 0.17                # guessing, this is the latest tag
 Crypto  2.6.1            # Python Cryptography Toolkit
 M2Crypto 0.21.1          # Python OpenSSL wrapper
 argparse.py 1.2.1
+** 2015-04-23
+
+Man, I am so bad at making daily notes it's almost like some kind of
+brain disease.  Life is too chaotic with this many dogs; that's my
+excuse, and I'm sticking to it.
+
+I am making progress on all fronts now.  Have tor-browser 4.0.8 built
+(awaiting run-depends builds now).  HTTPSE needed an update to
+textproc/py-lxml, which was a year old at 3.3.5; 3.4.3 was only
+released a few days ago, and I updated to that my mystuff.  Now maybe
+HTTPSE rule validation will fly and I'll be on to PT as the last
+island to conquer.
+
+...
+
+Okay, this is great.  I've finally knocked off the irritating and
+senseless issues involved with the HTTPSE port one by one but come
+down to this: they use their own custom Python module to write the
+final .xpi file (zip archive) and this code seems to totally drop /
+mung file modes, perhaps on purpose.  The end result is that all the
+files installed in the "fake" target end up with mode 400.
+
+How incredibly irritating.  This goes along with other tools in the
+utils directory making stupid assumptions, like: this is a git working
+tree.  Does nobody package software anymore?
