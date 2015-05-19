@@ -5,7 +5,7 @@
 COMMENT =		Tor Browser (based on Firefox ESR)
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v4.0-esr31.6.0
+GH_TAGNAME =		v4.1.5-esr31.6.0
 
 DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
@@ -42,11 +42,17 @@ CONFIGURE_STYLE =	autoconf no-autoheader
 CONFIGURE_ARGS +=	--disable-debug-symbols
 .endif
 
-# avoid conflict with other firefox installs (esr, regular)
+# Avoid conflict with other firefox installs (ESR, regular, seamonkey).
+#
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
-			--with-tor-browser-version=${TBB_VERSION} 	\
-			--with-user-appdir=.${BROWSER_NAME}		\
+			--with-tor-browser-version=${TBB_VERSION}	\
 			--disable-tor-browser-update
+# The --with-user-appdir option is sadly broken and has no effect;
+# this is the reason for the last bit of the nsXREDirProvider.cpp
+# patch.  Sadly, fixing --with-user-appdir requires some deep digging
+# in the Mozilla build system so for now I'll leave the option here as
+# a reminder.
+#CONFIGURE_ARGS +=	--with-user-appdir=.${BROWSER_NAME}
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
@@ -61,7 +67,6 @@ CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
 RUN_DEPENDS +=		multimedia/gstreamer1/plugins-good
-RUN_DEPENDS +=		net/tor
 
 # needs 3.0.10 when not using gcc
 # CONFIGURE_ARGS += --with-system-ffi
@@ -74,7 +79,7 @@ OUR_AUTOCONF_DIRS +=	js/src
 # pkg/PLIST fu
 SUBST_VARS += 		BROWSER_NAME
 
-## >>> From here on taken liberally (and updated) from mozilla.port.mk
+## >>> From here on taken liberally (and updated in-line) from mozilla.port.mk
 
 SHARED_ONLY =		Yes
 ONLY_FOR_ARCHS=		amd64 arm i386 powerpc sparc64

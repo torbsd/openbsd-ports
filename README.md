@@ -29,17 +29,17 @@ other architectures greatly appreciated.
 
 ## Repositories ##
 
-Most of the ports in this repo pull their source tarballs from
-other GH [torbsd repositories](https://github.com/torbsd).  This
-is because the Tor project chooses not to make source tarballs
-easily available for anything except tor itself (their gitian-based
-build process does not require them).  Also, the OpenBSD ports
-system explicitly supports pointing at GH projects.  I maintain
-the tags and branches in these repositories and track changes
-in the [tor project's git repositories](https://gitweb.torproject.org).
+Most of the ports in this repo pull their source tarballs from other
+GH [torbsd repositories](https://github.com/torbsd).  This is because
+the Tor project chooses not to make source tarballs easily available
+for anything except tor itself (their gitian-based build process does
+not require them).  Also, the OpenBSD ports system explicitly supports
+pointing at GH projects.  I maintain the tags and branches in these
+repositories and track changes in the
+[tor project's git repositories](https://gitweb.torproject.org).
 Where possible I prefer to have ports pull source from some
-authoritative download area maintained by the project itself; in
-the case of noscript I do this, for example.
+authoritative download area maintained by the project itself; in the
+case of noscript I do this, for example.
 
 ## Beware: Experimental Until Otherwise Stated ##
 
@@ -51,8 +51,8 @@ time, make sure you back up all of your precious bits before using
 tor-browser (like `~/.mozilla`), etc.  Note that we have sort of
 hot-wired the profile root to be `~/.tor-browser` under OpenBSD and
 this does appear to work, but until we test it all more thoroughly
-_caveat emptor_.  Read the [notes](notes.org) if you're really
-curious what's going on or come find me.
+_caveat emptor_.  Read the [notes](notes.org) if you're really curious
+what's going on or come find me.
 
 ## Contact ##
 

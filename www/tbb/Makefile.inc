@@ -1,5 +1,5 @@
-# $OpenBSD$
-#-*- mode: Makefile; tab-width: 4; -*-
+# $OpenBSD$ -*- mode: Makefile; tab-width: 4; -*-
+#
 # Most of the code here is for the firefox add-ons that comprise most
 # of the components of the TBB.
 #
@@ -12,7 +12,7 @@ HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		4.0.8
+TBB_VERSION =		4.1.5
 BUILD_DEPENDS +=	net/tor
 RUN_DEPENDS +=		net/tor
 
@@ -23,6 +23,7 @@ ADDON_NAME ?=
 .if !empty(ADDON_NAME)
 # Everything in this .if (most of the file) is for add-ons like
 # torbutton, tor-launcher, ... tor-browser does its own thing.
+# Some of it was adapted from mail/enigmail early on.
 ZIP ?=				zip
 
 # This should be set to Yes if the distfile for the addon is
