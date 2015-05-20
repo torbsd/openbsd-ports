@@ -12,6 +12,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome.manifest.jar
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome.manifest.nojar
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/about.xul
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutDialog.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/aboutTor.xhtml
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/onionArrow-extension.png
@@ -21,13 +22,14 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/onionArro
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/search.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/tor-off.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/tor-on.png
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/content-sizer.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/contents.rdf
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/popup.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/pref-connection-info.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/pref-connection.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/preferences.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/preferences.xul
-${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/stanford-safecache.js
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/tor-circuit-display.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/torbutton.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/torbutton.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/torbutton_tb.xul
@@ -217,6 +219,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/el/browser.properti
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/el/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/el/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/aboutDialog.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/brand.dtd
@@ -982,13 +985,18 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zu/browser.properti
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zu/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zu/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/about-wordmark.png
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/aboutDialog.css
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/aboutTor.css
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/contents.rdf
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/default256.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/p.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/poff.png
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/preferences.css
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/punknown.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/tor-16.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/tor-24.png
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/tor-circuit-display.css
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/tor-disabled-16.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/tor-disabled-24.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/tor-enabled-16.png
@@ -1000,6 +1008,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/skin/torbutton.css
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/components/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/components/aboutTor.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/components/cookie-jar-selector.js
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/components/domain-isolator.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/components/external-app-blocker.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/components/startup-observer.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/components/tbSessionStore.js
@@ -1009,3 +1018,6 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/defaults/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/defaults/preferences/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/defaults/preferences/preferences.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/install.rdf
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/tor-control-port.js
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/utils.js
