@@ -1,7 +1,7 @@
 $OpenBSD$
---- src/components/tl-process.js.orig	Wed Mar 18 14:44:37 2015
-+++ src/components/tl-process.js	Mon Mar 30 11:12:39 2015
-@@ -309,9 +309,9 @@ TorProcessService.prototype =
+--- src/components/tl-process.js.orig	Wed May 20 17:43:20 2015
++++ src/components/tl-process.js	Wed May 20 17:52:03 2015
+@@ -310,9 +310,9 @@ TorProcessService.prototype =
        // starting tor (but we don't know how to do that).  Instead, we
        // rely on the TBB launcher to start Firefox from the right place.
        var exeFile = this._getTorFile("tor");
@@ -13,19 +13,7 @@ $OpenBSD$
        var hashedPassword = this.mProtocolSvc.TorGetPassword(true);
  
        var detailsKey;
-@@ -324,6 +324,11 @@ TorProcessService.prototype =
-       else if (!hashedPassword)
-         detailsKey = "password_hash_missing";
- 
-+      TorLauncherLogger.log(5,"exeFile="+exeFile.path);
-+      TorLauncherLogger.log(5,"torrc-defaults="+torrcDefaultsFile.path);
-+      TorLauncherLogger.log(5,"torrcFile="+torrcFile.path);
-+      TorLauncherLogger.log(5,"dataDir="+dataDir.path);
-+
-       if (detailsKey)
-       {
-         var details = TorLauncherUtil.getLocalizedString(detailsKey);
-@@ -345,6 +350,7 @@ TorProcessService.prototype =
+@@ -346,6 +346,7 @@ TorProcessService.prototype =
        {
          args.push("--defaults-torrc");
          args.push(torrcDefaultsFile.path);
@@ -33,30 +21,7 @@ $OpenBSD$
        }
        args.push("-f");
        args.push(torrcFile.path);
-@@ -634,20 +640,36 @@ TorProcessService.prototype =
-     return argsArray;
-   },
- 
-+  _expandPath: function(path)
-+  {
-+    // Deal with Unix "~/" notation, but NOT "~user/"
-+    if (/^~\//.test(path))
-+    {
-+      var origPath = path.clone();
-+      var homeDir = Cc["@mozilla.org/file/directory_service;1"]
-+                      .getService(Ci.nsIProperties).get("Home", Ci.nsIFile).path;
-+      if (!/\/$/.test(homeDir)) {
-+	homeDir += "/";
-+      }
-+      path = homeDir + path.substr(2);
-+      TorLauncherLogger.log(5, "_expandPath("+origPath+") homeDir="+homeDir+" => "+path);
-+    }
-+    return path;
-+  },
-+
-   // Returns an nsIFile.
-   // If file doesn't exist, null is returned.
-   _getTorFile: function(aTorFileType)
+@@ -647,17 +648,12 @@ TorProcessService.prototype =
    {
      if (!aTorFileType)
        return null;
@@ -65,49 +30,52 @@ $OpenBSD$
 -    var isRelativePath = true;
      var prefName = "extensions.torlauncher." + aTorFileType + "_path";
      var path = TorLauncherUtil.getCharPref(prefName);
-     if (path)
+-    if (path)
++    if (!path)
      {
 -      var re = (TorLauncherUtil.isWindows) ?  /^[A-Za-z]:\\/ : /^\//;
 -      isRelativePath = !re.test(path);
-+      path = this._expandPath(path);
-     }
-     else
-     {
-@@ -663,22 +685,25 @@ TorProcessService.prototype =
+-    }
+-    else
+-    {
+       // Get default path.
+       if (TorLauncherUtil.isWindows)
+       {
+@@ -670,68 +666,37 @@ TorProcessService.prototype =
          else if ("tordatadir" == aTorFileType)
            path = "Data\\Tor";
        }
 -      else // Linux, Mac OS and others.
-+      else // BSD Unix (OpenBSD)
++      else // BSD Unix
        {
++        // Relative to ~/.tor-browser unless absolute
          if ("tor" == aTorFileType)
 -          path = "Tor/tor";
 +          path = "/usr/local/bin/tor";
          else if ("torrc-defaults" == aTorFileType)
 -          path = "Data/Tor/torrc-defaults";
-+          path = "/etc/tor/torrc";
++          path = "/etc/tor/torrc-defaults";
          else if ("torrc" == aTorFileType)
 -          path = "Data/Tor/torrc";
--        else if ("tordatadir" == aTorFileType)
++          path = "torrc";
+         else if ("tordatadir" == aTorFileType)
 -          path = "Data/Tor/";
-+          path = "tor.rc";
-+        else if ("tordatadir" == aTorFileType) {
 +          path = "tor_data";
-+	}
        }
      }
--
+ 
      if (!path)
        return null;
  
-+    var re = (TorLauncherUtil.isWindows) ?  /^[A-Za-z]:\\/ : /^\//;
++    var re = (TorLauncherisWindows) ? /^[A-Za-z]:\\/ : /^\//;
 +    var isRelativePath = !re.test(path);
 +
      try
      {
        var f;
-@@ -687,45 +712,10 @@ TorProcessService.prototype =
-         // Turn into an absolute path.
+       if (isRelativePath)
+       {
+-        // Turn into an absolute path.
          if (!this.mTorFileBaseDir)
          {
 -          var topDir;
@@ -115,9 +83,8 @@ $OpenBSD$
 -                          .getService(Ci.nsIXULAppInfo);
 -          if (appInfo.ID == this.kThunderbirdID || appInfo.ID == this.kInstantbirdID)
 -          {
--            // For Thunderbird and Instantbird, paths are relative to this extension's folder.
 -            topDir = Cc["@mozilla.org/file/directory_service;1"]
--                       .getService(Ci.nsIProperties).get("ProfD", Ci.nsIFile);
+-                       .getService(Ci.nsIProperties).get("CurProcD", Ci.nsIFile);
 -            topDir.append("extensions");
 -            topDir.append(this.kTorLauncherExtPath);
 -          }
@@ -148,14 +115,14 @@ $OpenBSD$
 -          topDir.append("TorBrowser");
 -          this.mTorFileBaseDir = topDir;
 +          this.mTorFileBaseDir = Cc["@mozilla.org/file/directory_service;1"]
-+                                   .getService(Ci.nsIProperties).get("DefProfRt",Ci.nsIFile);
-+          TorLauncherLogger.log(5,"caching tor file base dir: "+this.mTorFileBaseDir.path);
++                                   .getService(Ci.nsIProperties)
++                                   .get("DefProfRt", Ci.nsIFile);
          }
 -
          f = this.mTorFileBaseDir.clone();
          f.appendRelativePath(path);
        }
-@@ -735,10 +725,11 @@ TorProcessService.prototype =
+@@ -741,9 +706,11 @@ TorProcessService.prototype =
          f.initWithPath(path);
        }
  
@@ -163,8 +130,8 @@ $OpenBSD$
 +      if (dontCheck || f.exists())
        {
          try { f.normalize(); } catch(e) {}
++
++        TorLauncherLogger.log(5,"_getTorFile: "+aTorFileType+" => "+f.path);
  
-+        TorLauncherLogger.log(5, "_getTorFile: "+aTorFileType + " => " + f.path);
          return f;
        }
- 

@@ -1,5 +1,4 @@
 @comment $OpenBSD$
-${EXTDIR_ROOT}/
 ${EXTDIR_ROOT}/distribution/
 ${EXTDIR_ROOT}/distribution/extensions/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/
