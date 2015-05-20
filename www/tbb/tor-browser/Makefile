@@ -67,6 +67,7 @@ CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
 RUN_DEPENDS +=		multimedia/gstreamer1/plugins-good
+RUN_DEPENDS +=		devel/desktop-file-utils
 
 # needs 3.0.10 when not using gcc
 # CONFIGURE_ARGS += --with-system-ffi
@@ -123,7 +124,8 @@ WANTLIB +=		X11 Xext Xrender Xt atk-1.0 c cairo 		\
 CONFIGURE_ENV +=	ac_cv_sqlite_secure_delete=yes
 
 # --no-keep-memory avoids OOM when linking libxul
-# --relax avoids relocation overflow on ppc, needed since sm 2.7b, tb 10.0b, fx 15.0b
+# --relax avoids relocation overflow on ppc, needed since sm 2.7b, tb 10.0b,
+# fx 15.0b
 .if ${MACHINE_ARCH} == "powerpc"
 CONFIGURE_ENV +=	LDFLAGS="-Wl,--no-keep-memory -Wl,--relax"
 .else
@@ -132,7 +134,8 @@ CONFIGURE_ENV +=	LDFLAGS="-Wl,--no-keep-memory"
 
 USE_GMAKE ?=	Yes
 
-# no --with-system-jpeg starting with fx 18, requires libjpeg-turbo because of bug 791305
+# no --with-system-jpeg starting with fx 18, requires libjpeg-turbo
+#    because of bug 791305
 # no --with-system-cairo, too much gfx problems because of version mismatch
 # no --with-system-ffi, needs 3.0.10 when not using gcc
 # no --with-system-png, apng support not bundled in
@@ -205,13 +208,15 @@ pre-configure:
 	# hack config/baseconfig.mk to not use MOZ_APP_VERSION in a few places
 	cp ${WRKSRC}/config/baseconfig.mk ${WRKSRC}/config/baseconfig.mk.bak
 	sed -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
-		< ${WRKSRC}/config/baseconfig.mk.bak > ${WRKSRC}/config/baseconfig.mk
+		< ${WRKSRC}/config/baseconfig.mk.bak 		\
+		> ${WRKSRC}/config/baseconfig.mk
 
 post-install:
 	# install prefs
-	${INSTALL_DATA_DIR} ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences
+	${INSTALL_DATA_DIR} \
+	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences
 	${SUBST_DATA} ${FILESDIR}/all-openbsd.js \
-		${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences/all-openbsd.js
+	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences/all-openbsd.js
 	# install desktop file
 	${INSTALL_DATA_DIR} ${PREFIX}/share/applications/
 	${SUBST_DATA} ${FILESDIR}/${BROWSER_NAME}.desktop \
@@ -220,8 +225,9 @@ post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/pixmaps/
 	${INSTALL_DATA} ${PREFIX}/lib/${PKGNAME}/browser/icons/mozicon128.png \
 		${PREFIX}/share/pixmaps/${BROWSER_NAME}.png
-
-	# link default48.png to default.png to be used by default by non-icccm compliant wm
-	ln ${PREFIX}/lib/${PKGNAME}/browser/chrome/icons/default/default{48,}.png
+	# link default48.png to default.png to be used by default
+	# by non-icccm compliant wm
+	ln \
+	 ${PREFIX}/lib/${PKGNAME}/browser/chrome/icons/default/default{48,}.png
 
 .include <bsd.port.mk>

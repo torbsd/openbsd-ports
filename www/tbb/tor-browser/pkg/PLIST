@@ -27,15 +27,14 @@ lib/${FULLPKGNAME}/browser/icons/
 lib/${FULLPKGNAME}/browser/icons/mozicon128.png
 lib/${FULLPKGNAME}/browser/omni.ja
 lib/${FULLPKGNAME}/browser/searchplugins/
-lib/${FULLPKGNAME}/browser/searchplugins/amazondotcom.xml
-lib/${FULLPKGNAME}/browser/searchplugins/bing.xml
+lib/${FULLPKGNAME}/browser/searchplugins/disconnect.xml
 lib/${FULLPKGNAME}/browser/searchplugins/duckduckgo.xml
-lib/${FULLPKGNAME}/browser/searchplugins/eBay.xml
 lib/${FULLPKGNAME}/browser/searchplugins/google.xml
 lib/${FULLPKGNAME}/browser/searchplugins/startpage.xml
 lib/${FULLPKGNAME}/browser/searchplugins/twitter.xml
 lib/${FULLPKGNAME}/browser/searchplugins/wikipedia.xml
 lib/${FULLPKGNAME}/browser/searchplugins/yahoo.xml
+lib/${FULLPKGNAME}/browser/searchplugins/youtube.xml
 lib/${FULLPKGNAME}/chrome.manifest
 lib/${FULLPKGNAME}/components/
 lib/${FULLPKGNAME}/components/components.manifest
@@ -64,3 +63,5 @@ lib/${FULLPKGNAME}/webapprt/webapprt.ini
 share/applications/${BROWSER_NAME}.desktop
 share/pixmaps/
 share/pixmaps/${BROWSER_NAME}.png
+@exec %D/bin/update-desktop-database
+@unexec-delete %D/bin/update-desktop-database
