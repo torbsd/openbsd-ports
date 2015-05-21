@@ -1,9 +1,9 @@
 $OpenBSD$
 
 Don't have a git working tree
---- utils/make-sqlite.py.orig	Thu Apr 23 13:43:09 2015
-+++ utils/make-sqlite.py	Thu Apr 23 13:43:51 2015
-@@ -32,8 +32,8 @@ c.execute('''DROP TABLE IF EXISTS git_commit''')
+--- utils/make-sqlite.py.orig	Thu Apr 23 18:13:25 2015
++++ utils/make-sqlite.py	Thu May 21 17:02:09 2015
+@@ -36,8 +36,8 @@ c.execute('''DROP TABLE IF EXISTS git_commit''')
  c.execute('''CREATE TABLE git_commit
               (git_commit TEXT)''')
  
