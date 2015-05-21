@@ -9,11 +9,11 @@ have your ports and src synced up (like I said: running -current).
 This is the develop branch and is used to work on the bleeding edge.
 As of 21 May 2015 this means TBB 4.5.1:
 
-| tor-browser | 4.5.1 |
-| torbutton | 1.9.2.3 |
-| tor-launcher | 0.2.7.4 |
-| noscript | 2.6.9.22 |
-| https-everywhere | 5.0.3 |
+  tor-browser       4.5.1
+  torbutton         1.9.2.3
+  tor-launcher      0.2.7.4
+  noscript          2.6.9.22
+  https-everywhere  5.0.3
 
 __N.B.__ The update to 4.5.1 is still largely untested; the master
 branch has the packages for 4.0.8.
