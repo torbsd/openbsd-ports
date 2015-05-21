@@ -6,12 +6,17 @@ announcements on [our web site](https://torbsd.github.io) you should be
 careful using this stuff.  You must be runing OpenBSD -current and
 have your ports and src synced up (like I said: running -current).
 
-Until late April, 2015 I had been tracking the latest in the 4.0.x
-(stable) series of Tor browser releases, but the Tor project
-[just released 4.5](https://blog.torproject.org/blog/tor-browser-45-released)
-which should become the default release on or about 4 May 2015.  We
-are working on updating all existing ports to the appropriate version
-and should have something soon in this regard.
+This is the develop branch and is used to work on the bleeding edge.
+As of 21 May 2015 this means TBB 4.5.1:
+
+| tor-browser | 4.5.1 |
+| torbutton | 1.9.2.3 |
+| tor-launcher | 0.2.7.4 |
+| noscript | 2.6.9.22 |
+| https-everywhere | 5.0.3 |
+
+__N.B.__ The update to 4.5.1 is still largely untested; the master
+branch has the packages for 4.0.8.
 
 I try stay consistent with the version of Firefox ESR that is in ports
 wrt. which version of tor-browser I base the port on.  This is why
