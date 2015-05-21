@@ -6,11 +6,11 @@ announcements on [our web site](https://torbsd.github.io) you should be
 careful using this stuff.  You must be runing OpenBSD -current and
 have your ports and src synced up (like I said: running -current).
 
-As of 20 May 2015 we have almost finished updating the existing ports
-to the correct versions for TBB 4.5.1, the latest release.  This work
-is done in the `develop` branch in this repository, so if you want to
-see make sure to switch branches.  The `master` branch is still at
-4.0.8.
+As of 20 May 2015 we have completed preliminary work for updating to
+TBB 4.5.1, the latest release; these are in the `develop` branch.  The
+`master` branch of this repository has ports for the 4.0.8 release;
+I'll merge develop onto master as soon as our internal testing is
+complete for the updated packages.
 
 I stay consistent with the version of Firefox ESR that is in ports
 wrt. which version of tor-browser I base the port on.  This is why
