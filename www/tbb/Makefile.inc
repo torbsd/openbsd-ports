@@ -12,7 +12,7 @@ HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		4.1.5
+TBB_VERSION =		4.5.1
 BUILD_DEPENDS +=	net/tor
 RUN_DEPENDS +=		net/tor
 
