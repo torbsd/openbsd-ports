@@ -1,8 +1,10 @@
 # $OpenBSD$
 
-COMMENT=	Tor Browser Bundler meta-package
+COMMENT=	Tor Browser Bundle meta-package
 
-PKGNAME=	tbb-4.1.5
+MAINTAINER=	Sean Levy <attila@stalphonsos.com>
+
+PKGNAME=	tbb-4.5.1
 
 RUN_DEPENDS=	www/tbb/tor-browser \
 		www/tbb/torbutton \
