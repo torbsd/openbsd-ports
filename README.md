@@ -22,6 +22,18 @@ I try stay consistent with the version of Firefox ESR that is in ports
 wrt. which version of tor-browser I base the port on.  This is why
 we're at Firefox ESR 36.1.0 right now (2015-04-29).
 
+I've created a meta/tbb package, but in order to use it it needs
+at least `/usr/ports/meta/Makefile.inc` dropped in; assuming you
+have copied the `meta` and `www` dirs from this repo to
+`/usr/ports/mystuff`:
+
+    # cp /usr/ports/meta/Makefile.inc /usr/ports/mystuff/meta/
+    # cd /usr/ports/mystuff/meta/tbb
+    # make install
+
+YMMV.  I mainly did that for convenience in testing, but it's morally
+no different than the `meta/avr` port.
+
 I keep notes in [notes.org](notes.org).  You're welcome to look over
 my shoulder but then don't be offended by what I say :-) ...  This
 work is sometimes irritating; if I'm going to be transparent then I
