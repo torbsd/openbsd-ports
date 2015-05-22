@@ -67,7 +67,7 @@ $OpenBSD$
      if (!path)
        return null;
  
-+    var re = (TorLauncher.isWindows) ? /^[A-Za-z]:\\/ : /^\//;
++    var re = (TorLauncherUtil.isWindows) ? /^[A-Za-z]:\\/ : /^\//;
 +    var isRelativePath = !re.test(path);
 +
      try
