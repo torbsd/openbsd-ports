@@ -9,7 +9,7 @@ PKGNAME=	tbb-4.5.1
 RUN_DEPENDS=	www/tbb/tor-browser \
 		www/tbb/torbutton \
 		www/tbb/tor-launcher \
-		www/tbb/tbb-noscript \
+		www/tbb/noscript \
 		www/tbb/https-everywhere
 
 .include <bsd.port.mk>

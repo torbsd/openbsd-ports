@@ -15,9 +15,6 @@ As of 21 May 2015 this means TBB 4.5.1:
     noscript          2.6.9.22
     https-everywhere  5.0.3
 
-__N.B.__ The update to 4.5.1 is still largely untested; the master
-branch has the packages for 4.0.8.
-
 I try stay consistent with the version of Firefox ESR that is in ports
 wrt. which version of tor-browser I base the port on.  This is why
 we're at Firefox ESR 36.1.0 right now (2015-04-29).

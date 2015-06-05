@@ -1,7 +1,7 @@
 # $OpenBSD$ -*- mode: Makefile; tab-width: 4; -*-
 #
-# Most of the code here is for the firefox add-ons that comprise most
-# of the components of the TBB.
+# Most of the code here is for the firefox add-ons that are part of
+# the TBB.  A little bit is also used by the tor-browser port itself.
 #
 # Many things here come from www/firefox-esr/Makefile and
 # www/mozilla/mozilla.port.mk, either directly or adapted.
