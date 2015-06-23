@@ -1,13 +1,13 @@
 # $OpenBSD$
 # Many things here come from www/firefox-esr/Makefile and
-# www/mozilla/mozilla.port.mk, either directly or adapted.
-# As a result this Makefile must be constantly maintained
-# with an eye towards compatibility with those two things.
+# www/mozilla/mozilla.port.mk, either directly or adapted.  As a
+# result this Makefile must be maintained with an eye towards
+# compatibility with those two things.
 
 COMMENT =		Tor Browser (based on Firefox ESR)
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v4.5.1-esr31.6.0
+GH_TAGNAME =		v4.5.2-esr31.7.0
 
 DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
@@ -49,15 +49,9 @@ CONFIGURE_ARGS +=	--disable-debug-symbols
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 			--with-tor-browser-version=${TBB_VERSION}	\
 			--disable-tor-browser-update
-# The --with-user-appdir option is broken and has no effect; this is
-# the reason for the last bit of the nsXREDirProvider.cpp patch, aka
-# The Hunt for Dot Mozilla.  Sadly, fixing --with-user-appdir requires
-# some deep digging in the Mozilla build system since the right -D
-# options are not passed in to toolkit/xre for some reason, so for now
-# I'll leave the option here as a reminder to dig deeper, fix
-# --with-user-appdir and submit a patch upstream so I can get rid of
-# the mess in nsXREDirProvider.cpp.
-#CONFIGURE_ARGS +=	--with-user-appdir=.${BROWSER_NAME}
+# Reminder: dig deeper, fix --with-user-appdir and submit a patch
+# upstream so I can get rid of the patch in nsXREDirProvider.cpp.
+#CONFIGURE_ARGS += --with-user-appdir=.${BROWSER_NAME}
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
@@ -86,8 +80,6 @@ OUR_AUTOCONF_DIRS +=	js/src
 SUBST_VARS += 		BROWSER_NAME
 
 ## >>> From here on adapted liberally from mozilla.port.mk
-## N.B. ALWAYS check mozilla.port.mk for changes and keep the relevant
-## bits below in sync, especially version numbers.
 
 SHARED_ONLY =		Yes
 ONLY_FOR_ARCHS=		amd64 arm i386 powerpc sparc64

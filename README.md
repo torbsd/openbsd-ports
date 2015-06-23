@@ -7,17 +7,20 @@ careful using this stuff.  You must be runing OpenBSD -current and
 have your ports and src synced up (like I said: running -current).
 
 This is the develop branch and is used to work on the bleeding edge.
-As of 21 May 2015 this means TBB 4.5.1:
+As of 23 June 2015 this means working on __4.5.2__:
 
-    tor-browser       4.5.1
-    torbutton         1.9.2.3
-    tor-launcher      0.2.7.4
-    noscript          2.6.9.22
-    https-everywhere  5.0.3
+    ff-esr            31.7.0
+    tor-browser       4.5.2
+    torbutton         1.9.2.6
+    tor-launcher      0.2.7.5 (xlation updates only)
+    noscript          2.6.9.26
+    https-everywhere  5.0.5
+    tor               0.2.6.9
 
 I try stay consistent with the version of Firefox ESR that is in ports
-wrt. which version of tor-browser I base the port on.  This is why
-we're at Firefox ESR 36.1.0 right now (2015-04-29).
+wrt. which version of tor-browser I base the port on.  In this case I
+can't do that because OpenBSD ports are already at 38.0.1 and TBB is
+still based on 31.7.0.  This may end up causing me some trouble...
 
 I've created a meta/tbb package, but in order to use it it needs
 at least `/usr/ports/meta/Makefile.inc` dropped in; assuming you
