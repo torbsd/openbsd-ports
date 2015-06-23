@@ -7,7 +7,7 @@
 COMMENT =		Tor Browser (based on Firefox ESR)
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v4.5.2-esr31.7.0
+GH_TAGNAME =		v${TBB_VERSION}-esr31.7.0
 
 DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
