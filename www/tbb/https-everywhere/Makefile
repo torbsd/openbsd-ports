@@ -11,5 +11,6 @@ MAKE_ENV =		MAKEXPI=./openbsd.sh
 
 post-extract:
 	cp ${FILESDIR}/openbsd.sh ${WRKSRC}
+	chmod +x ${WRKSRC}/openbsd.sh
 
 .include <bsd.port.mk>
