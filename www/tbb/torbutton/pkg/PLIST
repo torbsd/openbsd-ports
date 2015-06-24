@@ -1,5 +1,4 @@
 @comment $OpenBSD$
-${EXTDIR_ROOT}/
 ${EXTDIR_ROOT}/distribution/
 ${EXTDIR_ROOT}/distribution/extensions/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/
@@ -30,6 +29,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/pref-connection.xu
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/preferences.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/preferences.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/tor-circuit-display.js
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/torbutton-extensions.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/torbutton.js
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/torbutton.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/torbutton_tb.xul
