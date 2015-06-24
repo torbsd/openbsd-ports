@@ -1904,3 +1904,13 @@ files installed in the "fake" target end up with mode 400.
 How incredibly irritating.  This goes along with other tools in the
 utils directory making stupid assumptions, like: this is a git working
 tree.  Does nobody package software anymore?
+** 2015-06-23
+
+For 4.5.2 under amd64 current everything but httpse wins.
+It dies in make patch, of course:
+
+  ===>  Patching for https-everywhere-5.0.5
+  1 out of 4 hunks failed--saving rejects to makexpi.sh.rej
+  ***>   patch-makexpi_sh did not apply cleanly
+  *** Error 1 in . (/usr/ports/infrastructure/mk/bsd.port.mk:2688 '/usr/ports/pobj/https-everywhere-5.0.5/.patch_done': @if cd /usr/ports/myst...)
+  *** Error 1 in /usr/ports/mystuff/www/tbb/https-everywhere (/usr/ports/infrastructure/mk/bsd.port.mk:2487 'patch')

@@ -62,6 +62,6 @@ lib/${FULLPKGNAME}/webapprt/omni.ja
 lib/${FULLPKGNAME}/webapprt/webapprt.ini
 share/applications/${BROWSER_NAME}.desktop
 share/pixmaps/
-share/pixmaps/${BROWSER_NAME}.png
 @exec %D/bin/update-desktop-database
 @unexec-delete %D/bin/update-desktop-database
+share/pixmaps/${BROWSER_NAME}.png

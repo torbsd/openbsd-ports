@@ -12,9 +12,9 @@ HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		4.5.1
-BUILD_DEPENDS +=	net/tor
-RUN_DEPENDS +=		net/tor
+TBB_VERSION =		4.5.2
+BUILD_DEPENDS +=	net/tor>=0.2.6.9
+RUN_DEPENDS +=		net/tor>=0.2.6.9
 
 # Used by tor-launcher
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
@@ -92,4 +92,5 @@ do-build:
 do-install:
 	${INSTALL_DATA_DIR} ${REAL_EXTDIR}/${GUID}
 	${UNZIP} -oq ${ADDON_BUILDDIR}/${ADDON_NAME}*.xpi -d ${REAL_EXTDIR}/${GUID}
+
 .endif

@@ -1,7 +1,7 @@
 # $OpenBSD$
 
 ADDON_NAME =		torbutton
-V =			1.9.2.3
+V =			1.9.2.6
 COMMENT =		torbutton Firefox Add on: Part of Tor Browser Bundle
 GUID =			torbutton@torproject.org
 PERMIT_PACKAGE_CDROM =	Yes

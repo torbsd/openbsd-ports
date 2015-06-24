@@ -12,17 +12,20 @@ The `master` branch always has the latest stable versions of the ports
 that are available for testing.  The `develop` branch is used to work
 on the next version update.
 
-As of 21 May 2015 the `master` branch is at TBB 4.5.1:
+As of 24 June 2015 the `master` branch is at TBB 4.5.2:
 
-    tor-browser       4.5.1
-    torbutton         1.9.2.3
-    tor-launcher      0.2.7.4
-    noscript          2.6.9.22
-    https-everywhere  5.0.3
+    ff-esr            31.7.0
+    tor-browser       4.5.2
+    torbutton         1.9.2.6
+    tor-launcher      0.2.7.5 (xlation updates only)
+    noscript          2.6.9.26
+    https-everywhere  5.0.5
+    tor               0.2.6.9
 
-I try to stay consistent with the version of Firefox ESR that is in
-ports wrt. which version of tor-browser I base the port on.  This is
-why we're at Firefox ESR 36.1.0 right now (2015-05-20).
+I try stay consistent with the version of Firefox ESR that is in ports
+wrt. which version of tor-browser I base the port on.  In this case I
+can't do that because OpenBSD ports are already at 38.0.1 and TBB is
+still based on 31.7.0.
 
 ## Meta Package ##
 
