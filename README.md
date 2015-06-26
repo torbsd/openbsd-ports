@@ -22,11 +22,6 @@ As of 24 June 2015 the `master` branch is at TBB 4.5.2:
     https-everywhere  5.0.5
     tor               0.2.6.9
 
-I try stay consistent with the version of Firefox ESR that is in ports
-wrt. which version of tor-browser I base the port on.  In this case I
-can't do that because OpenBSD ports are already at 38.0.1 and TBB is
-still based on 31.7.0.
-
 ## Meta Package ##
 
 I've created a meta/tbb package, but in order to use it it needs
