@@ -102,7 +102,7 @@ BUILD_DEPENDS +=	archivers/gtar	\
 
 LIB_DEPENDS +=		textproc/hunspell \
 			devel/nspr>=4.10.8 \
-			security/nss>=3.17.4
+			security/nss>=3.19.2
 
 # bug #736961
 SEPARATE_BUILD =	Yes
