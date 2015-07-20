@@ -1914,3 +1914,88 @@ It dies in make patch, of course:
   ***>   patch-makexpi_sh did not apply cleanly
   *** Error 1 in . (/usr/ports/infrastructure/mk/bsd.port.mk:2688 '/usr/ports/pobj/https-everywhere-5.0.5/.patch_done': @if cd /usr/ports/myst...)
   *** Error 1 in /usr/ports/mystuff/www/tbb/https-everywhere (/usr/ports/infrastructure/mk/bsd.port.mk:2487 'patch')
+** 2015-07-20
+Looking at torrc issues.  These are debug spew messages from a test
+of 4.5.3:
+
+[07-20 00:24:49] TorLauncher DBUG: Starting /usr/local/bin/tor
+[07-20 00:24:49] TorLauncher DBUG:   --defaults-torrc
+[07-20 00:24:49] TorLauncher DBUG:   /usr/local/share/examples/tbb/torrc
+[07-20 00:24:49] TorLauncher DBUG:   --ignore-missing-torrc
+[07-20 00:24:49] TorLauncher DBUG:   -f
+[07-20 00:24:49] TorLauncher DBUG:   /home/gman/.tor-browser/tor.rc
+[07-20 00:24:49] TorLauncher DBUG:   DataDirectory
+[07-20 00:24:49] TorLauncher DBUG:   /home/gman/.tor-browser/tor_data
+[07-20 00:24:49] TorLauncher DBUG:   GeoIPFile
+[07-20 00:24:49] TorLauncher DBUG:   /home/gman/.tor-browser/tor_data/geoip
+[07-20 00:24:49] TorLauncher DBUG:   GeoIPv6File
+[07-20 00:24:49] TorLauncher DBUG:   /home/gman/.tor-browser/tor_data/geoip6
+[07-20 00:24:49] TorLauncher DBUG:   HashedControlPassword
+[07-20 00:24:49] TorLauncher DBUG:   16:0d07c7f210294bfb60a39f963f2321d4a387670b30e9a0ff8e78cc0929
+[07-20 00:24:49] TorLauncher DBUG:   __OwningControllerProcess
+[07-20 00:24:49] TorLauncher DBUG:   11969
+[07-20 00:24:49] TorLauncher DBUG:   DisableNetwork
+[07-20 00:24:49] TorLauncher DBUG:   1
+
+First, we should switch to torrc instead of tor.rc to be like all the
+other kids.
+
+Second, /usr/local/share/examples/tbb is the wrong place to be looking
+for the defaults.  I guess /etc/tbb would be a better choice?
+
+Third, we aren't managing to get the geoip files installed in the
+right place and this is a problem.  This speaks to the oft-spoke-of
+need for a startup script that gets installed as tor-browser, ala the
+old run-mozilla.sh axe.
+
+Finally, this doesn't quite work as expected, and I think the problem
+is with tor itself.  Later in the spew:
+
+[07-20 00:25:13] TorLauncher DBUG: Sending Tor command: SAVECONF
+[07-20 00:25:13] TorLauncher DBUG: Command response: 551 Unable to write configuration to disk.
+[07-20 00:25:13] TorLauncher DBUG: Event response: 650 NOTICE Opening Socks listener on 127.0.0.1:9150 
+[07-20 00:25:13] TorLauncher DBUG: Event response: 650 NOTICE Renaming old configuration file to "/etc/tor/torrc.orig.1" 
+[07-20 00:25:13] TorLauncher DBUG: Event response: 650 WARN Couldn't rename configuration file "/etc/tor/torrc" to "/etc/tor/torrc.orig.1": Permission denied 
+
+So it wants to play around with /etc/tor/torrc (the system default
+from the tor port) but nothing we've told it points there and it
+should instead be screwing around with ~/.tor-browser/tor_data/tor.rc
+and not /etc/tor/torrc.  I'm looking at src/or/config.c and am not all
+that thrilled with what I'm seeing; starting a branch to collect
+nits...  It appears that the compiled-in default from net/tor is
+silently being used instead of the value we give via the -f option in
+at least some circumstances.
+
+... yes, after a bit more investigation in src/or/config.c it is
+definitely the case that if you specify a non-existent file for the -f
+option tor will silently fall back to the system default.  It's not
+easy to suss out, but the static char *torrc_fname at top level in
+src/or/config.c will be NULL if invoked with a non-existent file
+in -f, and then get_torrc_fname(0) will call the get_default_conf_file()
+which in this case will do:
+
+  return defaults_file ? CONFDIR "/torrc-defaults" : CONFDIR "/torrc";
+
+CONFDIR is "/etc/tor" in this case.  That's why we fall back to
+/etc/tor/torrc.
+
+The only workable answer is to deal with this in a startup script and
+make sure we copy the example config to ~/.tor-browser/tor_data.  A
+script will also allow us to deal with the other issues raised, above,
+and a few more besides.  It's finally time to do this, or we'll never
+get around a bunch of dumb bullshit we're faced with.
+
+Death to Dumb Bullshit.
+
+Okay, so here's what comes out of all of this:
+
+1. Fix the tor-launcher port so that /usr/local/share/examples isn't
+   hard-coded into the prefs.js patch; instead have it default to
+   something like /etc/tbb/torrc and use SUBST_VARS or someting;
+2. Change tor.rc to torrc wherever I did that stupid thing;
+3. Write start-tor-browser.sh, which should at least deal with
+   the whole torrc issue by creating and/or populating your
+   ~/.tor-browser with a skeleton including a torrc.  This will
+   fix at least the above warnings if not a few other things;
+   this is the right place to deal with extension-overrides.js,
+   for instance, as well as installing the GeoIP data files.
