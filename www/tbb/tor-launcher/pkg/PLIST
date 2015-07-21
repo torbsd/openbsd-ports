@@ -622,5 +622,6 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/install.rdf
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/tl-logger.jsm
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/tl-util.jsm
-share/examples/tbb/
-share/examples/tbb/torrc
+share/tbb/
+share/tbb/torrc
+share/tbb/torrc-defaults

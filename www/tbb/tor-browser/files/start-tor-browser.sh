@@ -1,12 +1,12 @@
 #!/bin/sh
 # -*- mode:sh; indent-tabs-mode:nil; sh-indentation:4 -*-
 ##
-# start-tor-browser.sh - start the tor browser
+# start-tor-browser.sh - start Tor browser on OpenBSD
 ##
 #
 # Copyright (C) 2015 by attila <attila@stalphonsos.com>
 #
-# Permission to use, copy, modify, and/or distribute this software for
+# Permission to use, copy, modify, and distribute this software for
 # any purpose with or without fee is hereby granted, provided that the
 # above copyright notice and this permission notice appear in all
 # copies.
@@ -21,74 +21,221 @@
 # PERFORMANCE OF THIS SOFTWARE.
 ##
 
-## Init
+## Initialization
 
+set -e
+
+# SUBST_VARS: pkg_subst expands e.g. ${BROWSER_NAME} on OpenBSD.  We
+# provide defaults in case someone wants to adapt this script for use
+# on another operating system; any POSIX-compliant sh should work.
+[ -z "${BROWSER_NAME}" ] && BROWSER_NAME=tor-browser
+[ -z "${TBB_VERSION}" ] && TBB_VERSION=4.5.3
+[ -z "${LOCALBASE}" ] && LOCALBASE=/usr/local
+[ -z "${ARCH}" ] && ARCH=`uname -m`
+[ -z "${FULLPKGNAME}" ] && FULLPKGNAME=${BROWSER_NAME}-${TBB_VERSION}
+# These are not SUBST_VARS in the OpenBSD port:
+BROWSER_BIN=${TOR_BROWSER_BIN-${LOCALBASE}/lib/${FULLPKGNAME}/${BROWSER_NAME}-bin}
+DOTDIR=${TOR_BROWSER_DOT_DIR-${HOME}/.${BROWSER_NAME}}
+DOT_DESKTOP_NAME=${BROWSER_NAME}.desktop
+DOT_DESKTOP=${TOR_BROWSER_DOT_DESKTOP-${LOCALBASE}/share/applications/${DOT_DESKTOP_NAME}}
+UDD=${TOR_BROWSER_UPDATE_DESKTOP_DATABASE-update-desktop-database}
+TOR_SHARE_DIR=${LOCALBASE}/share/tor
+TBB_SHARE_DIR=${LOCALBASE}/share/tbb
+TBB_EXT_DIR=${LOCALBASE}/lib/${FULLPKGNAME}/distribution/extensions
+
+# Variables set from command-line args:
+verbose=${TOR_BROWSER_VERBOSE-0}
 detach=0
-verbose=0
-logfile=""
+logfile=${TOR_BROWSER_LOGFILE-}
+urls=""
+verbopt=""
+dryrun=0
+init=0
 
 ## Helper Routines
 
-# v=`optval option $string`
-# if $string looks like "--option=foo" then v will be "foo"
-#
-optval () {
-    _opt="$1"
-    shift
-    echo "$*" | sed -e "s/^--${_opt}=//"
-}
-
-setopt () {
-    _nm="$1"
-    _v=1
-    [ -n "$2" ] && _v=`optval ${_nm} "$2"`
-    eval $_nm=$_v
-}
-
+# spit out a helpful message, possibly with an error, and then exit
 usage () {
     _xit=0
     [ -n "$1" ] && {
         echo "$0: $*"
         _xit=1
     }
-    echo "usage: $0 [--options] [args]"
-    echo "       --help         this message"
+    echo "${BROWSER_NAME} version ${TBB_VERSION} on `uname`/${ARCH}"
+    echo "usage: $0 [--options] [urls]"
+    echo "    --help            this message"
+    echo "    --verbose         turn on debug messages from this script"
+    echo "    --detach          detach tor-browser from the controlling tty"
+    echo "    --dryrun          do not do anything, just say what we would do"
+    echo "    --init            setup ~/.tor-browser but don't run browser"
+    echo "    --log file        send debug log to file instead of stderr"
+    echo "    --register-app    register tor-browser as a desktop app"
+    echo "    --unregister-app  undo the effect of --register-app"
     exit $_xit
 }
 
+# spew debug output to stderr
+spew () {
+    echo "${BROWSER_NAME}: $*" >&2
+}
+
+# potentially execute a command, honoring both $verbose and $dryrun
+loudly () {
+    _dry=''
+    [ $dryrun -gt 0 ] && _dry='# '
+    [ $verbose -gt 0 ] && spew "${_dry}$*"
+    [ $dryrun -eq 0 ] && sh -c "$@"
+}
+
+# bomb out with a fatal error message
+die () {
+    echo "${BROWSER_NAME}: FATAL: $*" >&2
+    exit 1
+}
+
+# like die, but possibly pop up a window with the fatal error as well
+die_nicely () {
+    # N.B. www/tbb/tor-browser R-dep on x11/gxmessage
+    [ ! -z "$DISPLAY" -a $init -eq 0 -a $dryrun -eq 0 ] && \
+        gxmessage -title "${BROWSER_NAME}" -center "FATAL: $*"
+    die "$*"
+}
+
+# transform --foo into foo
+optname () {
+    echo "$1" | sed -e 's/^--//' -e 's/^-//'
+}
+
+# sanitize a value for --foo val
+optval () {
+    echo "$1" | sed -e 's/`/_/g'
+}
+
+# set an option's corresponding sh variable
+setopt () {
+    _nm=`optname "$1"`
+    _v=1
+    [ -n "$2" ] && _v=`optval "$2"`
+    spew "$_nm = $_v"
+    eval $_nm=$_v
+}
+
+# register tor-brower as a desktop app via update-desktop-database
+register_app () {
+    [ ! -f ${DOT_DESKTOP} ] &&
+        die_nicely "Cannot find .desktop file: ${DOT_DESKTOP}"
+    loudly mkdir -p "${HOME}/.local/share/applications/"
+    loudly cp "${DOT_DESKTOP}" "${HOME}/.local/share/applications/"
+    loudly ${UDD} "${HOME}/.local/share/applications/"
+    spew "registered as a desktop app for this user in ~/.local/share/applications"
+    exit 0
+}
+
+# undoes register_app
+unregister_app () {
+    if [ ! -e "${HOME}/.local/share/applications/${DOT_DESKTOP_FILE}" ]; then
+        die_nicely "missing ${HOME}/.local/share/applications/${DOT_DESKTOP_FILE}"
+    fi
+    loudly rm "${HOME}/.local/share/applications/${DOT_DESTKOP_FILE}"
+    loudly ${UDD} "${HOME}/.local/share/applications/"
+    spew "unregistered as a desktop app for this user"
+    exit 0
+}
+
+check_env_sanity () {
+    [ ! -x ${BROWSER_BIN} ] && \
+        die_nicely "Cannot locate binary: ${BROWSER_BIN} not an executable"
+}
+
+check_dir_exists () {
+    [ ! -d "$1" ] && \
+        die_nicely "Directory not found: $1"
+}
+
 setup_dot_tor_browser () {
+    check_dir_exists ${TBB_SHARE_DIR}
+    check_dir_exists ${TOR_SHARE_DIR}
+    check_dir_exists ${TBB_EXT_DIR}
+    spew "Initializing your ${DOTDIR} ..."
+    loudly mkdir -p "${DOTDIR}/tor_data"
+    # Set up ~/.tor-browser/tor_data
+    _tord="${DOTDIR}/tor_data"
+    # The tor-launcher port installs these... sigh
+    loudly cp "${TBB_SHARE_DIR}/torrc" "${_tord}/"
+    loudly cp "${TBB_SHARE_DIR}/torrc-defaults" "${_tord}/"
+    # geoip data is installed with net/tor:
+    loudly cp "${TOR_SHARE_DIR}/geoip" "${_tord}/"
+    loudly cp "${TOR_SHARE_DIR}/geoip6" "${_tord}/"
+    # Set up ~/.tor-browser/profile.default et al
+    _prof="${DOTDIR}/profile.default"
+    loudly cp "${TBB_SHARE_DIR}/profiles.ini" "${DOTDIR}/"
+    loudly mkdir -p "${_prof}/preferences"
+    loudly cp "${TBB_SHARE_DIR}/bookmarks.html" "${_prof}"
+    loudly cp "${TBB_SHARE_DIR}/extension-overrides.js" "${_prof}/preferences"
+    loudly mkdir "${_prof}/extensions"
+    # FWIW tar -C wins on both *BSD and Linux
+    loudly "tar -C ${TBB_EXT_DIR} -cf - . | tar -C ${_prof}/extensions -xf -"
+    spew "Finished initialization of ${DOTDIR}"
+}
+
+check_dot_tor_browser () {
+    [ ! -d "${DOTDIR}" ] && setup_dot_tor_browser
+    # XXX the following should probably just go, only useful for a little while
+    _tord="${DOTDIR}/tor_data"
+    [ -f "${_tord}/tor.rc" -a ! -f "${_tord}/torrc" ] && \
+        loudly mv "${_tord}/tor.rc" "${_tord}/torrc"
+    [ ! -f "${_tord}/torrc" ] && \
+        loudly cp "${TBB_SHARE_DIR}/torrc" "${_tord}/"
+    [ ! -f "${_tord}/geoip" ] && \
+        loudly cp "${TOR_SHARE_DIR}/geoip" "${_tord}/"
+    [ ! -f "${_tord}/geoip6" ] && \
+        loudly cp "${TOR_SHARE_DIR}/geoip" "${_tord}/"
 }
 
 run_tor_browser () {
+    set -- $urls
+    if [ $detach -eq 1 ]; then
+        ${TOR_BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" >$log 2>&1 </dev/null &
+    else
+        ${TOR_BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" >$log 2>&1 </dev/null
+    fi
 }
 
 ## Main
 
-while [ x"$1" != x ]; do
+while [ $# -gt 0 ]; do
     case "$1" in
         --help)
             usage
             ;;
-        --detach)
-            setopt detach
-	    ;;
-        -v | --verbose | -d | --debug)
-            setopt verbose
+        --detach | --verbose | --dryrun | --init)
+            setopt "$1"
             ;;
         --log)
-            ;;
-        --log=*)
+            setopt "$1" "$2"
+            exec >$log 2>&1
             ;;
         --register-app)
+            register_app
             ;;
         --unregister-app)
+            unregister_app
+            ;;
+        -*)
+            usage "unrecongized option: $1"
             ;;
         *)
-            usage unrecongized option: "$1"
+            if [ -z "$urls" ]; then
+                urls="$1"
+            else
+                urls="${urls} $1"
+            fi
             ;;
     esac
     shift
 done
 
-setup_dot_tor_browser
-run_tor_browser
+check_env_sanity
+check_dot_tor_browser
+# If --init or --dryrun was specified, don't run the browser
+[ $init -eq 0 -a $dryrun -eq 0 ] && run_tor_browser $urls
