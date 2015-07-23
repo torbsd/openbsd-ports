@@ -83,7 +83,7 @@ loudly () {
     _dry=''
     [ $dryrun -gt 0 ] && _dry='[DRYRUN] '
     [ $verbose -gt 0 ] && spew "${_dry}$*"
-    [ $dryrun -eq 0 ] && sh -c "$@"
+    [ $dryrun -eq 0 ] && eval $@
 }
 
 # bomb out with a fatal error message
@@ -210,8 +210,8 @@ run_tor_browser () {
     [ -n "$log" ] && _log=" >$log 2>&1"
     _det=""
     [ $detach -eq 1 ] && _det=' & '
-    spew executing: ${TOR_BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" "$_log $_det"
-    eval ${TOR_BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" $_log $_det
+    spew executing: ${BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" "$_log $_det"
+    eval ${BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" $_log $_det
 }
 
 ## Main
