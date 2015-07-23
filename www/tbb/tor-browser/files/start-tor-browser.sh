@@ -25,15 +25,14 @@
 
 set -e
 
-# SUBST_VARS: pkg_subst expands e.g. ${BROWSER_NAME} on OpenBSD.  We
-# provide defaults in case someone wants to adapt this script for use
-# on another operating system; any POSIX-compliant sh should work.
+# SUBST_VARS: pkg_subst expands e.g. ${BROWSER_NAME} on OpenBSD.
 [ -z "${BROWSER_NAME}" ] && BROWSER_NAME=tor-browser
 [ -z "${TBB_VERSION}" ] && TBB_VERSION=4.5.3
 [ -z "${LOCALBASE}" ] && LOCALBASE=/usr/local
 [ -z "${ARCH}" ] && ARCH=`uname -m`
 [ -z "${FULLPKGNAME}" ] && FULLPKGNAME=${BROWSER_NAME}-${TBB_VERSION}
-# These are not SUBST_VARS in the OpenBSD port:
+
+# These are not SUBST_VARS in the OpenBSD port
 BROWSER_BIN=${TOR_BROWSER_BIN-${LOCALBASE}/lib/${FULLPKGNAME}/${BROWSER_NAME}-bin}
 DOTDIR=${TOR_BROWSER_DOT_DIR-${HOME}/.${BROWSER_NAME}}
 DOT_DESKTOP_NAME=${BROWSER_NAME}.desktop
@@ -46,7 +45,7 @@ TBB_EXT_DIR=${LOCALBASE}/lib/${FULLPKGNAME}/distribution/extensions
 # Variables set from command-line args:
 verbose=${TOR_BROWSER_VERBOSE-0}
 detach=0
-logfile=${TOR_BROWSER_LOGFILE-}
+log=${TOR_BROWSER_LOGFILE-}
 urls=""
 verbopt=""
 dryrun=0
@@ -82,7 +81,7 @@ spew () {
 # potentially execute a command, honoring both $verbose and $dryrun
 loudly () {
     _dry=''
-    [ $dryrun -gt 0 ] && _dry='# '
+    [ $dryrun -gt 0 ] && _dry='[DRYRUN] '
     [ $verbose -gt 0 ] && spew "${_dry}$*"
     [ $dryrun -eq 0 ] && sh -c "$@"
 }
@@ -95,6 +94,7 @@ die () {
 
 # like die, but possibly pop up a window with the fatal error as well
 die_nicely () {
+    # Only bother with a window if it makes sense
     # N.B. www/tbb/tor-browser R-dep on x11/gxmessage
     [ ! -z "$DISPLAY" -a $init -eq 0 -a $dryrun -eq 0 ] && \
         gxmessage -title "${BROWSER_NAME}" -center "FATAL: $*"
@@ -103,7 +103,7 @@ die_nicely () {
 
 # transform --foo into foo
 optname () {
-    echo "$1" | sed -e 's/^--//' -e 's/^-//'
+    echo "$1" | sed -e 's/^--//' -e 's/^-//' -e 's/`/_/g'
 }
 
 # sanitize a value for --foo val
@@ -120,13 +120,20 @@ setopt () {
     eval $_nm=$_v
 }
 
+# run update-desktop-database, possibly with -v
+update_desktop_database () {
+    _verb=''
+    [ $verbose -gt 0 ] && _verb=" -v"
+    loudly ${UDD}${_verb} "${HOME}/.local/share/applications/"
+}
+
 # register tor-brower as a desktop app via update-desktop-database
 register_app () {
     [ ! -f ${DOT_DESKTOP} ] &&
-        die_nicely "Cannot find .desktop file: ${DOT_DESKTOP}"
+        die "Cannot find .desktop file: ${DOT_DESKTOP}"
     loudly mkdir -p "${HOME}/.local/share/applications/"
     loudly cp "${DOT_DESKTOP}" "${HOME}/.local/share/applications/"
-    loudly ${UDD} "${HOME}/.local/share/applications/"
+    update_desktop_database
     spew "registered as a desktop app for this user in ~/.local/share/applications"
     exit 0
 }
@@ -134,24 +141,29 @@ register_app () {
 # undoes register_app
 unregister_app () {
     if [ ! -e "${HOME}/.local/share/applications/${DOT_DESKTOP_FILE}" ]; then
-        die_nicely "missing ${HOME}/.local/share/applications/${DOT_DESKTOP_FILE}"
+        die "missing ${HOME}/.local/share/applications/${DOT_DESKTOP_FILE}"
     fi
     loudly rm "${HOME}/.local/share/applications/${DOT_DESTKOP_FILE}"
-    loudly ${UDD} "${HOME}/.local/share/applications/"
+    update_desktop_database
     spew "unregistered as a desktop app for this user"
     exit 0
 }
 
+# check that it looks like we can run tor-browser and die if we can't
 check_env_sanity () {
+    [ ! -f ${BROWSER_BIN} ] && \
+        die_nicely "Cannot locate binary: ${BROWSER_BIN} does not exist"
     [ ! -x ${BROWSER_BIN} ] && \
-        die_nicely "Cannot locate binary: ${BROWSER_BIN} not an executable"
+        die_nicely "Cannot locate binary: ${BROWSER_BIN} not executable"
 }
 
+# check that a directory exists and die (poss/w popup) if it doesn't
 check_dir_exists () {
     [ ! -d "$1" ] && \
         die_nicely "Directory not found: $1"
 }
 
+# initialize a new ~/.tor-browser
 setup_dot_tor_browser () {
     check_dir_exists ${TBB_SHARE_DIR}
     check_dir_exists ${TOR_SHARE_DIR}
@@ -173,7 +185,7 @@ setup_dot_tor_browser () {
     loudly cp "${TBB_SHARE_DIR}/bookmarks.html" "${_prof}"
     loudly cp "${TBB_SHARE_DIR}/extension-overrides.js" "${_prof}/preferences"
     loudly mkdir "${_prof}/extensions"
-    # FWIW tar -C wins on both *BSD and Linux
+    # FWIW: tar -C wins on both *BSD and Linux
     loudly "tar -C ${TBB_EXT_DIR} -cf - . | tar -C ${_prof}/extensions -xf -"
     spew "Finished initialization of ${DOTDIR}"
 }
@@ -194,11 +206,12 @@ check_dot_tor_browser () {
 
 run_tor_browser () {
     set -- $urls
-    if [ $detach -eq 1 ]; then
-        ${TOR_BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" >$log 2>&1 </dev/null &
-    else
-        ${TOR_BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" >$log 2>&1 </dev/null
-    fi
+    _log=""
+    [ -n "$log" ] && _log=" >$log 2>&1"
+    _det=""
+    [ $detach -eq 1 ] && _det=' & '
+    spew executing: ${TOR_BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" "$_log $_det"
+    eval ${TOR_BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" $_log $_det
 }
 
 ## Main

@@ -10,6 +10,7 @@ I generated for tor-browser is patch-browser_installer_Makefile_in.
 The others are all orthongonal, it seems
 
 *** List of 600 original patches from diffsplit.pl
+#+BEGIN_EXAMPLE
 patch-Makefile_in
 patch-_gitignore
 patch-_mozconfig
@@ -610,7 +611,9 @@ patch-xpcom_build_nsXPComInit_cpp
 patch-xpcom_io_moz_build
 patch-xpcom_io_nsAppFileLocationProvider_cpp
 patch-xpcom_reflect_xptcall_src_md_unix_xptcinvoke_arm_cpp
+#+END_EXAMPLE
 *** List of 500 patches after diffsplit can deal w/bins, new files
+#+BEGIN_EXAMPLE
 patch-Makefile_in
 patch-_gitignore
 patch-accessible_src_jsat_EventManager_jsm
@@ -1111,6 +1114,7 @@ patch-xpcom_build_nsXPComInit_cpp
 patch-xpcom_io_moz_build
 patch-xpcom_io_nsAppFileLocationProvider_cpp
 patch-xpcom_reflect_xptcall_src_md_unix_xptcinvoke_arm_cpp
+#+END_EXAMPLE
 *** Removed patches and why
 
 **** Build system tweaks that don't apply to us:
@@ -1918,6 +1922,7 @@ It dies in make patch, of course:
 Looking at torrc issues.  These are debug spew messages from a test
 of 4.5.3:
 
+#+BEGIN_EXAMPLE
 [07-20 00:24:49] TorLauncher DBUG: Starting /usr/local/bin/tor
 [07-20 00:24:49] TorLauncher DBUG:   --defaults-torrc
 [07-20 00:24:49] TorLauncher DBUG:   /usr/local/share/examples/tbb/torrc
@@ -1936,6 +1941,7 @@ of 4.5.3:
 [07-20 00:24:49] TorLauncher DBUG:   11969
 [07-20 00:24:49] TorLauncher DBUG:   DisableNetwork
 [07-20 00:24:49] TorLauncher DBUG:   1
+#+END_EXAMPLE
 
 First, we should switch to torrc instead of tor.rc to be like all the
 other kids.
@@ -1951,11 +1957,13 @@ old run-mozilla.sh axe.
 Finally, this doesn't quite work as expected, and I think the problem
 is with tor itself.  Later in the spew:
 
+#+BEGIN_EXAMPLE
 [07-20 00:25:13] TorLauncher DBUG: Sending Tor command: SAVECONF
 [07-20 00:25:13] TorLauncher DBUG: Command response: 551 Unable to write configuration to disk.
 [07-20 00:25:13] TorLauncher DBUG: Event response: 650 NOTICE Opening Socks listener on 127.0.0.1:9150 
 [07-20 00:25:13] TorLauncher DBUG: Event response: 650 NOTICE Renaming old configuration file to "/etc/tor/torrc.orig.1" 
 [07-20 00:25:13] TorLauncher DBUG: Event response: 650 WARN Couldn't rename configuration file "/etc/tor/torrc" to "/etc/tor/torrc.orig.1": Permission denied 
+#+END_EXAMPLE
 
 So it wants to play around with /etc/tor/torrc (the system default
 from the tor port) but nothing we've told it points there and it
@@ -1974,7 +1982,7 @@ src/or/config.c will be NULL if invoked with a non-existent file
 in -f, and then get_torrc_fname(0) will call the get_default_conf_file()
 which in this case will do:
 
-  return defaults_file ? CONFDIR "/torrc-defaults" : CONFDIR "/torrc";
+:  return defaults_file ? CONFDIR "/torrc-defaults" : CONFDIR "/torrc";
 
 CONFDIR is "/etc/tor" in this case.  That's why we fall back to
 /etc/tor/torrc.
@@ -2021,7 +2029,7 @@ the puzzle that addresses the "bundle" issue directly: most of the
 actual "work" of the original start-tor-browser is really latent in
 the filesystem layout of the bundle and the fact that the script
 depends on it like a needy little whore.  The rest of it (checking
-that we're running X? that there's no place like HOME? that the CPU
+that we're running X? that there's no place like $HOME? that the CPU
 exists?) just flat out does not need to happen outside of the Republic
 of Bashistan, so fuck it.
 
