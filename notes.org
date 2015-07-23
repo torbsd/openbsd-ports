@@ -2023,7 +2023,7 @@ They positively SPIT on POSIX and by "they" I mean "whoever I'm
 talking about right now goddamnit."
 
 There is no reason to do most of what they do in that script.  My
-version attemps to be its negative inverse: there is nothing that my
+version attempts to be its negative inverse: there is nothing that my
 script does that isn't strictly necessary.  It is the final piece of
 the puzzle that addresses the "bundle" issue directly: most of the
 actual "work" of the original start-tor-browser is really latent in
@@ -2044,7 +2044,7 @@ to write out the current settings to "the configuration file."  There
 are ways in which this could work out badly.  I don't want to think
 about all of them, but I'm pretty sure that you want to avoid having
 tor-launcher telling the tor daemon to overwrite the system-wide tor
-configuraiton.  If it fails because of perms that's great, but what if
+configuration.  If it fails because of perms that's great, but what if
 it doesn't for some reason, like you're in wheel and the file is
 wheel-writable?  Or how about you just don't want some random piece of
 JS code in a browser to be able to cause files to be written in /etc?
