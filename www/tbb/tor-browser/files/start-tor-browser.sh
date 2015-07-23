@@ -168,7 +168,7 @@ setup_dot_tor_browser () {
     check_dir_exists ${TBB_SHARE_DIR}
     check_dir_exists ${TOR_SHARE_DIR}
     check_dir_exists ${TBB_EXT_DIR}
-    spew "Initializing your ${DOTDIR} ..."
+    spew "Initializing ${DOTDIR} ..."
     loudly mkdir -p "${DOTDIR}/tor_data"
     # Set up ~/.tor-browser/tor_data
     _tord="${DOTDIR}/tor_data"
@@ -187,7 +187,7 @@ setup_dot_tor_browser () {
     loudly mkdir "${_prof}/extensions"
     # FWIW: tar -C wins on both *BSD and Linux
     loudly "tar -C ${TBB_EXT_DIR} -cf - . | tar -C ${_prof}/extensions -xf -"
-    spew "Finished initialization of ${DOTDIR}"
+    spew "Initialized ${DOTDIR}"
 }
 
 check_dot_tor_browser () {
@@ -210,8 +210,8 @@ run_tor_browser () {
     [ -n "$log" ] && _log=" >$log 2>&1"
     _det=""
     [ $detach -eq 1 ] && _det=' & '
-    spew executing: ${BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" "$_log $_det"
-    eval ${BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" $_log $_det
+    spew executing: ${BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" "</dev/null" "$_log $_det"
+    eval ${BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" "</dev/null" $_log $_det
 }
 
 ## Main
