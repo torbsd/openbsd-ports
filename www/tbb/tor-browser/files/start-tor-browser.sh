@@ -178,7 +178,7 @@ setup_dot_tor_browser () {
     # geoip data is installed with net/tor:
     loudly cp "${TOR_SHARE_DIR}/geoip" "${_tord}/"
     loudly cp "${TOR_SHARE_DIR}/geoip6" "${_tord}/"
-    # Set up ~/.tor-browser/profile.default et al
+    # Set up ~/.tor-browser/profile.default etc.
     _prof="${DOTDIR}/profile.default"
     loudly cp "${TBB_SHARE_DIR}/profiles.ini" "${DOTDIR}/"
     loudly mkdir -p "${_prof}/preferences"
@@ -210,8 +210,12 @@ run_tor_browser () {
     [ -n "$log" ] && _log=" >$log 2>&1"
     _det=""
     [ $detach -eq 1 ] && _det=' & '
-    spew executing: ${BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" "</dev/null" "$_log $_det"
-    eval ${BROWSER_BIN} --class "Tor Browser" -profile "${DOTDIR}/profile.default" "${@}" "</dev/null" $_log $_det
+    spew executing: ${BROWSER_BIN} --class "Tor Browser" \
+         -profile "${DOTDIR}/profile.default" "${@}" \
+         "</dev/null" "$_log $_det"
+    eval ${BROWSER_BIN} --class "Tor Browser" \
+         -profile "${DOTDIR}/profile.default" \
+         "${@}" "</dev/null" $_log $_det
 }
 
 ## Main
