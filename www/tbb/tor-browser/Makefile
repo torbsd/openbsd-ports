@@ -79,7 +79,7 @@ RUN_DEPENDS +=		x11/gxmessage
 OUR_AUTOCONF_DIRS +=	js/src
 
 # pkg/PLIST fu
-SUBST_VARS += 		BROWSER_NAME
+SUBST_VARS += 		BROWSER_NAME TBB_VERSION
 
 ## >>> From here on adapted liberally from mozilla.port.mk
 
