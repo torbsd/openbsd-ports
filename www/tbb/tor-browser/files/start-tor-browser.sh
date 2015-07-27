@@ -134,8 +134,7 @@ register_app () {
     loudly mkdir -p "${HOME}/.local/share/applications/"
     loudly cp "${DOT_DESKTOP}" "${HOME}/.local/share/applications/"
     update_desktop_database
-    spew "registered as a desktop app for this user in ~/.local/share/applications"
-    exit 0
+    spew "Registered as a desktop app for this user in ~/.local/share/applications"
 }
 
 # undoes register_app
@@ -145,8 +144,7 @@ unregister_app () {
     fi
     loudly rm "${HOME}/.local/share/applications/${DOT_DESTKOP_FILE}"
     update_desktop_database
-    spew "unregistered as a desktop app for this user"
-    exit 0
+    spew "Unregistered as a desktop app for this user"
 }
 
 # check that it looks like we can run tor-browser and die if we can't
@@ -170,11 +168,11 @@ setup_dot_tor_browser () {
     check_dir_exists ${TBB_EXT_DIR}
     spew "Initializing ${DOTDIR} ..."
     loudly mkdir -p "${DOTDIR}/tor_data"
-    # Set up ~/.tor-browser/tor_data
-    _tord="${DOTDIR}/tor_data"
     # The tor-launcher port installs these... sigh
     loudly cp "${TBB_SHARE_DIR}/torrc" "${DOTDIR}/"
     loudly cp "${TBB_SHARE_DIR}/torrc-defaults" "${DOTDIR}/"
+    # Set up ~/.tor-browser/tor_data
+    _tord="${DOTDIR}/tor_data"
     # geoip data is installed with net/tor:
     loudly cp "${TOR_SHARE_DIR}/geoip" "${_tord}/"
     loudly cp "${TOR_SHARE_DIR}/geoip6" "${_tord}/"
@@ -191,17 +189,7 @@ setup_dot_tor_browser () {
 }
 
 check_dot_tor_browser () {
-    [ ! -d "${DOTDIR}" ] && setup_dot_tor_browser
-    # XXX the following should probably just go, only useful for a little while
-    _tord="${DOTDIR}/tor_data"
-    [ -f "${_tord}/tor.rc" -a ! -f "${_tord}/torrc" ] && \
-        loudly mv "${_tord}/tor.rc" "${_tord}/torrc"
-    [ ! -f "${_tord}/torrc" ] && \
-        loudly cp "${TBB_SHARE_DIR}/torrc" "${_tord}/"
-    [ ! -f "${_tord}/geoip" ] && \
-        loudly cp "${TOR_SHARE_DIR}/geoip" "${_tord}/"
-    [ ! -f "${_tord}/geoip6" ] && \
-        loudly cp "${TOR_SHARE_DIR}/geoip" "${_tord}/"
+    [ ! -d "${DOTDIR}" -o ! -d "${DOTDIR}/tor_data" ] && setup_dot_tor_browser
 }
 
 run_tor_browser () {
@@ -234,9 +222,11 @@ while [ $# -gt 0 ]; do
             ;;
         --register-app)
             register_app
+            exit 0
             ;;
         --unregister-app)
             unregister_app
+            exit 0
             ;;
         -*)
             usage "unrecongized option: $1"
