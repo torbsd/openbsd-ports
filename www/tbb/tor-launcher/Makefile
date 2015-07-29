@@ -9,7 +9,10 @@ GUID =			tor-launcher@torproject.org
 PERMIT_PACKAGE_CDROM =	Yes
 
 post-install:
-	${INSTALL_DATA_DIR} ${TBB_EXAMPLES}
-	${SUBST_DATA} ${FILESDIR}/torrc ${TBB_EXAMPLES}/torrc
+	${INSTALL_DATA_DIR} ${PREFIX}/share/tbb
+	${SUBST_DATA} ${FILESDIR}/torrc \
+		${PREFIX}/share/tbb/torrc
+	${SUBST_DATA} ${FILESDIR}/torrc-defaults \
+		${PREFIX}/share/tbb/torrc-defaults
 
 .include <bsd.port.mk>

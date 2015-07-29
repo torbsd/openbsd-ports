@@ -12,7 +12,7 @@ HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		4.5.2
+TBB_VERSION =		4.5.3
 BUILD_DEPENDS +=	net/tor>=0.2.6.9
 RUN_DEPENDS +=		net/tor>=0.2.6.9
 
@@ -51,19 +51,6 @@ GH_TAGNAME ?=		${V}
 CONFIGURE_STYLE ?=	none
 BUILD_DEPENDS +=	archivers/zip \
 					archivers/unzip
-
-# needed for the naming of the libsubprocess.so
-# the xpi, and the arch matching within mozilla
-.  if ${MACHINE_ARCH:Mi386}
-XPCOM_ABI =			x86
-.  elif ${MACHINE_ARCH:Mamd64}
-XPCOM_ABI =			x86_64
-.  elif ${MACHINE_ARCH:Mpowerpc}
-XPCOM_ABI =			ppc
-.  elif ${MACHINE_ARCH:Msparc64}
-XPCOM_ABI =			sparc
-.  endif
-SUBST_VARS += 		XPCOM_ABI
 
 EXTDIR_ROOT ?=		lib/${BROWSER_NAME}-${TBB_VERSION}
 EXTDIR_BASE ?=  	${EXTDIR_ROOT}/distribution

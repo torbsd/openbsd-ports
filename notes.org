@@ -10,6 +10,7 @@ I generated for tor-browser is patch-browser_installer_Makefile_in.
 The others are all orthongonal, it seems
 
 *** List of 600 original patches from diffsplit.pl
+#+BEGIN_EXAMPLE
 patch-Makefile_in
 patch-_gitignore
 patch-_mozconfig
@@ -610,7 +611,9 @@ patch-xpcom_build_nsXPComInit_cpp
 patch-xpcom_io_moz_build
 patch-xpcom_io_nsAppFileLocationProvider_cpp
 patch-xpcom_reflect_xptcall_src_md_unix_xptcinvoke_arm_cpp
+#+END_EXAMPLE
 *** List of 500 patches after diffsplit can deal w/bins, new files
+#+BEGIN_EXAMPLE
 patch-Makefile_in
 patch-_gitignore
 patch-accessible_src_jsat_EventManager_jsm
@@ -1111,6 +1114,7 @@ patch-xpcom_build_nsXPComInit_cpp
 patch-xpcom_io_moz_build
 patch-xpcom_io_nsAppFileLocationProvider_cpp
 patch-xpcom_reflect_xptcall_src_md_unix_xptcinvoke_arm_cpp
+#+END_EXAMPLE
 *** Removed patches and why
 
 **** Build system tweaks that don't apply to us:
@@ -1914,3 +1918,166 @@ It dies in make patch, of course:
   ***>   patch-makexpi_sh did not apply cleanly
   *** Error 1 in . (/usr/ports/infrastructure/mk/bsd.port.mk:2688 '/usr/ports/pobj/https-everywhere-5.0.5/.patch_done': @if cd /usr/ports/myst...)
   *** Error 1 in /usr/ports/mystuff/www/tbb/https-everywhere (/usr/ports/infrastructure/mk/bsd.port.mk:2487 'patch')
+** 2015-07-20
+Looking at torrc issues.  These are debug spew messages from a test
+of 4.5.3:
+
+#+BEGIN_EXAMPLE
+[07-20 00:24:49] TorLauncher DBUG: Starting /usr/local/bin/tor
+[07-20 00:24:49] TorLauncher DBUG:   --defaults-torrc
+[07-20 00:24:49] TorLauncher DBUG:   /usr/local/share/examples/tbb/torrc
+[07-20 00:24:49] TorLauncher DBUG:   --ignore-missing-torrc
+[07-20 00:24:49] TorLauncher DBUG:   -f
+[07-20 00:24:49] TorLauncher DBUG:   /home/gman/.tor-browser/tor.rc
+[07-20 00:24:49] TorLauncher DBUG:   DataDirectory
+[07-20 00:24:49] TorLauncher DBUG:   /home/gman/.tor-browser/tor_data
+[07-20 00:24:49] TorLauncher DBUG:   GeoIPFile
+[07-20 00:24:49] TorLauncher DBUG:   /home/gman/.tor-browser/tor_data/geoip
+[07-20 00:24:49] TorLauncher DBUG:   GeoIPv6File
+[07-20 00:24:49] TorLauncher DBUG:   /home/gman/.tor-browser/tor_data/geoip6
+[07-20 00:24:49] TorLauncher DBUG:   HashedControlPassword
+[07-20 00:24:49] TorLauncher DBUG:   16:0d07c7f210294bfb60a39f963f2321d4a387670b30e9a0ff8e78cc0929
+[07-20 00:24:49] TorLauncher DBUG:   __OwningControllerProcess
+[07-20 00:24:49] TorLauncher DBUG:   11969
+[07-20 00:24:49] TorLauncher DBUG:   DisableNetwork
+[07-20 00:24:49] TorLauncher DBUG:   1
+#+END_EXAMPLE
+
+First, we should switch to torrc instead of tor.rc to be like all the
+other kids.
+
+Second, /usr/local/share/examples/tbb is the wrong place to be looking
+for the defaults.  I guess /etc/tbb would be a better choice?
+
+Third, we aren't managing to get the geoip files installed in the
+right place and this is a problem.  This speaks to the oft-spoke-of
+need for a startup script that gets installed as tor-browser, ala the
+old run-mozilla.sh axe.
+
+Finally, this doesn't quite work as expected, and I think the problem
+is with tor itself.  Later in the spew:
+
+#+BEGIN_EXAMPLE
+[07-20 00:25:13] TorLauncher DBUG: Sending Tor command: SAVECONF
+[07-20 00:25:13] TorLauncher DBUG: Command response: 551 Unable to write configuration to disk.
+[07-20 00:25:13] TorLauncher DBUG: Event response: 650 NOTICE Opening Socks listener on 127.0.0.1:9150 
+[07-20 00:25:13] TorLauncher DBUG: Event response: 650 NOTICE Renaming old configuration file to "/etc/tor/torrc.orig.1" 
+[07-20 00:25:13] TorLauncher DBUG: Event response: 650 WARN Couldn't rename configuration file "/etc/tor/torrc" to "/etc/tor/torrc.orig.1": Permission denied 
+#+END_EXAMPLE
+
+So it wants to play around with /etc/tor/torrc (the system default
+from the tor port) but nothing we've told it points there and it
+should instead be screwing around with ~/.tor-browser/tor_data/tor.rc
+and not /etc/tor/torrc.  I'm looking at src/or/config.c and am not all
+that thrilled with what I'm seeing; starting a branch to collect
+nits...  It appears that the compiled-in default from net/tor is
+silently being used instead of the value we give via the -f option in
+at least some circumstances.
+
+... yes, after a bit more investigation in src/or/config.c it is
+definitely the case that if you specify a non-existent file for the -f
+option tor will silently fall back to the system default.  It's not
+easy to suss out, but the static char *torrc_fname at top level in
+src/or/config.c will be NULL if invoked with a non-existent file
+in -f, and then get_torrc_fname(0) will call the get_default_conf_file()
+which in this case will do:
+
+:  return defaults_file ? CONFDIR "/torrc-defaults" : CONFDIR "/torrc";
+
+CONFDIR is "/etc/tor" in this case.  That's why we fall back to
+/etc/tor/torrc.
+
+The only workable answer is to deal with this in a startup script and
+make sure we copy the example config to ~/.tor-browser/tor_data.  A
+script will also allow us to deal with the other issues raised, above,
+and a few more besides.  It's finally time to do this, or we'll never
+get around a bunch of dumb bullshit we're faced with.
+
+Death to Dumb Bullshit.
+
+Okay, so here's what comes out of all of this:
+
+1. Fix the tor-launcher port so that /usr/local/share/examples isn't
+   hard-coded into the prefs.js patch; instead have it default to
+   something like /etc/tbb/torrc and use SUBST_VARS or someting;
+2. Change tor.rc to torrc wherever I did that stupid thing;
+3. Write start-tor-browser.sh, which should at least deal with
+   the whole torrc issue by creating and/or populating your
+   ~/.tor-browser with a skeleton including a torrc.  This will
+   fix at least the above warnings if not a few other things;
+   this is the right place to deal with extension-overrides.js,
+   for instance, as well as installing the GeoIP data files.
+** 2015-07-21
+I have to note this down while I'm still thinking about it.  I've
+spent most of the day hacking on start-tor-browser.sh and attendant
+goop in various Makefiles.  While I was at it I also pulled in
+extension-overrides.js, bookmarks.html and profiles.ini via the files/
+subdir of the tor-browser package and this new script (which also
+lives in files/ and gets installed in bin/).
+
+The start-tor-browser script that comes with the TBB for Linux (at
+least) is a multi-splendour'd wonder.  It relies on many bashient
+constructs and, worse, racey semantics... disown? after the fact?
+but... no, srsly?  I didn't even know bash had a "disown" builtin.
+They positively SPIT on POSIX and by "they" I mean "whoever I'm
+talking about right now goddamnit."
+
+There is no reason to do most of what they do in that script.  My
+version attempts to be its negative inverse: there is nothing that my
+script does that isn't strictly necessary.  It is the final piece of
+the puzzle that addresses the "bundle" issue directly: most of the
+actual "work" of the original start-tor-browser is really latent in
+the filesystem layout of the bundle and the fact that the script
+depends on it like a needy little whore.  The rest of it (checking
+that we're running X? that there's no place like $HOME? that the CPU
+exists?) just flat out does not need to happen outside of the Republic
+of Bashistan, so fuck it.
+
+The one thing I feel compelled to write down before I start drinking
+is this business of TOR_CONTROL_PASSWD.  I can't hang that on bash.
+The idea here (I think) is that you can set your TOR_CONTROL_PASSWD
+envar to something that you configure into your system-wide torrc and
+then have tor-browser use the system-installed tor (whatever that
+means wherever this is happening).  I see at least one problem with
+this: tor-launcher sends tor a SAVECONF command, which will always try
+to write out the current settings to "the configuration file."  There
+are ways in which this could work out badly.  I don't want to think
+about all of them, but I'm pretty sure that you want to avoid having
+tor-launcher telling the tor daemon to overwrite the system-wide tor
+configuration.  If it fails because of perms that's great, but what if
+it doesn't for some reason, like you're in wheel and the file is
+wheel-writable?  Or how about you just don't want some random piece of
+JS code in a browser to be able to cause files to be written in /etc?
+On principle?  Is this valid?  Because I think I have that
+principle... pretty sure... Yeah, there it is.
+
+Anyway, I shouldn't have to think these thoughts.  I'm still thinking
+about it but I'm becoming more convinced that, at least in most
+OpenBSD contexts, users would not be happy with this, and would want
+tor-browser to use its own tor instance which it can control to its
+heart's content without affecting any other running instance of tor;
+it can SAVECONF all the doo-dah day and no marmots will be harmed.
+The idea of embedding a password in an environment variable is also
+just kind of gross (because, again, principle?), so I'm just skipping
+that part.  I don't even want to think about what they do with quoting
+in setControlPortPassword.
+
+So the start-tor-browser script that is in the port right now is an
+original creation that is functionally very similar to the bashient
+version, but in plain old sh.  It contains code to initialize your
+~/.tor-browser (which wasn't needed in their version) and this is what
+finally gets rid of my long list of nits: extension-overrides.js,
+bookmarks.html, profiles.ini and a skeletal profile named something
+predictable (profile.default).  It also does desktop app registration
+as per the original script, although I don't think this is necessary
+under OpenBSD... here, I am ignorant and expect to get schooled.  My
+defense: I'm a cwm user (ADORER is more like it) and am of the opinion
+that you can all keep your busted metaphors to yourselves.  My
+computer has no "desktop".  Anyway, I don't know if my desktop fu
+works, but Gman runs Xfce so he can tell me if I got it right.  If the
+port installs in such a way that all that desktop stuff is taken care
+of system-wide then I guess I should get rid of
+--register-app/--unregister-app... speaking of which, --unregister-app
+is broken in their script.  Whatever.
+
+Desktop.  Meh.

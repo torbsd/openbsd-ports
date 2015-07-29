@@ -6,7 +6,7 @@ COMMENT =		HTTPS Everywhere: Part of the Tor Browser Bundle
 GUID =			https-everywhere@eff.org
 ALL_TARGET =		prerelease
 PERMIT_PACKAGE_CDROM =	Yes
-BUILD_DEPENDS +=	textproc/py-lxml shells/bash
+BUILD_DEPENDS +=	textproc/py-lxml
 MAKE_ENV =		MAKEXPI=./openbsd.sh
 
 post-extract:
