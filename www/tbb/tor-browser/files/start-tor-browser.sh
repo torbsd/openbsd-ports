@@ -25,7 +25,8 @@
 
 set -e
 
-# SUBST_VARS: pkg_subst expands e.g. ${BROWSER_NAME} on OpenBSD.
+# SUBST_VARS: pkg_subst expands e.g. $BROWSER_NAME on OpenBSD.
+# This makes the installed version of this script look a little funny...
 [ -z "${BROWSER_NAME}" ] && BROWSER_NAME=tor-browser
 [ -z "${TBB_VERSION}" ] && TBB_VERSION=4.5.3
 [ -z "${LOCALBASE}" ] && LOCALBASE=/usr/local
@@ -68,8 +69,6 @@ usage () {
     echo "    --dryrun          do not do anything, just say what we would do"
     echo "    --init            setup ~/.tor-browser but don't run browser"
     echo "    --log file        send debug log to file instead of stderr"
-    echo "    --register-app    register tor-browser as a desktop app"
-    echo "    --unregister-app  undo the effect of --register-app"
     exit $_xit
 }
 
@@ -118,33 +117,6 @@ setopt () {
     [ -n "$2" ] && _v=`optval "$2"`
     spew "$_nm = $_v"
     eval $_nm=$_v
-}
-
-# run update-desktop-database, possibly with -v
-update_desktop_database () {
-    _verb=''
-    [ $verbose -gt 0 ] && _verb=" -v"
-    loudly ${UDD}${_verb} "${HOME}/.local/share/applications/"
-}
-
-# register tor-brower as a desktop app via update-desktop-database
-register_app () {
-    [ ! -f ${DOT_DESKTOP} ] &&
-        die "Cannot find .desktop file: ${DOT_DESKTOP}"
-    loudly mkdir -p "${HOME}/.local/share/applications/"
-    loudly cp "${DOT_DESKTOP}" "${HOME}/.local/share/applications/"
-    update_desktop_database
-    spew "Registered as a desktop app for this user in ~/.local/share/applications"
-}
-
-# undoes register_app
-unregister_app () {
-    if [ ! -e "${HOME}/.local/share/applications/${DOT_DESKTOP_FILE}" ]; then
-        die "missing ${HOME}/.local/share/applications/${DOT_DESKTOP_FILE}"
-    fi
-    loudly rm "${HOME}/.local/share/applications/${DOT_DESTKOP_FILE}"
-    update_desktop_database
-    spew "Unregistered as a desktop app for this user"
 }
 
 # check that it looks like we can run tor-browser and die if we can't
@@ -198,10 +170,11 @@ run_tor_browser () {
     [ -n "$log" ] && _log=" >$log 2>&1"
     _det=""
     [ $detach -eq 1 ] && _det=' & '
-    spew executing: ${BROWSER_BIN} --class "Tor Browser" \
-         -profile "${DOTDIR}/profile.default" "${@}" \
-         "</dev/null" "$_log $_det"
-    eval ${BROWSER_BIN} --class "Tor Browser" \
+    [ $verbose -gt 0 ] && \
+        spew executing: ${BROWSER_BIN} \
+             -profile "${DOTDIR}/profile.default" "${@}" \
+             "</dev/null" "$_log $_det"
+    eval ${BROWSER_BIN} \
          -profile "${DOTDIR}/profile.default" \
          "${@}" "</dev/null" $_log $_det
 }
@@ -219,14 +192,6 @@ while [ $# -gt 0 ]; do
         --log)
             setopt "$1" "$2"
             exec >$log 2>&1
-            ;;
-        --register-app)
-            register_app
-            exit 0
-            ;;
-        --unregister-app)
-            unregister_app
-            exit 0
             ;;
         -*)
             usage "unrecongized option: $1"
