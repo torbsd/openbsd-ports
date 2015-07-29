@@ -8,25 +8,21 @@ have your ports and src synced up (like I said: running -current).
 
 ## Branches and Versions ##
 
-The `master` branch always has the latest stable versions of the ports
-that are available for testing.  The `develop` branch is used to work
-on the next version update.
+This is the develop branch and is used to work on the bleeding edge.
+As of 14 July 2015 this means working on __4.5.3__:
 
-As of 24 June 2015 the `master` branch is at TBB 4.5.2:
-
-    ff-esr            31.7.0
-    tor-browser       4.5.2
-    torbutton         1.9.2.6
-    tor-launcher      0.2.7.5 (xlation updates only)
-    noscript          2.6.9.26
+    ff-esr            31.8.0
+    torbutton         1.9.2.8
+    tor-launcher      0.2.7.5
+    noscript          2.6.9.27
     https-everywhere  5.0.5
     tor               0.2.6.9
 
 ## Meta Package ##
 
-I've created a meta/tbb package, but in order to use it it needs
-at least `/usr/ports/meta/Makefile.inc` dropped in; assuming you
-have copied the `meta` and `www` dirs from this repo to
+There is also a meta/tbb package, but in order to use it it needs at
+least `/usr/ports/meta/Makefile.inc` dropped in; assuming you have
+copied the `meta` and `www` dirs from this repo to
 `/usr/ports/mystuff`:
 
     # cp /usr/ports/meta/Makefile.inc /usr/ports/mystuff/meta/

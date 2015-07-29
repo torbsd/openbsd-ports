@@ -17,8 +17,8 @@ $OpenBSD$
 -pref("extensions.torlauncher.torrc_path", "");
 -pref("extensions.torlauncher.tordatadir_path", "");
 +pref("extensions.torlauncher.tor_path", "/usr/local/bin/tor");
-+pref("extensions.torlauncher.torrc-defaults_path", "/usr/local/share/examples/tbb/torrc");
-+pref("extensions.torlauncher.torrc_path", "tor.rc");
++pref("extensions.torlauncher.torrc-defaults_path", "/usr/local/share/tbb/torrc");
++pref("extensions.torlauncher.torrc_path", "torrc");
 +pref("extensions.torlauncher.tordatadir_path", "tor_data");
  
  // Recommended default bridge type (can be set per localized bundle).
