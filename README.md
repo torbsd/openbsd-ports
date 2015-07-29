@@ -2,21 +2,25 @@
 
 These are the OpenBSD ports that correspond to the Tor browser bundle.
 They are a work in progress.  Please beware that until we make release
-announcements on [our web site](https://torbsd.github.io) you should be
-careful using this stuff.  You must be runing OpenBSD -current and
+announcements on [our web site](https://torbsd.github.io) you should
+be careful using this stuff.  You must be runing OpenBSD -current and
 have your ports and src synced up (like I said: running -current).
 
 ## Branches and Versions ##
 
-This is the develop branch and is used to work on the bleeding edge.
-As of 14 July 2015 this means working on __4.5.3__:
+As of 29 July 2015 the `master` branch has release __4.5.3__:
 
     ff-esr            31.8.0
     torbutton         1.9.2.8
     tor-launcher      0.2.7.5
     noscript          2.6.9.27
     https-everywhere  5.0.5
-    tor               0.2.6.9
+
+The `develop` branch is always used to work on the next release.  We
+use tags to mark release points that correspond as closely as possible
+to TBB releases.  They are marked "-sans-pt" to indicate that
+Pluggable Transports (PT) is not yet a part of this set of
+ports... working on it...
 
 ## Meta Package ##
 
