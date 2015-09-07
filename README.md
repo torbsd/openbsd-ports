@@ -10,7 +10,7 @@ have your ports and src synced up (like I said: running -current).
 
 This is the develop branch and is used to work on the bleeding edge.
 As of 7 Sep 2015 this means working on __5.0.2__; c.f.
-release announcements since 4.5.3: [5.0.2](https://blog.torproject.org/blog/tor-browser-502-released), [5.0.1](https://blog.torproject.org/blog/tor-browser-501-released), [5.0](https://blog.torproject.org/blog/tor-browser-50-released).
+release announcements since 4.5.3: [5.0](https://blog.torproject.org/blog/tor-browser-50-released), [5.0.1](https://blog.torproject.org/blog/tor-browser-501-released),  [5.0.2](https://blog.torproject.org/blog/tor-browser-502-released).
 
     ff-esr            38.2.1
     torbutton         1.9.3.2
