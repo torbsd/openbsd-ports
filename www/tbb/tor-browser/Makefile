@@ -5,15 +5,16 @@
 # compatibility with those two things.
 
 COMMENT =		Tor Browser (based on Firefox ESR)
+BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr31.8.0
+GH_TAGNAME =		v${TBB_VERSION}-esr38.2.1
 
 DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 
-SO_VERSION =		1.0
-MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
+SO_VERSION =		2.0
+MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul clearkey
 
 # mozilla public license
 PERMIT_PACKAGE_CDROM=	Yes
@@ -55,6 +56,11 @@ CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
+
+# bug #1064665, from www/firefox-esr
+LIB_DEPENDS +=	textproc/icu4c
+CONFIGURE_ARGS += --with-system-icu
+WANTLIB += icudata icui18n icuuc
 
 CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
@@ -118,7 +124,7 @@ WANTLIB +=		X11 Xext Xrender Xt atk-1.0 c cairo 		\
 			fontconfig freetype gdk_pixbuf-2.0 gio-2.0 glib-2.0 \
 			gobject-2.0 gthread-2.0 m 			\
 			nspr4 nss3 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
-			plc4 plds4 pthread event kvm sqlite3>=29 	\
+			plc4 plds4 pthread event kvm sqlite3>=30 	\
 			smime3 sndio nssutil3 ssl3 stdc++ z hunspell-1.3
 
 # hack to build against systemwide sqlite3 (# 546162)
