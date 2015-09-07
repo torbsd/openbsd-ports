@@ -9,14 +9,15 @@ have your ports and src synced up (like I said: running -current).
 ## Branches and Versions ##
 
 This is the develop branch and is used to work on the bleeding edge.
-As of 14 July 2015 this means working on __4.5.3__:
+As of 7 Sep 2015 this means working on __5.0.2__:
 
-    ff-esr            31.8.0
-    torbutton         1.9.2.8
-    tor-launcher      0.2.7.5
-    noscript          2.6.9.27
-    https-everywhere  5.0.5
-    tor               0.2.6.9
+    ff-esr            38.2.1
+    torbutton         1.9.3.2
+    tor-launcher      0.2.7.7
+    noscript          2.6.9.39
+    https-everywhere  5.0.7
+
+In all cases this is a change from our previous releases, 4.5.3.
 
 ## Meta Package ##
 
