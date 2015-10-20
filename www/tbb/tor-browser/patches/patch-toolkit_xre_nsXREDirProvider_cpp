@@ -1,9 +1,31 @@
 $OpenBSD$
 
 Make sure our profiles go under ~/.tor-browser
---- toolkit/xre/nsXREDirProvider.cpp.orig	Wed Sep  9 15:56:32 2015
-+++ toolkit/xre/nsXREDirProvider.cpp	Wed Sep  9 15:56:39 2015
-@@ -1338,6 +1338,7 @@ nsXREDirProvider::GetAppRootDir(nsIFile* *aFile)
+--- toolkit/xre/nsXREDirProvider.cpp.orig	Tue Sep  1 08:53:38 2015
++++ toolkit/xre/nsXREDirProvider.cpp	Tue Oct 20 13:37:40 2015
+@@ -1222,12 +1222,21 @@ nsXREDirProvider::GetUserDataDirectoryHome(nsIFile** a
+   NS_ENSURE_ARG_POINTER(aFile);
+   nsCOMPtr<nsIFile> localDir;
+ 
++#if not_on_openbsd
+   nsresult rv = GetAppRootDir(getter_AddRefs(localDir));
+   NS_ENSURE_SUCCESS(rv, rv);
+   rv = localDir->AppendRelativeNativePath(NS_LITERAL_CSTRING("TorBrowser"
+                                      XPCOM_FILE_PATH_SEPARATOR "Data"
+                                      XPCOM_FILE_PATH_SEPARATOR "Browser"));
+   NS_ENSURE_SUCCESS(rv, rv);
++#else
++  nsresult rv =
++    NS_NewNativeLocalFile(nsDependentCString(PR_GetEnv("HOME")), true,
++                          getter_AddRefs(localDir));
++  NS_ENSURE_SUCCESS(rv, rv);
++  rv = localDir->AppendRelativeNativePath(NS_LITERAL_STRING(".tor-browser"));
++  NS_ENSURE_SUCCESS(rv, rv);
++#endif /* openbsd */
+ 
+   if (aLocal) {
+     rv = localDir->AppendNative(NS_LITERAL_CSTRING("Caches"));
+@@ -1338,6 +1347,7 @@ nsXREDirProvider::GetAppRootDir(nsIFile* *aFile)
    nsresult rv = GetAppDir()->Clone(getter_AddRefs(appRootDir));
    NS_ENSURE_SUCCESS(rv, rv);
  
@@ -11,7 +33,7 @@ Make sure our profiles go under ~/.tor-browser
    int levelsToRemove = 1; // In FF21+, appDir points to browser subdirectory.
  #if defined(XP_MACOSX)
    levelsToRemove += 2;
-@@ -1358,6 +1359,7 @@ nsXREDirProvider::GetAppRootDir(nsIFile* *aFile)
+@@ -1358,6 +1368,7 @@ nsXREDirProvider::GetAppRootDir(nsIFile* *aFile)
      if (didRemove)
        --levelsToRemove;
    }
@@ -19,7 +41,7 @@ Make sure our profiles go under ~/.tor-browser
  
    if (!appRootDir)
      return NS_ERROR_FAILURE;
-@@ -1454,7 +1456,7 @@ nsXREDirProvider::AppendSysUserExtensionPath(nsIFile* 
+@@ -1454,7 +1465,7 @@ nsXREDirProvider::AppendSysUserExtensionPath(nsIFile* 
  
  #elif defined(XP_UNIX)
  
@@ -28,7 +50,7 @@ Make sure our profiles go under ~/.tor-browser
    rv = aFile->AppendNative(nsDependentCString(sXR));
    NS_ENSURE_SUCCESS(rv, rv);
  
-@@ -1513,6 +1515,9 @@ nsXREDirProvider::AppendProfilePath(nsIFile* aFile,
+@@ -1513,6 +1524,9 @@ nsXREDirProvider::AppendProfilePath(nsIFile* aFile,
    rv = aFile->AppendNative(nsDependentCString("mozilla"));
    NS_ENSURE_SUCCESS(rv, rv);
  #elif defined(XP_UNIX)
@@ -38,7 +60,7 @@ Make sure our profiles go under ~/.tor-browser
    if (!profile.IsEmpty()) {
      // Skip any leading path characters
      const char* profileStart = profile.get();
-@@ -1521,17 +1526,19 @@ nsXREDirProvider::AppendProfilePath(nsIFile* aFile,
+@@ -1521,17 +1535,19 @@ nsXREDirProvider::AppendProfilePath(nsIFile* aFile,
  
      // On the off chance that someone wanted their folder to be hidden don't
      // let it become ".."
