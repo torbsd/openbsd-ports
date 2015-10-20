@@ -1,5 +1,6 @@
 @comment $OpenBSD$
 @comment Adapted from www/firefox-esr for www/tor-browser, c.f. ../Makefile
+bin/start-${BROWSER_NAME}
 bin/${BROWSER_NAME}
 lib/${FULLPKGNAME}/
 lib/${FULLPKGNAME}/application.ini
@@ -27,6 +28,7 @@ lib/${FULLPKGNAME}/browser/icons/
 lib/${FULLPKGNAME}/browser/icons/mozicon128.png
 lib/${FULLPKGNAME}/browser/omni.ja
 lib/${FULLPKGNAME}/browser/searchplugins/
+lib/${FULLPKGNAME}/browser/searchplugins/ddg.xml
 lib/${FULLPKGNAME}/browser/searchplugins/disconnect.xml
 lib/${FULLPKGNAME}/browser/searchplugins/duckduckgo.xml
 lib/${FULLPKGNAME}/browser/searchplugins/google.xml
@@ -46,9 +48,19 @@ lib/${FULLPKGNAME}/dependentlibs.list
 lib/${FULLPKGNAME}/dictionaries/
 lib/${FULLPKGNAME}/dictionaries/en-US.aff
 lib/${FULLPKGNAME}/dictionaries/en-US.dic
+lib/${FULLPKGNAME}/libfreebl3.chk
+@lib lib/${FULLPKGNAME}/libfreebl3.so.${LIBfreebl3_VERSION}
 @lib lib/${FULLPKGNAME}/libmozalloc.so.${LIBmozalloc_VERSION}
+@lib lib/${FULLPKGNAME}/libnss3.so.${LIBnss3_VERSION}
+@lib lib/${FULLPKGNAME}/libnssckbi.so.${LIBnssckbi_VERSION}
+lib/${FULLPKGNAME}/libnssdbm3.chk
+@lib lib/${FULLPKGNAME}/libnssdbm3.so.${LIBnssdbm3_VERSION}
+@lib lib/${FULLPKGNAME}/libnssutil3.so.${LIBnssutil3_VERSION}
+@lib lib/${FULLPKGNAME}/libsmime3.so.${LIBsmime3_VERSION}
+lib/${FULLPKGNAME}/libsoftokn3.chk
+@lib lib/${FULLPKGNAME}/libsoftokn3.so.${LIBsoftokn3_VERSION}
+@lib lib/${FULLPKGNAME}/libssl3.so.${LIBssl3_VERSION}
 @lib lib/${FULLPKGNAME}/libxul.so.${LIBxul_VERSION}
-@bin lib/${FULLPKGNAME}/mozilla-xremote-client
 lib/${FULLPKGNAME}/omni.ja
 lib/${FULLPKGNAME}/platform.ini
 @bin lib/${FULLPKGNAME}/plugin-container
@@ -65,8 +77,7 @@ share/pixmaps/
 @exec %D/bin/update-desktop-database
 @unexec-delete %D/bin/update-desktop-database
 share/pixmaps/${BROWSER_NAME}.png
-@bin bin/start-${BROWSER_NAME}
 share/tbb/
 share/tbb/bookmarks.html
-share/tbb/profiles.ini
 share/tbb/extension-overrides.js
+share/tbb/profiles.ini

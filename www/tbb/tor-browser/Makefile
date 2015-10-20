@@ -14,7 +14,9 @@ DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 
 SO_VERSION =		1.0
-MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul clearkey
+MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
+MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
+MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
 
 # mozilla public license
 PERMIT_PACKAGE_CDROM=	Yes
@@ -124,7 +126,7 @@ WANTLIB +=		X11 Xext Xrender Xt atk-1.0 c cairo 		\
 			gobject-2.0 gthread-2.0 m 			\
 			nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
 			plc4 plds4 pthread event kvm sqlite3>=30 	\
-			smime3 sndio ssl3 stdc++ z hunspell-1.3
+			sndio stdc++ z hunspell-1.3
 
 # hack to build against systemwide sqlite3 (# 546162)
 CONFIGURE_ENV +=	ac_cv_sqlite_secure_delete=yes
