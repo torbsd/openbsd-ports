@@ -2,7 +2,7 @@ $OpenBSD$
 
 Make sure our profiles go under ~/.tor-browser
 --- toolkit/xre/nsXREDirProvider.cpp.orig	Tue Sep  1 08:53:38 2015
-+++ toolkit/xre/nsXREDirProvider.cpp	Tue Oct 20 13:37:40 2015
++++ toolkit/xre/nsXREDirProvider.cpp	Tue Oct 20 14:26:40 2015
 @@ -1222,12 +1222,21 @@ nsXREDirProvider::GetUserDataDirectoryHome(nsIFile** a
    NS_ENSURE_ARG_POINTER(aFile);
    nsCOMPtr<nsIFile> localDir;
@@ -19,7 +19,7 @@ Make sure our profiles go under ~/.tor-browser
 +    NS_NewNativeLocalFile(nsDependentCString(PR_GetEnv("HOME")), true,
 +                          getter_AddRefs(localDir));
 +  NS_ENSURE_SUCCESS(rv, rv);
-+  rv = localDir->AppendRelativeNativePath(NS_LITERAL_STRING(".tor-browser"));
++  rv = localDir->AppendRelativeNativePath(NS_LITERAL_CSTRING(".tor-browser"));
 +  NS_ENSURE_SUCCESS(rv, rv);
 +#endif /* openbsd */
  
