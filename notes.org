@@ -2081,3 +2081,47 @@ of system-wide then I guess I should get rid of
 is broken in their script.  Whatever.
 
 Desktop.  Meh.
+** 2015-09-11
+Working on 5.0.2 in earnest now, a couple weeks and two releases
+behind.  Lame.
+
+So far the big news is that they (torproject.org) have extended their
+API-widening hackery into nss, which makes it impossible to use the
+security/nss port as a dependency anymore; in fact we have to install
+our own libnss* libraries and figure that stuff out.  I have no idea
+if torproject plans on submitting their nss changes upstream but I
+wouldn't be surprised if they don't unless they intend to submit all
+of their domain isolation patches upstream at once, since they all
+kind of go together.  The nss hacks are on two topics: (1) widening an
+OCSP-related API to accept an isolation URL, (2) blocking nss from
+trying to connect to anything automatically, so bogus SSL revocation
+fu can't trick tor-browser into initiating a non-Tor'ed TCP connection
+to some random host on the Internet.  These latter hacks are arguably
+good idea no matter what; even outside of Tor, if you're e.g. using
+foxyproxy you will probably not be happy when OCSP screws you.  The
+domain isolation stuff in the large is a good idea too, but the
+changes are extensive and all over the place...
+
+At the very least this means getting rid of --with-system-nss in
+configure but I think it means more than that.  Am trying to
+understand the implications now after my first build failed.  There
+might be some autoconf fu in security/nss (the subdir of Mozilla, not
+the port) that isn't right now or something else like
+that... config/extern/nss also comes to mind.  We don't want to
+install any nss SHARED_LIBS because they will conflict with the port,
+I think... maybe that means I have to do something clever somewhere to
+rename them.
+
+Then there are also patches in the security/nss port that should
+probably be looked into, since presumably we'll need them if we build
+our own the tor-browser tree... hopefully they don't clash with of the
+API widening the torproject people have done.  This is how this port
+could get really, really messy.  It turns out none of the OpenBSD
+patches touch any of the code that the torproject has touched, so for
+now it's fine.
+
+Finally, nspr is also a separate port under OpenBSD (devel/nspr).  For
+now I'm leaving --with-system-nspr in there but I have a feeling I
+will have to yank on that thread as well in the end.  We'll see.
+Right now I'm looking at adding patches to tor-browser that mirror
+those in the security/nss port.
