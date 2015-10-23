@@ -3,6 +3,10 @@ ${EXTDIR_ROOT}/distribution/
 ${EXTDIR_ROOT}/distribution/extensions/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/GPL.txt
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/META-INF/
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/META-INF/manifest.mf
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/META-INF/mozilla.rsa
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/META-INF/mozilla.sf
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/NoScript_License.txt
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome.manifest

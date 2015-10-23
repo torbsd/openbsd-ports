@@ -5,15 +5,18 @@
 # compatibility with those two things.
 
 COMMENT =		Tor Browser (based on Firefox ESR)
+BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr31.8.0
+GH_TAGNAME =		v${TBB_VERSION}-esr38.2.1
 
 DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 
 SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
+MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
+MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
 
 # mozilla public license
 PERMIT_PACKAGE_CDROM=	Yes
@@ -55,6 +58,11 @@ CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
+
+# bug #1064665, from www/firefox-esr
+LIB_DEPENDS +=	textproc/icu4c
+CONFIGURE_ARGS += --with-system-icu
+WANTLIB += icudata icui18n icuuc
 
 CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
@@ -103,8 +111,7 @@ BUILD_DEPENDS +=	archivers/gtar	\
 			archivers/zip>=2.3
 
 LIB_DEPENDS +=		textproc/hunspell \
-			devel/nspr>=4.10.8 \
-			security/nss>=3.19.2
+			devel/nspr>=4.10.8
 
 # bug #736961
 SEPARATE_BUILD =	Yes
@@ -117,9 +124,9 @@ BUILD_DEPENDS +=	devel/yasm
 WANTLIB +=		X11 Xext Xrender Xt atk-1.0 c cairo 		\
 			fontconfig freetype gdk_pixbuf-2.0 gio-2.0 glib-2.0 \
 			gobject-2.0 gthread-2.0 m 			\
-			nspr4 nss3 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
-			plc4 plds4 pthread event kvm sqlite3>=29 	\
-			smime3 sndio nssutil3 ssl3 stdc++ z hunspell-1.3
+			nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
+			plc4 plds4 pthread event kvm sqlite3>=30 	\
+			sndio stdc++ z hunspell-1.3
 
 # hack to build against systemwide sqlite3 (# 546162)
 CONFIGURE_ENV +=	ac_cv_sqlite_secure_delete=yes
@@ -146,7 +153,6 @@ CONFIGURE_ARGS +=	--with-system-zlib=/usr		\
 			--with-system-libevent=/usr/	\
 			--with-system-bz2=${LOCALBASE}	\
 			--with-system-nspr		\
-			--with-system-nss		\
 			--enable-system-hunspell	\
 			--enable-system-sqlite		\
 			--enable-official-branding	\
@@ -192,6 +198,15 @@ CONFIGURE_ARGS +=--enable-application=browser
 MAKE_ENV +=	MOZILLA_OFFICIAL=1 \
 		SHELL=/bin/sh \
 		SO_VERSION="${SO_VERSION}"
+
+# for nss, since we are building it instead of using the port
+MAKE_ENV +=	BUILD_OPT=1 \
+		LOCALBASE="${LOCALBASE}" \
+		NSS_ENABLE_ECC=1 \
+		NSS_USE_SYSTEM_SQLITE=1 \
+		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}" \
+		NSPR_INCLUDE_DIR="${LOCALBASE}/include/nspr" \
+		NSPR_LIB_DIR="${LOCALBASE}/lib"
 
 CONFIGURE_ENV +=	${MAKE_ENV}
 

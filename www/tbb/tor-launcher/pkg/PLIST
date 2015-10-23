@@ -1,6 +1,4 @@
 @comment $OpenBSD$
-${EXTDIR_ROOT}/distribution/
-${EXTDIR_ROOT}/distribution/extensions/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/LICENSE
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/
@@ -622,6 +620,5 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/install.rdf
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/tl-logger.jsm
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/modules/tl-util.jsm
-share/tbb/
 share/tbb/torrc
 share/tbb/torrc-defaults
