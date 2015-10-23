@@ -9,16 +9,16 @@ have your ports and src synced up (like I said: running -current).
 ## Branches and Versions ##
 
 This is the develop branch and is used to work on the bleeding edge.
-As of 7 Sep 2015 this means working on __5.0.2__; c.f.
-release announcements since 4.5.3: [5.0](https://blog.torproject.org/blog/tor-browser-50-released), [5.0.1](https://blog.torproject.org/blog/tor-browser-501-released),  [5.0.2](https://blog.torproject.org/blog/tor-browser-502-released).
+As of 23 Oct 2015 this means working on __5.0.3__:
 
-    ff-esr            38.2.1
-    torbutton         1.9.3.2
+    ff-esr            38.3.0
+    torbutton         1.9.3.4
     tor-launcher      0.2.7.7
-    noscript          2.6.9.39
+    noscript          2.6.9.36
     https-everywhere  5.0.7
 
-In all cases this is a change from our previous releases, 4.5.3.
+Other than the browser itself, only the version of `torbutton` has
+changed since __5.0.2__.
 
 ## Meta Package ##
 
