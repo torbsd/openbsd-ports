@@ -8,7 +8,7 @@ COMMENT =		Tor Browser (based on Firefox ESR)
 BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr38.2.1
+GH_TAGNAME =		v${TBB_VERSION}-esr38.3.0
 
 DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
@@ -252,7 +252,7 @@ post-install:
 		${PREFIX}/share/pixmaps/${BROWSER_NAME}.png
 	# link default48.png to default.png to be used by default
 	# by non-icccm compliant wm
-	ln \
+	ln -f \
 	 ${PREFIX}/lib/${PKGNAME}/browser/chrome/icons/default/default{48,}.png
 
 .include <bsd.port.mk>

@@ -12,9 +12,9 @@ HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		5.0.2
-BUILD_DEPENDS +=	net/tor>=0.2.6.9
-RUN_DEPENDS +=		net/tor>=0.2.6.9
+TBB_VERSION =		5.0.3
+BUILD_DEPENDS +=	net/tor>=0.2.6.10
+RUN_DEPENDS +=		net/tor>=0.2.6.10
 
 # Used by tor-launcher
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb

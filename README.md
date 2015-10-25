@@ -8,19 +8,19 @@ have your ports and src synced up (like I said: running -current).
 
 ## Branches and Versions ##
 
-As of 23 Octover 2015 the `master` branch has release __5.0.2__:
+As of 23 Octover 2015 the `master` branch has release __5.0.3__:
 
-    ff-esr            38.2.1
-    torbutton         1.9.3.2
+    tor-browser       5.0.3 (based on ff-esr 38.3.0)
+    torbutton         1.9.3.4
     tor-launcher      0.2.7.7
-    noscript          2.6.9.39
+    noscript          2.6.9.36
     https-everywhere  5.0.7
 
 The `develop` branch is always used to work on the next release.  We
 use tags to mark release points that correspond as closely as possible
 to TBB releases.  They are marked "-sans-pt" to indicate that
-Pluggable Transports (PT) is not yet a part of this set of
-ports... working on it...
+Pluggable Transports (PT) is not yet a part of this set of ports...
+working on it...
 
 ## Meta Package ##
 
@@ -64,16 +64,8 @@ case of noscript I do this, for example.
 
 ## Beware: Experimental Until Otherwise Stated ##
 
-You should be aware that there might be bugs or issues that could
-_e.g._ screw over your non-tor `~/.mozilla` directory over if you
-aren't careful.  Naturally we try to avoid this but if you want to
-play along then be careful: don't run a non-tor-browser at the same
-time, make sure you back up all of your precious bits before using
-tor-browser (like `~/.mozilla`), etc.  Note that we have sort of
-hot-wired the profile root to be `~/.tor-browser` under OpenBSD and
-this does appear to work, but until we test it all more thoroughly
-_caveat emptor_.  Read the [notes](notes.org) if you're really curious
-what's going on or come find me.
+This is still work in progress.  Until we make an official release
+statement you should use this only if you want to help in testing. 
 
 ## Contact ##
 
@@ -81,4 +73,4 @@ You can get my attention by posting [issues](https://github.com/torbsd/openbsd-p
 like, or use one of the contact methods mentioned on my
 [home page](http://trac.haqistan.net/~attila).
 
-`--attila`
+--attila
