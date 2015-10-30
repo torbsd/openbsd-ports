@@ -77,6 +77,11 @@ RUN_DEPENDS +=		multimedia/gstreamer1/plugins-good
 RUN_DEPENDS +=		devel/desktop-file-utils
 # start-tor-browser.sh wants something to use for cries for help
 RUN_DEPENDS +=		x11/gxmessage
+# extensions that make up the rest of the "bundle"
+RUN_DEPENDS +=		www/tbb/torbutton \
+			www/tbb/tor-launcher \
+			www/tbb/noscript \
+			www/tbb/https-everywhere
 
 # needs 3.0.10 when not using gcc
 # CONFIGURE_ARGS += --with-system-ffi
