@@ -3,7 +3,7 @@
 This is an ORG-MODE file.  Lines that begin with stars (*) are headings.
 Hit TAB on a line that begins with a star to expand it and collapse it.
 
-* tor-browser
+* early notes
 ** 2015-02-20
 The only patch from www/firefox-esr that conflicts with the patches
 I generated for tor-browser is patch-browser_installer_Makefile_in.
@@ -1670,7 +1670,7 @@ read our own config somehow.
 Not sure how this last bit is going to work out.  Am already midly
 terrified by all the shit I can do to the local machine from JS via
 XPCOM.
-* tbb
+* more modern tbb notes
 ** 2015-04-02
 I'm switching everything in TBB to use the 915x port numbers for socks
 and control by default, instead of patching everything to use the
@@ -2125,3 +2125,19 @@ now I'm leaving --with-system-nspr in there but I have a feeling I
 will have to yank on that thread as well in the end.  We'll see.
 Right now I'm looking at adding patches to tor-browser that mirror
 those in the security/nss port.
+** 2015-12-31
+
+Time to leave the cargo cult.  It's been fun.  I need to hack on
+mozilla.port.mk (as minimally as possible) to support tor browser
+without breaking anything else.  If I can do this it will greatly
+improve our changes of getting accepted into the tree.
+
+I think the right way to go is to set MOZILLA_PROJECT=tor-browser
+and MOZILLA_VERSION=5.0.3 (for example).
+
+*** MODMOZ_LIB_DEPENDS
+Mentions nss, can't use it as is
+*** MODMOZ_WANTLIB
+Same reason, must be patched
+*** CONFIGURE_ARGS
+Ditto
