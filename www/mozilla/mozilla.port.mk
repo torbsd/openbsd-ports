@@ -23,10 +23,12 @@ MOZILLA_DIST_VERSION ?=	${MOZILLA_VERSION:C/rc.//}
 
 HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
-.if ${PKGPATH:Mtor-browser}
+.if ${PKGPATH} == "www/tbb/tor-browser"
+
 DISTNAME = ${GH_PROJECT}-${GH_TAGNAME}
-#EXTRACT_SUFX = .tar.gz
+
 .else
+
 .	if ${MOZILLA_VERSION:M*rc?}
 MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidates/${MOZILLA_DIST_VERSION}-candidates/build${MOZILLA_VERSION:C/.*(.)/\1/}/source/
 # first is the CDN and only has last releases
@@ -39,6 +41,7 @@ MASTER_SITES ?=	http://releases.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/rele
 DISTNAME ?=	${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}.source
 EXTRACT_SUFX ?=	.tar.bz2
 DIST_SUBDIR ?=	mozilla
+
 .endif
 
 MODMOZ_RUN_DEPENDS =	devel/desktop-file-utils
@@ -48,7 +51,7 @@ MODMOZ_BUILD_DEPENDS =	archivers/gtar \
 
 MODMOZ_LIB_DEPENDS =	textproc/hunspell \
 			devel/nspr>=4.10.10
-.if ${PKGPATH:Ntor-browser}
+.if ${PKGPATH} != "www/tbb/tor-browser"
 MODMOZ_LIB_DEPENDS +=	security/nss>=3.20.1
 .endif
 
@@ -66,7 +69,7 @@ MODMOZ_WANTLIB +=	X11 Xext Xrender Xt atk-1.0 c cairo \
 		nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
 		plc4 plds4 pthread event kvm sqlite3>=31 \
 		smime3 sndio stdc++ z hunspell-1.3
-.if ${PKGPATH:Ntor-browser}
+.if ${PKGPATH} != "www/tbb/tor-browser"
 MODMOZ_WANTLIB +=	nss3 nssutil3 ssl3
 .endif
 
@@ -108,7 +111,7 @@ CONFIGURE_ARGS +=	--with-system-zlib=/usr	\
 		--disable-tests			\
 		--disable-updater		\
 		--disable-dbus
-.if ${PKGPATH:Ntor-browser}
+.if ${PKGPATH} != "www/tbb/tor-browser"
 CONFIGURE_ARGS +=	--with-system-nss
 .endif
 
@@ -143,7 +146,7 @@ PORTHOME =	${WRKSRC}
 # from browser/config/mozconfig
 CONFIGURE_ARGS +=--enable-application=${MOZILLA_CODENAME}
 
-.if ${PKGPATH:Ntor-browser}
+.if ${PKGPATH} != "www/tbb/tor-browser"
 .	if ${PKGPATH} == "www/mozilla-firefox" || \
 		${PKGPATH} == "www/seamonkey" || \
 		(${MOZILLA_PROJECT} == "thunderbird" && \
@@ -166,7 +169,7 @@ MAKE_ENV +=	MOZILLA_OFFICIAL=1 \
 		SHELL=/bin/sh \
 		SO_VERSION="${SO_VERSION}"
 
-.if ${PKGPATH:Mtor-browser}
+.if ${PKGPATH} == "www/tbb/tor-browser"
 # for nss, since we are building it instead of using the port
 MAKE_ENV +=	BUILD_OPT=1 \
 		LOCALBASE="${LOCALBASE}" \
@@ -184,7 +187,7 @@ pre-configure:
 .for f in ${MOZILLA_SUBST_FILES}
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
-.if ${PKGPATH:Mtor-browser}
+.if ${PKGPATH} == "www/tbb/tor-browser"
 	sed -i.bak -E -e 's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
 		${WRKSRC}/security/nss/coreconf/OpenBSD.mk
 .endif
