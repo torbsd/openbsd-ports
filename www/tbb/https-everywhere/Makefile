@@ -1,7 +1,7 @@
 # $OpenBSD$
 
 ADDON_NAME =		https-everywhere
-V =			5.0.7
+V =			5.1.1
 COMMENT =		HTTPS Everywhere: Part of the Tor Browser Bundle
 GUID =			https-everywhere@eff.org
 ALL_TARGET =		prerelease
