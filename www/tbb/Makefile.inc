@@ -20,7 +20,8 @@ ADDON_NAME ?=
 # Everything in this .if (most of the file) is for add-ons like
 # torbutton, tor-launcher, ... tor-browser does its own thing.
 # Some of it was adapted from mail/enigmail early on.
-RUN_DEPENDS +=			www/tbb/tor-browser=${TBB_VERSION}
+RUN_DEPENDS +=		www/tbb/tor-browser=${TBB_VERSION}
+BUILD_DEPENDS +=	www/tbb/tor-browser=${TBB_VERSION}
 ZIP ?=				zip
 
 # This should be set to Yes if the distfile for the addon is
