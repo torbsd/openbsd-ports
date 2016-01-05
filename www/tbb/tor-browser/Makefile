@@ -13,6 +13,8 @@ BROKEN-sparc64 =	xpcshell SIGBUS during fake
 GH_PROJECT =		torb
 GH_TAGNAME =		v${TBB_VERSION}-esr38.5.0
 
+DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
+
 SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
 MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3

@@ -25,7 +25,7 @@ HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
 .if ${PKGPATH} == "www/tbb/tor-browser"
 
-DISTNAME = ${GH_PROJECT}-${GH_TAGNAME}
+DISTNAME ?= ${GH_PROJECT}-${GH_TAGNAME}
 
 .else
 
