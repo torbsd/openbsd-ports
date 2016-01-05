@@ -69,7 +69,7 @@ RUN_DEPENDS +=		devel/desktop-file-utils
 # start-tor-browser.sh wants something to use for cries for help
 RUN_DEPENDS +=		x11/gxmessage
 
-OUR_AUTOCONF_DIRS +=	js/src
+MOZILLA_AUTOCONF_DIRS +=	js/src
 
 # pkg/PLIST fu
 SUBST_VARS += 		BROWSER_NAME TBB_VERSION
