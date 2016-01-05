@@ -24,11 +24,8 @@ MOZILLA_DIST_VERSION ?=	${MOZILLA_VERSION:C/rc.//}
 HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
 .if ${PKGPATH} == "www/tbb/tor-browser"
-
 DISTNAME ?= ${GH_PROJECT}-${GH_TAGNAME}
-
 .else
-
 .	if ${MOZILLA_VERSION:M*rc?}
 MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidates/${MOZILLA_DIST_VERSION}-candidates/build${MOZILLA_VERSION:C/.*(.)/\1/}/source/
 # first is the CDN and only has last releases
@@ -37,11 +34,9 @@ MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidat
 MASTER_SITES ?=	http://releases.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/ \
 		https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/
 .	endif
-
 DISTNAME ?=	${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}.source
 EXTRACT_SUFX ?=	.tar.bz2
 DIST_SUBDIR ?=	mozilla
-
 .endif
 
 MODMOZ_RUN_DEPENDS =	devel/desktop-file-utils
@@ -170,7 +165,7 @@ MAKE_ENV +=	MOZILLA_OFFICIAL=1 \
 		SO_VERSION="${SO_VERSION}"
 
 .if ${PKGPATH} == "www/tbb/tor-browser"
-# for nss, since we are building it instead of using the port
+# for nss build system
 MAKE_ENV +=	BUILD_OPT=1 \
 		LOCALBASE="${LOCALBASE}" \
 		NSS_ENABLE_ECC=1 \
@@ -188,6 +183,8 @@ pre-configure:
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
 .if ${PKGPATH} == "www/tbb/tor-browser"
-	sed -i.bak -E -e 's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
+# honor our SO_VERSION in nss
+	sed -i.bak -E -e \
+ 's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
 		${WRKSRC}/security/nss/coreconf/OpenBSD.mk
 .endif
