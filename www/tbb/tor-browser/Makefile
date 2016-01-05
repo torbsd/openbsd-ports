@@ -1,7 +1,7 @@
 # $OpenBSD$
-# Some of this comes from www/firefox-esr, as apropos.  It is a good
-# idea to look at the most recent version of that Makefile when
-# editing this one.
+# Some of this comes from www/firefox-esr as apropos, since Tor
+# browser is a fork of ESR.  It is a good idea to look at that
+# Makefile when editing this one.
 
 COMMENT =		Tor browser, based on Firefox ESR
 
@@ -73,23 +73,23 @@ OUR_AUTOCONF_DIRS +=	js/src
 SUBST_VARS += 		BROWSER_NAME TBB_VERSION
 
 pre-configure:
-# hack .mozconfig
+	# hack .mozconfig
 	cp ${WRKSRC}/.mozconfig ${WRKSRC}/.mozconfig.bak
 	sed -e 's/@TOPSRCDIR@\/obj-@CONFIG_GUESS@/${WRKBUILD:S/\//\\\//g}/' \
 		< ${WRKSRC}/.mozconfig.bak > ${WRKSRC}/.mozconfig
-# hack config/baseconfig.mk to not use MOZ_APP_VERSION in a few places
+	# hack config/baseconfig.mk to not use MOZ_APP_VERSION in a few places
 	cp ${WRKSRC}/config/baseconfig.mk ${WRKSRC}/config/baseconfig.mk.bak
 	sed -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
 		< ${WRKSRC}/config/baseconfig.mk.bak 		\
 		> ${WRKSRC}/config/baseconfig.mk
 
 post-install:
-# install prefs
+	# install prefs
 	${INSTALL_DATA_DIR} \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences
 	${SUBST_DATA} ${FILESDIR}/all-openbsd.js \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences/all-openbsd.js
-# install desktop file
+	# install desktop file
 	${SUBST_PROGRAM} ${FILESDIR}/start-${BROWSER_NAME}.sh \
 		${PREFIX}/bin/start-${BROWSER_NAME}
 	${INSTALL_DATA_DIR} ${PREFIX}/share/applications/
@@ -102,12 +102,12 @@ post-install:
 		${PREFIX}/share/tbb/profiles.ini
 	${INSTALL_DATA} ${FILESDIR}/extension-overrides.js \
 		${PREFIX}/share/tbb/extension-overrides.js
-# install icon for desktop file
+	# install icon for desktop file
 	${INSTALL_DATA_DIR} ${PREFIX}/share/pixmaps/
 	${INSTALL_DATA} ${PREFIX}/lib/${PKGNAME}/browser/icons/mozicon128.png \
 		${PREFIX}/share/pixmaps/${BROWSER_NAME}.png
-# link default48.png to default.png to be used by default
-# by non-icccm compliant wm
+	# link default48.png to default.png to be used by default
+	# by non-icccm compliant wm
 	ln -f \
 	 ${PREFIX}/lib/${PKGNAME}/browser/chrome/icons/default/default{48,}.png
 
