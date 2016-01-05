@@ -63,9 +63,9 @@ MODMOZ_WANTLIB +=	X11 Xext Xrender Xt atk-1.0 c cairo \
 		gobject-2.0 gthread-2.0 m \
 		nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
 		plc4 plds4 pthread event kvm sqlite3>=31 \
-		smime3 sndio stdc++ z hunspell-1.3
+		sndio stdc++ z hunspell-1.3
 .if ${PKGPATH} != "www/tbb/tor-browser"
-MODMOZ_WANTLIB +=	nss3 nssutil3 ssl3
+MODMOZ_WANTLIB +=	nss3 nssutil3 smime3 ssl3
 .endif
 
 # hack to build against systemwide sqlite3 (# 546162)
