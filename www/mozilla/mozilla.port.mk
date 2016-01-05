@@ -23,7 +23,7 @@ MOZILLA_DIST_VERSION ?=	${MOZILLA_VERSION:C/rc.//}
 
 HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
-.if ${PKGPATH} == "www/tbb/tor-browser"
+.if ${PKGPATH:Mtor-browser}
 DISTNAME = ${GH_PROJECT}-${GH_TAGNAME}
 #EXTRACT_SUFX = .tar.gz
 .else
@@ -48,7 +48,7 @@ MODMOZ_BUILD_DEPENDS =	archivers/gtar \
 
 MODMOZ_LIB_DEPENDS =	textproc/hunspell \
 			devel/nspr>=4.10.10
-.if ${PKGPATH} != "www/tbb/tor-browser"
+.if ${PKGPATH:Ntor-browser}
 MODMOZ_LIB_DEPENDS +=	security/nss>=3.20.1
 .endif
 
@@ -66,7 +66,7 @@ MODMOZ_WANTLIB +=	X11 Xext Xrender Xt atk-1.0 c cairo \
 		nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
 		plc4 plds4 pthread event kvm sqlite3>=31 \
 		smime3 sndio stdc++ z hunspell-1.3
-.if ${PKGPATH} != "www/tbb/tor-browser"
+.if ${PKGPATH:Ntor-browser}
 MODMOZ_WANTLIB +=	nss3 nssutil3 ssl3
 .endif
 
@@ -108,7 +108,7 @@ CONFIGURE_ARGS +=	--with-system-zlib=/usr	\
 		--disable-tests			\
 		--disable-updater		\
 		--disable-dbus
-.if ${PKGPATH} != "www/tbb/tor-browser"
+.if ${PKGPATH:Ntor-browser}
 CONFIGURE_ARGS +=	--with-system-nss
 .endif
 
@@ -143,7 +143,7 @@ PORTHOME =	${WRKSRC}
 # from browser/config/mozconfig
 CONFIGURE_ARGS +=--enable-application=${MOZILLA_CODENAME}
 
-.if ${PKGPATH} != "www/tbb/tor-browser"
+.if ${PKGPATH:Ntor-browser}
 .	if ${PKGPATH} == "www/mozilla-firefox" || \
 		${PKGPATH} == "www/seamonkey" || \
 		(${MOZILLA_PROJECT} == "thunderbird" && \
@@ -166,7 +166,7 @@ MAKE_ENV +=	MOZILLA_OFFICIAL=1 \
 		SHELL=/bin/sh \
 		SO_VERSION="${SO_VERSION}"
 
-.if ${PKGPATH} == "www/tbb/tor-browser"
+.if ${PKGPATH:Mtor-browser}
 # for nss, since we are building it instead of using the port
 MAKE_ENV +=	BUILD_OPT=1 \
 		LOCALBASE="${LOCALBASE}" \
@@ -184,7 +184,7 @@ pre-configure:
 .for f in ${MOZILLA_SUBST_FILES}
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
-.if ${PKGPATH} == "www/tbb/tor-browser"
+.if ${PKGPATH:Mtor-browser}
 	sed -i.bak -E -e 's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
 		${WRKSRC}/security/nss/coreconf/OpenBSD.mk
 .endif
