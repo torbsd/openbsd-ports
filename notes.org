@@ -2141,3 +2141,20 @@ Mentions nss, can't use it as is
 Same reason, must be patched
 *** CONFIGURE_ARGS
 Ditto
+** 2016-01-08
+
+Been at it for a few days now.  I have a patch to mozilla.port.mk that
+I'm going to propose to landry@ and see what he says.  Otherwise I've
+gotten almost all of the 5.0.6 update done now.
+
+The one sticking point, as usual, is httpse, which somewhere along the
+line switched to using git submodules to store its translations.  This
+is a pain from a ports point of view.  I'm mulling over my options and
+am starting to think maybe we should just cook static tarballs in the
+colo and point to ourselves in MASTER_SITES and be done with it.  I'm
+still fighting with git to try and mung the torbsd/https-everywhere
+repo into some kind of shape that is usable for the port.  Also, I'm
+ditching my own build script in favor of patching theirs, since it's
+changed so much.
+
+They seem to just love bash.
