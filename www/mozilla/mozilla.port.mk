@@ -25,18 +25,24 @@ HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
 # Tor browser uses the built-in nss, all others use security/nss
 MODMOZ_SYSTEM_NSS ?= 1
+MODMOZ_MASTER_SITES ?=
 
-.if ${MOZILLA_VERSION:M*rc?}
+.if defined(MODMOZ_MASTER_SITES)
+MASTER_SITES = ${MODMOZ_MASTER_SITES}
+.else
+.  if ${MOZILLA_VERSION:M*rc?}
 MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidates/${MOZILLA_DIST_VERSION}-candidates/build${MOZILLA_VERSION:C/.*(.)/\1/}/source/
 # first is the CDN and only has last releases
 # ftp.m.o has all the betas/candidate builds but should only be used as fallback
-.else
+.  else
 MASTER_SITES ?=	http://releases.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/ \
 		https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/
-.endif
+.  endif
+
 DISTNAME ?=	${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}.source
 EXTRACT_SUFX ?=	.tar.bz2
 DIST_SUBDIR ?=	mozilla
+.endif
 
 MODMOZ_RUN_DEPENDS =	devel/desktop-file-utils
 MODMOZ_BUILD_DEPENDS =	archivers/gtar \
@@ -140,16 +146,17 @@ PORTHOME =	${WRKSRC}
 # from browser/config/mozconfig
 CONFIGURE_ARGS +=--enable-application=${MOZILLA_CODENAME}
 
-.if ${PKGPATH} == "www/mozilla-firefox" || \
+.if !defined(WRKDIST)
+.	if ${PKGPATH} == "www/mozilla-firefox" || \
 	${PKGPATH} == "www/seamonkey" || \
 	(${MOZILLA_PROJECT} == "thunderbird" && ${MOZILLA_BRANCH} == "beta")
 WRKDIST ?=	${WRKDIR}/${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}
-.elif ${MOZILLA_PROJECT} == "xulrunner" || \
-	     ${PKGPATH} == "www/firefox-esr"
+.	elif ${MOZILLA_PROJECT} == "xulrunner" || ${PKGPATH} == "www/firefox-esr"
 WRKDIST ?=	${WRKDIR}/mozilla-${MOZILLA_BRANCH}
-.else
+.	else
 WRKDIST ?=	${WRKDIR}/comm-${MOZILLA_BRANCH}
 _MOZDIR =	mozilla
+.	endif
 .endif
 
 # needed for PLIST

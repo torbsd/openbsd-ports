@@ -1,0 +1,14 @@
+$OpenBSD$
+
+OpenBSD mktemp wants more X's than they were giving us.
+--- utils/compare-locales.sh.orig	Thu Jan  7 16:01:14 2016
++++ utils/compare-locales.sh	Thu Jan  7 16:00:51 2016
+@@ -7,7 +7,7 @@ set -eu;
+ 
+ status=0;
+ 
+-TMPDIR="`mktemp -d -t helocalesXXXX`"
++TMPDIR="`mktemp -d -t helocalesXXXXXX`"
+ trap 'rm -r "${TMPDIR}"' EXIT
+ unzip -qd "${TMPDIR}" "$1" chrome/locale/* chrome.manifest
+ cd ${TMPDIR}/chrome/locale/;

@@ -1,0 +1,46 @@
+$OpenBSD$
+
+Clean up for OpenBSD in makexpi.sh
+--- makexpi.sh.orig	Thu Jan  7 16:06:03 2016
++++ makexpi.sh	Thu Jan  7 16:14:33 2016
+@@ -19,11 +19,12 @@ cd "`dirname $0`"
+ RULESETS_UNVALIDATED="$PWD/pkg/rulesets.unvalidated.sqlite"
+ RULESETS_SQLITE="$PWD/src/defaults/rulesets.sqlite"
+ ANDROID_APP_ID=org.mozilla.firefox
++IS_OPENBSD=0; [ `uname` = OpenBSD ] && IS_OPENBSD=1
+ 
+ [ -d pkg ] || mkdir pkg
+ 
+ # If the command line argument is a tag name, check that out and build it
+-if [ -n "$1" ] && [ "$2" != "--no-recurse" ] ; then
++if [ $IS_OPENBSD -eq 0 ] && [ -n "$1" ] && [ "$2" != "--no-recurse" ] ; then
+   BRANCH=`git branch | head -n 1 | cut -d \  -f 2-`
+   SUBDIR=checkout
+   [ -d $SUBDIR ] || mkdir $SUBDIR
+@@ -88,7 +89,7 @@ fi
+ 
+ # The name/version of the XPI we're building comes from src/install.rdf
+ XPI_NAME="pkg/$APP_NAME-`grep em:version src/install.rdf | sed -e 's/[<>]/	/g' | cut -f3`"
+-if [ "$1" ]; then
++if [ "$1" -o $IS_OPENBSD -eq 1 ]; then
+   XPI_NAME="$XPI_NAME"
+ else
+   # During development, generate packages named with the short hash of HEAD.
+@@ -101,7 +102,7 @@ fi
+ # Prepare packages suitable for uploading to EFF and AMO, respectively.
+ [ -d pkg ] || mkdir pkg
+ rsync -a --delete --delete-excluded --exclude /chrome/content/rules src/ pkg/xpi-eff
+-cp -a translations/* pkg/xpi-eff/chrome/locale/
++cp -p -P -R translations/* pkg/xpi-eff/chrome/locale/
+ rsync -a --delete pkg/xpi-eff/ pkg/xpi-amo
+ # The AMO version of the package cannot contain the updateKey or updateURL tags.
+ # Also, it has a different id than the eff-hosted version, because Firefox now
+@@ -130,7 +131,7 @@ echo >&2 "Total included rules: `sqlite3 $RULESETS_SQL
+ echo >&2 "Rules disabled by default: `find src/chrome/content/rules -name "*.xml" | xargs grep -F default_off | wc -l`"
+ echo >&2 "Created ${XPI_NAME}.xpi and ${XPI_NAME}-amo.xpi"
+ 
+-bash utils/android-push.sh "$XPI_NAME.xpi"
++#bash utils/android-push.sh "$XPI_NAME.xpi"
+ 
+ if [ -n "$BRANCH" ]; then
+   cp $SUBDIR/${XPI_NAME}.xpi $SUBDIR/${XPI_NAME}-amo.xpi pkg

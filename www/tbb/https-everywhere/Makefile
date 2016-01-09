@@ -7,10 +7,11 @@ GUID =			https-everywhere@eff.org
 ALL_TARGET =		prerelease
 PERMIT_PACKAGE_CDROM =	Yes
 BUILD_DEPENDS +=	textproc/py-lxml
-MAKE_ENV =		MAKEXPI=./openbsd.sh
+
+# Gross hack due to git submodules
+XLATIONS = https://github.com/torbsd/httpse-translations/archive/20160109.tar.gz
 
 post-extract:
-	cp ${FILESDIR}/openbsd.sh ${WRKSRC}
-	chmod +x ${WRKSRC}/openbsd.sh
+	(cd ${WRKSRC}/translations; ftp -o - ${XLATIONS} | tar -s '/^httpse-translations-20160109\///' -zxf -)
 
 .include <bsd.port.mk>

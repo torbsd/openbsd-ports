@@ -16,9 +16,7 @@ GH_TAGNAME =		v${TBB_VERSION}-esr38.5.0
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 # keep mozilla.port.mk from setting these:
 DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
-WRKDIST =		${WRKDIR}/${DISTNAME}
-EXTRACT_SUFX =		.tar.gz
-DIST_SUBDIR =
+WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
 
 SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
@@ -31,6 +29,8 @@ PERMIT_PACKAGE_CDROM=	Yes
 MODULES =		www/mozilla devel/gettext lang/python
 
 MODMOZ_SYSTEM_NSS =	0
+MODMOZ_MASTER_SITES =	${MASTER_SITES_GITHUB}
+
 MODPY_RUNDEP =		No
 
 # necessary glue to build with the correct compiler after fx 17
@@ -87,7 +87,7 @@ MOZILLA_AUTOCONF_DIRS +=	js/src
 # pkg/PLIST fu
 SUBST_VARS += 		BROWSER_NAME TBB_VERSION
 
-pre-configure:
+post-extract:
 	# hack .mozconfig
 	cp ${WRKSRC}/.mozconfig ${WRKSRC}/.mozconfig.bak
 	sed -e 's/@TOPSRCDIR@\/obj-@CONFIG_GUESS@/${WRKBUILD:S/\//\\\//g}/' \
