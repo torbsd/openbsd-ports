@@ -1,7 +1,7 @@
 # $OpenBSD$
 # Some of this comes from www/firefox-esr as apropos, since Tor
 # browser is a fork of ESR.  It is a good idea to look at that
-# Makefile when editing this one.
+# Makefile when editing this one (ESR versions not always the same).
 
 COMMENT =		Tor browser, based on Firefox ESR
 
@@ -14,6 +14,11 @@ GH_PROJECT =		torb
 GH_TAGNAME =		v${TBB_VERSION}-esr38.5.0
 
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
+# keep mozilla.port.mk from setting these:
+DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
+WRKDIST =		${WRKDIR}/${DISTNAME}
+EXTRACT_SUFX =		.tar.gz
+DIST_SUBDIR =
 
 SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
@@ -25,6 +30,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 
 MODULES =		www/mozilla devel/gettext lang/python
 
+MODMOZ_SYSTEM_NSS =	0
 MODPY_RUNDEP =		No
 
 # necessary glue to build with the correct compiler after fx 17
@@ -36,6 +42,13 @@ MODCLANG_LANGS =	c c++
 
 # Regression tests are too hard to adapt to run here
 NO_TEST =		Yes
+
+# for nss build system
+MAKE_ENV +=	BUILD_OPT=1 \
+		LOCALBASE="${LOCALBASE}" \
+		NSS_ENABLE_ECC=1 \
+		NSS_USE_SYSTEM_SQLITE=1 \
+		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
 
 CONFIGURE_STYLE =	autoconf no-autoheader
 

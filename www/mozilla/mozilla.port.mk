@@ -23,21 +23,20 @@ MOZILLA_DIST_VERSION ?=	${MOZILLA_VERSION:C/rc.//}
 
 HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
-.if ${PKGPATH} == "www/tbb/tor-browser"
-DISTNAME ?= ${GH_PROJECT}-${GH_TAGNAME}
-.else
-.	if ${MOZILLA_VERSION:M*rc?}
+# Tor browser uses the built-in nss, all others use security/nss
+MODMOZ_SYSTEM_NSS ?= 1
+
+.if ${MOZILLA_VERSION:M*rc?}
 MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidates/${MOZILLA_DIST_VERSION}-candidates/build${MOZILLA_VERSION:C/.*(.)/\1/}/source/
 # first is the CDN and only has last releases
 # ftp.m.o has all the betas/candidate builds but should only be used as fallback
-.	else
+.else
 MASTER_SITES ?=	http://releases.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/ \
 		https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/
-.	endif
+.endif
 DISTNAME ?=	${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}.source
 EXTRACT_SUFX ?=	.tar.bz2
 DIST_SUBDIR ?=	mozilla
-.endif
 
 MODMOZ_RUN_DEPENDS =	devel/desktop-file-utils
 MODMOZ_BUILD_DEPENDS =	archivers/gtar \
@@ -46,7 +45,7 @@ MODMOZ_BUILD_DEPENDS =	archivers/gtar \
 
 MODMOZ_LIB_DEPENDS =	textproc/hunspell \
 			devel/nspr>=4.10.10
-.if ${PKGPATH} != "www/tbb/tor-browser"
+.if ${MODMOZ_SYSTEM_NSS}
 MODMOZ_LIB_DEPENDS +=	security/nss>=3.20.1
 .endif
 
@@ -64,7 +63,7 @@ MODMOZ_WANTLIB +=	X11 Xext Xrender Xt atk-1.0 c cairo \
 		nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
 		plc4 plds4 pthread event kvm sqlite3>=31 \
 		sndio stdc++ z hunspell-1.3
-.if ${PKGPATH} != "www/tbb/tor-browser"
+.if ${MODMOZ_SYSTEM_NSS}
 MODMOZ_WANTLIB +=	nss3 nssutil3 smime3 ssl3
 .endif
 
@@ -106,7 +105,7 @@ CONFIGURE_ARGS +=	--with-system-zlib=/usr	\
 		--disable-tests			\
 		--disable-updater		\
 		--disable-dbus
-.if ${PKGPATH} != "www/tbb/tor-browser"
+.if ${MODMOZ_SYSTEM_NSS}
 CONFIGURE_ARGS +=	--with-system-nss
 .endif
 
@@ -141,19 +140,16 @@ PORTHOME =	${WRKSRC}
 # from browser/config/mozconfig
 CONFIGURE_ARGS +=--enable-application=${MOZILLA_CODENAME}
 
-.if ${PKGPATH} != "www/tbb/tor-browser"
-.	if ${PKGPATH} == "www/mozilla-firefox" || \
-		${PKGPATH} == "www/seamonkey" || \
-		(${MOZILLA_PROJECT} == "thunderbird" && \
-		 ${MOZILLA_BRANCH} == "beta")
+.if ${PKGPATH} == "www/mozilla-firefox" || \
+	${PKGPATH} == "www/seamonkey" || \
+	(${MOZILLA_PROJECT} == "thunderbird" && ${MOZILLA_BRANCH} == "beta")
 WRKDIST ?=	${WRKDIR}/${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}
-.	elif ${MOZILLA_PROJECT} == "xulrunner" || \
+.elif ${MOZILLA_PROJECT} == "xulrunner" || \
 	     ${PKGPATH} == "www/firefox-esr"
 WRKDIST ?=	${WRKDIR}/mozilla-${MOZILLA_BRANCH}
-.	else
+.else
 WRKDIST ?=	${WRKDIR}/comm-${MOZILLA_BRANCH}
 _MOZDIR =	mozilla
-.	endif
 .endif
 
 # needed for PLIST
@@ -164,15 +160,6 @@ MAKE_ENV +=	MOZILLA_OFFICIAL=1 \
 		SHELL=/bin/sh \
 		SO_VERSION="${SO_VERSION}"
 
-.if ${PKGPATH} == "www/tbb/tor-browser"
-# for nss build system
-MAKE_ENV +=	BUILD_OPT=1 \
-		LOCALBASE="${LOCALBASE}" \
-		NSS_ENABLE_ECC=1 \
-		NSS_USE_SYSTEM_SQLITE=1 \
-		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
-.endif
-
 CONFIGURE_ENV +=	${MAKE_ENV}
 
 pre-configure:
@@ -182,8 +169,8 @@ pre-configure:
 .for f in ${MOZILLA_SUBST_FILES}
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
-.if ${PKGPATH} == "www/tbb/tor-browser"
-# honor our SO_VERSION in nss
+.if ${MODMOZ_SYSTEM_NSS} == 0
+# honor our SO_VERSION in nss build system
 	sed -i.bak -E -e \
  's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
 		${WRKSRC}/security/nss/coreconf/OpenBSD.mk
