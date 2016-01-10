@@ -1,8 +1,14 @@
 $OpenBSD$
 
 Clean up for OpenBSD in makexpi.sh
---- makexpi.sh.orig	Thu Jan  7 16:06:03 2016
-+++ makexpi.sh	Thu Jan  7 16:14:33 2016
+--- makexpi.sh.orig	Wed Aug 26 18:59:28 2015
++++ makexpi.sh	Sat Jan  9 18:19:45 2016
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/usr/local/bin/bash
+ set -o errexit
+ APP_NAME=https-everywhere-eff
+ 
 @@ -19,11 +19,12 @@ cd "`dirname $0`"
  RULESETS_UNVALIDATED="$PWD/pkg/rulesets.unvalidated.sqlite"
  RULESETS_SQLITE="$PWD/src/defaults/rulesets.sqlite"
@@ -35,12 +41,25 @@ Clean up for OpenBSD in makexpi.sh
  rsync -a --delete pkg/xpi-eff/ pkg/xpi-amo
  # The AMO version of the package cannot contain the updateKey or updateURL tags.
  # Also, it has a different id than the eff-hosted version, because Firefox now
-@@ -130,7 +131,7 @@ echo >&2 "Total included rules: `sqlite3 $RULESETS_SQL
+@@ -124,15 +125,15 @@ fi
+ rm -f "${XPI_NAME}.xpi"
+ rm -f "${XPI_NAME}-amo.xpi"
+ python2.7 utils/create_xpi.py -n "${XPI_NAME}.xpi" -x ".build_exclusions" "pkg/xpi-eff"
+-python2.7 utils/create_xpi.py -n "${XPI_NAME}-amo.xpi" -x ".build_exclusions" "pkg/xpi-amo"
++#python2.7 utils/create_xpi.py -n "${XPI_NAME}-amo.xpi" -x ".build_exclusions" "pkg/xpi-amo"
+ 
+ echo >&2 "Total included rules: `sqlite3 $RULESETS_SQLITE 'select count(*) from rulesets'`"
  echo >&2 "Rules disabled by default: `find src/chrome/content/rules -name "*.xml" | xargs grep -F default_off | wc -l`"
  echo >&2 "Created ${XPI_NAME}.xpi and ${XPI_NAME}-amo.xpi"
  
 -bash utils/android-push.sh "$XPI_NAME.xpi"
 +#bash utils/android-push.sh "$XPI_NAME.xpi"
  
- if [ -n "$BRANCH" ]; then
-   cp $SUBDIR/${XPI_NAME}.xpi $SUBDIR/${XPI_NAME}-amo.xpi pkg
+-if [ -n "$BRANCH" ]; then
+-  cp $SUBDIR/${XPI_NAME}.xpi $SUBDIR/${XPI_NAME}-amo.xpi pkg
+-  rm -rf $SUBDIR
+-fi
++#if [ -n "$BRANCH" ]; then
++#  cp $SUBDIR/${XPI_NAME}.xpi $SUBDIR/${XPI_NAME}-amo.xpi pkg
++#  rm -rf $SUBDIR
++#fi
