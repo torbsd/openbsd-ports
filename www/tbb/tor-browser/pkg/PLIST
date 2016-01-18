@@ -1,4 +1,5 @@
 @comment $OpenBSD$
+@comment Adapted from www/firefox-esr for www/tor-browser, c.f. ../Makefile
 bin/start-${BROWSER_NAME}
 bin/${BROWSER_NAME}
 lib/${FULLPKGNAME}/
@@ -47,7 +48,6 @@ lib/${FULLPKGNAME}/dependentlibs.list
 lib/${FULLPKGNAME}/dictionaries/
 lib/${FULLPKGNAME}/dictionaries/en-US.aff
 lib/${FULLPKGNAME}/dictionaries/en-US.dic
-lib/${FULLPKGNAME}/distribution/extensions/
 lib/${FULLPKGNAME}/libfreebl3.chk
 @lib lib/${FULLPKGNAME}/libfreebl3.so.${LIBfreebl3_VERSION}
 @lib lib/${FULLPKGNAME}/libmozalloc.so.${LIBmozalloc_VERSION}
@@ -74,10 +74,10 @@ lib/${FULLPKGNAME}/webapprt/omni.ja
 lib/${FULLPKGNAME}/webapprt/webapprt.ini
 share/applications/${BROWSER_NAME}.desktop
 share/pixmaps/
+@exec %D/bin/update-desktop-database
+@unexec-delete %D/bin/update-desktop-database
 share/pixmaps/${BROWSER_NAME}.png
 share/tbb/
 share/tbb/bookmarks.html
 share/tbb/extension-overrides.js
 share/tbb/profiles.ini
-@exec %D/bin/update-desktop-database
-@unexec-delete %D/bin/update-desktop-database
