@@ -24,10 +24,10 @@ MOZILLA_DIST_VERSION ?=	${MOZILLA_VERSION:C/rc.//}
 HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
 # Tor browser uses the built-in nss, all others use security/nss
-MODMOZ_SYSTEM_NSS ?= 1
+MODMOZ_SYSTEM_NSS ?= Yes
 MODMOZ_MASTER_SITES ?=
 
-.if defined(MODMOZ_MASTER_SITES)
+.if !empty(MODMOZ_MASTER_SITES)
 MASTER_SITES = ${MODMOZ_MASTER_SITES}
 .else
 .  if ${MOZILLA_VERSION:M*rc?}
@@ -38,7 +38,7 @@ MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidat
 MASTER_SITES ?=	http://releases.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/ \
 		https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/
 .  endif
-
+# only do this if MODMOZ_MASTER_SITES was not set (e.g. not tor-browser)
 DISTNAME ?=	${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}.source
 EXTRACT_SUFX ?=	.tar.bz2
 DIST_SUBDIR ?=	mozilla
@@ -51,7 +51,7 @@ MODMOZ_BUILD_DEPENDS =	archivers/gtar \
 
 MODMOZ_LIB_DEPENDS =	textproc/hunspell \
 			devel/nspr>=4.10.10
-.if ${MODMOZ_SYSTEM_NSS}
+.if ${MODMOZ_SYSTEM_NSS:L} == "yes"
 MODMOZ_LIB_DEPENDS +=	security/nss>=3.20.1
 .endif
 
@@ -69,7 +69,7 @@ MODMOZ_WANTLIB +=	X11 Xext Xrender Xt atk-1.0 c cairo \
 		nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
 		plc4 plds4 pthread event kvm sqlite3>=31 \
 		sndio stdc++ z hunspell-1.3
-.if ${MODMOZ_SYSTEM_NSS}
+.if ${MODMOZ_SYSTEM_NSS:L} == "yes"
 MODMOZ_WANTLIB +=	nss3 nssutil3 smime3 ssl3
 .endif
 
@@ -111,7 +111,7 @@ CONFIGURE_ARGS +=	--with-system-zlib=/usr	\
 		--disable-tests			\
 		--disable-updater		\
 		--disable-dbus
-.if ${MODMOZ_SYSTEM_NSS}
+.if ${MODMOZ_SYSTEM_NSS:L} == "yes"
 CONFIGURE_ARGS +=	--with-system-nss
 .endif
 
@@ -146,17 +146,15 @@ PORTHOME =	${WRKSRC}
 # from browser/config/mozconfig
 CONFIGURE_ARGS +=--enable-application=${MOZILLA_CODENAME}
 
-.if !defined(WRKDIST)
-.	if ${PKGPATH} == "www/mozilla-firefox" || \
+.if ${PKGPATH} == "www/mozilla-firefox" || \
 	${PKGPATH} == "www/seamonkey" || \
 	(${MOZILLA_PROJECT} == "thunderbird" && ${MOZILLA_BRANCH} == "beta")
 WRKDIST ?=	${WRKDIR}/${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}
-.	elif ${MOZILLA_PROJECT} == "xulrunner" || ${PKGPATH} == "www/firefox-esr"
+.elif ${MOZILLA_PROJECT} == "xulrunner" || ${PKGPATH} == "www/firefox-esr"
 WRKDIST ?=	${WRKDIR}/mozilla-${MOZILLA_BRANCH}
-.	else
+.elif ${PKGPATH} != "www/tbb/tor-browser"
 WRKDIST ?=	${WRKDIR}/comm-${MOZILLA_BRANCH}
 _MOZDIR =	mozilla
-.	endif
 .endif
 
 # needed for PLIST
@@ -176,9 +174,20 @@ pre-configure:
 .for f in ${MOZILLA_SUBST_FILES}
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
-.if ${MODMOZ_SYSTEM_NSS} == 0
+.if ${MODMOZ_SYSTEM_NSS:L} != "yes"
 # honor our SO_VERSION in nss build system
 	sed -i.bak -E -e \
  's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
 		${WRKSRC}/security/nss/coreconf/OpenBSD.mk
 .endif
+
+love:
+	@echo 'MODMOZ_SYSTEM_NSS: '${MODMOZ_SYSTEM_NSS}
+	@echo '     MASTER_SITES: '${MASTER_SITES}
+	@echo '          PKGPATH: '${PKGPATH}
+	@echo '          PKGNAME: '${PKGNAME}
+	@echo '         DISTNAME: '${DISTNAME}
+	@echo '     EXTRACT_SUFX: '${EXTRACT_SUFX}
+	@echo '      DIST_SUBDIR: '${DIST_SUBDIR}
+	@echo '          WRKDIST: '${WRKDIST}
+	@echo '          _MOZDIR: '${_MOZDIR}
