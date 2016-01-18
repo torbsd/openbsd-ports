@@ -23,12 +23,8 @@ MOZILLA_DIST_VERSION ?=	${MOZILLA_VERSION:C/rc.//}
 
 HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
-# Tor browser uses the built-in nss, all others use security/nss
-MODMOZ_SYSTEM_NSS ?= Yes
-MODMOZ_MASTER_SITES ?=
-
-.if !empty(MODMOZ_MASTER_SITES)
-MASTER_SITES = ${MODMOZ_MASTER_SITES}
+.if defined(MOZILLA_MASTER_SITES)
+MASTER_SITES = ${MOZILLA_MASTER_SITES}
 .else
 .  if ${MOZILLA_VERSION:M*rc?}
 MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidates/${MOZILLA_DIST_VERSION}-candidates/build${MOZILLA_VERSION:C/.*(.)/\1/}/source/
@@ -38,7 +34,7 @@ MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidat
 MASTER_SITES ?=	http://releases.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/ \
 		https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/
 .  endif
-# only do this if MODMOZ_MASTER_SITES was not set (e.g. not tor-browser)
+# only do this if MOZILLA_MASTER_SITES was not set (e.g. not tor-browser)
 DISTNAME ?=	${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}.source
 EXTRACT_SUFX ?=	.tar.bz2
 DIST_SUBDIR ?=	mozilla
@@ -51,9 +47,6 @@ MODMOZ_BUILD_DEPENDS =	archivers/gtar \
 
 MODMOZ_LIB_DEPENDS =	textproc/hunspell \
 			devel/nspr>=4.10.10
-.if ${MODMOZ_SYSTEM_NSS:L} == "yes"
-MODMOZ_LIB_DEPENDS +=	security/nss>=3.20.1
-.endif
 
 # bug #736961
 SEPARATE_BUILD =	Yes
@@ -67,11 +60,8 @@ MODMOZ_WANTLIB +=	X11 Xext Xrender Xt atk-1.0 c cairo \
 		fontconfig freetype gdk_pixbuf-2.0 gio-2.0 glib-2.0 \
 		gobject-2.0 gthread-2.0 m \
 		nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
-		plc4 plds4 pthread event kvm sqlite3>=31 \
+		plc4 plds4 pthread sqlite3>=31 \
 		sndio stdc++ z hunspell-1.3
-.if ${MODMOZ_SYSTEM_NSS:L} == "yes"
-MODMOZ_WANTLIB +=	nss3 nssutil3 smime3 ssl3
-.endif
 
 # hack to build against systemwide sqlite3 (# 546162)
 CONFIGURE_ENV +=	ac_cv_sqlite_secure_delete=yes
@@ -98,7 +88,6 @@ USE_GMAKE ?=	Yes
 
 AUTOCONF_VERSION =	2.13
 CONFIGURE_ARGS +=	--with-system-zlib=/usr	\
-		--with-system-libevent=/usr/	\
 		--with-system-bz2=${LOCALBASE}	\
 		--with-system-nspr		\
 		--enable-system-hunspell	\
@@ -111,8 +100,16 @@ CONFIGURE_ARGS +=	--with-system-zlib=/usr	\
 		--disable-tests			\
 		--disable-updater		\
 		--disable-dbus
-.if ${MODMOZ_SYSTEM_NSS:L} == "yes"
+
+.if !defined(MOZILLA_USE_BUNDLED_NSS)
+MODMOZ_LIB_DEPENDS +=	security/nss>=3.20.1
+MODMOZ_WANTLIB +=	nss3 nssutil3 smime3 ssl3
 CONFIGURE_ARGS +=	--with-system-nss
+.endif
+
+.if !defined(MOZILLA_USE_BUNDLED_LIBEVENT)
+MODMOZ_WANTLIB += event
+CONFIGURE_ARGS += --with-system-libevent=/usr/
 .endif
 
 FLAVORS +=	debug
@@ -174,7 +171,7 @@ pre-configure:
 .for f in ${MOZILLA_SUBST_FILES}
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
-.if ${MODMOZ_SYSTEM_NSS:L} != "yes"
+.if defined(MOZILLA_USE_BUNDLED_NSS)
 # honor our SO_VERSION in nss build system
 	sed -i.bak -E -e \
  's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
@@ -182,7 +179,8 @@ pre-configure:
 .endif
 
 love:
-	@echo 'MODMOZ_SYSTEM_NSS: '${MODMOZ_SYSTEM_NSS}
+	@echo '         HOMEPAGE: '${HOMEPAGE}
+	@echo '       MAINTAINER: '${MAINTAINER}
 	@echo '     MASTER_SITES: '${MASTER_SITES}
 	@echo '          PKGPATH: '${PKGPATH}
 	@echo '          PKGNAME: '${PKGNAME}
