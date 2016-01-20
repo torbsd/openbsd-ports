@@ -6,7 +6,7 @@ COMMENT =		HTTPS Everywhere: Part of the Tor Browser Bundle
 GUID =			https-everywhere@eff.org
 ALL_TARGET =		prerelease
 PERMIT_PACKAGE_CDROM =	Yes
-BUILD_DEPENDS +=	textproc/py-lxml
+BUILD_DEPENDS +=	textproc/py-lxml shells/bash
 
 # Gross hack due to git submodules
 XLATIONS = https://github.com/torbsd/httpse-translations/archive/20160109.tar.gz
