@@ -14,9 +14,7 @@ GH_PROJECT =		torb
 GH_TAGNAME =		v${TBB_VERSION}-esr38.5.0
 
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
-# keep mozilla.port.mk from setting these:
-DISTNAME =		${GH_PROJECT}-${GH_TAGNAME}
-WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
+DISTNAME =		${GH_TAGNAME}
 
 SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
@@ -28,8 +26,8 @@ PERMIT_PACKAGE_CDROM=	Yes
 
 MODULES =		www/mozilla devel/gettext lang/python
 
-MODMOZ_SYSTEM_NSS =	0
-MODMOZ_MASTER_SITES =	${MASTER_SITES_GITHUB}
+MOZILLA_USE_BUNDLED_NSS = Yes
+MOZILLA_MASTER_SITES =	https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 
 MODPY_RUNDEP =		No
 
