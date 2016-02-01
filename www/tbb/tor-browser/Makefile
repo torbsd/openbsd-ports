@@ -30,7 +30,7 @@ MOZILLA_USE_BUNDLED_NSS = Yes
 # Things we must override to use www/mozilla:
 MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 EXTRACT_SUFX = 		.tar.gz
-DIST_SUBDIR = 		
+DIST_SUBDIR = 		tor-browser
 WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
 
 MODPY_RUNDEP =		No
@@ -99,10 +99,6 @@ post-extract:
 	sed -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
 		< ${WRKSRC}/config/baseconfig.mk.bak 		\
 		> ${WRKSRC}/config/baseconfig.mk
-	# honor our SO_VERSION in nss build system
-	sed -i.bak -E -e \
- 's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
-		${WRKSRC}/security/nss/coreconf/OpenBSD.mk
 
 post-install:
 	# install prefs
