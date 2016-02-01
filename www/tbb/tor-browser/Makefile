@@ -128,11 +128,4 @@ post-install:
 	ln -f \
 	 ${PREFIX}/lib/${PKGNAME}/browser/chrome/icons/default/default{48,}.png
 
-love:
-	@echo "MASTER_SITES = ${MASTER_SITES}"
-	@echo "WRKDIST = ${WRKDIST}"
-	@echo "DISTNAME = ${DISTNAME}"
-	@echo "EXTRACT_SUFX = ${EXTRACT_SUFX}"
-	@echo "DIST_SUBDIR = ${DIST_SUBDIR}"
-
 .include <bsd.port.mk>
