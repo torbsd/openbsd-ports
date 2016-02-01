@@ -27,15 +27,16 @@ PERMIT_PACKAGE_CDROM=	Yes
 MODULES =		www/mozilla devel/gettext lang/python
 
 MOZILLA_USE_BUNDLED_NSS = Yes
-MOZILLA_MASTER_SITES =	https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
+MOZILLA_MASTER_SITES = https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
+WRKDIST 		= ${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
 
 MODPY_RUNDEP =		No
 
 # necessary glue to build with the correct compiler after fx 17
 MODULES +=		gcc4 lang/clang
-MODGCC4_ARCHS =		powerpc sparc64 alpha i386
+MODGCC4_ARCHS =		powerpc sparc64 alpha
 MODGCC4_LANGS =		c c++
-MODCLANG_ARCHS =	amd64
+MODCLANG_ARCHS =	amd64 i386
 MODCLANG_LANGS =	c c++
 
 # Regression tests are too hard to adapt to run here
@@ -75,8 +76,8 @@ WANTLIB += icudata icui18n icuuc
 CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
-RUN_DEPENDS +=		multimedia/gstreamer1/plugins-good
-RUN_DEPENDS +=		devel/desktop-file-utils
+# XXX Not needed? Not in firefox-esr
+#RUN_DEPENDS +=		multimedia/gstreamer1/plugins-good
 # start-tor-browser.sh wants something to use for cries for help
 RUN_DEPENDS +=		x11/gxmessage
 
@@ -95,6 +96,10 @@ post-extract:
 	sed -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
 		< ${WRKSRC}/config/baseconfig.mk.bak 		\
 		> ${WRKSRC}/config/baseconfig.mk
+	# honor our SO_VERSION in nss build system
+	sed -i.bak -E -e \
+ 's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
+		${WRKSRC}/security/nss/coreconf/OpenBSD.mk
 
 post-install:
 	# install prefs
@@ -123,5 +128,9 @@ post-install:
 	# by non-icccm compliant wm
 	ln -f \
 	 ${PREFIX}/lib/${PKGNAME}/browser/chrome/icons/default/default{48,}.png
+
+love:
+	@echo "MASTER_SITES = ${MASTER_SITES}"
+	@echo "WRKDIST = ${WRKDIST}"
 
 .include <bsd.port.mk>
