@@ -1,7 +1,9 @@
-# $OpenBSD: mozilla.port.mk,v 1.82 2015/11/09 13:55:22 landry Exp $
+# $OpenBSD: mozilla.port.mk,v 1.84 2016/01/27 18:04:09 landry Exp $
 
 SHARED_ONLY =	Yes
-ONLY_FOR_ARCHS=	amd64 arm i386 powerpc sparc64
+ONLY_FOR_ARCHS ?=	amd64 i386
+# ppc: firefox-esr/thunderbird xpcshell segfaults during startup compilation
+# ppc: seamonkey/firefox - failure to link for atomic ops on 64 bits
 # gcc does ICE on alpha at some particular spots:
 # thunderbird-24.0/comm-esr24/mozilla/js/src/vm/Debugger.cpp:3246
 # firefox-24.0/mozilla-release/js/src/frontend/BytecodeEmitter.cpp:1488
@@ -23,22 +25,18 @@ MOZILLA_DIST_VERSION ?=	${MOZILLA_VERSION:C/rc.//}
 
 HOMEPAGE ?=	http://www.mozilla.org/projects/${MOZILLA_DIST}
 
-.if defined(MOZILLA_MASTER_SITES)
-MASTER_SITES = ${MOZILLA_MASTER_SITES}
-.else
-.  if ${MOZILLA_VERSION:M*rc?}
+.if ${MOZILLA_VERSION:M*rc?}
 MASTER_SITES ?=	https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/candidates/${MOZILLA_DIST_VERSION}-candidates/build${MOZILLA_VERSION:C/.*(.)/\1/}/source/
 # first is the CDN and only has last releases
 # ftp.m.o has all the betas/candidate builds but should only be used as fallback
-.  else
+.else
 MASTER_SITES ?=	http://releases.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/ \
 		https://ftp.mozilla.org/pub/mozilla.org/${MOZILLA_DIST}/releases/${MOZILLA_DIST_VERSION}/source/
-.  endif
-# only do this if MOZILLA_MASTER_SITES was not set (e.g. not tor-browser)
+.endif
+
 DISTNAME ?=	${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}.source
 EXTRACT_SUFX ?=	.tar.bz2
 DIST_SUBDIR ?=	mozilla
-.endif
 
 MODMOZ_RUN_DEPENDS =	devel/desktop-file-utils
 MODMOZ_BUILD_DEPENDS =	archivers/gtar \
@@ -47,6 +45,24 @@ MODMOZ_BUILD_DEPENDS =	archivers/gtar \
 
 MODMOZ_LIB_DEPENDS =	textproc/hunspell \
 			devel/nspr>=4.10.10
+
+.if !defined(MOZILLA_USE_BUNDLED_NSS)
+MODMOZ_LIB_DEPENDS +=	security/nss>=3.20.1
+MODMOZ_WANTLIB +=	nss3 nssutil3 smime3 ssl3
+CONFIGURE_ARGS +=	--with-system-nss
+.endif
+
+.if !defined(MOZILLA_USE_BUNDLED_LIBEVENT)
+MODMOZ_WANTLIB +=	event
+CONFIGURE_ARGS +=	--with-system-libevent=/usr/
+.endif
+
+.if !defined(MOZILLA_USE_BUNDLED_SQLITE)
+MODMOZ_WANTLIB +=	sqlite3>=32
+CONFIGURE_ARGS +=	--enable-system-sqlite
+# hack to build against systemwide sqlite3 (# 546162)
+CONFIGURE_ENV +=	ac_cv_sqlite_secure_delete=yes
+.endif
 
 # bug #736961
 SEPARATE_BUILD =	Yes
@@ -60,11 +76,7 @@ MODMOZ_WANTLIB +=	X11 Xext Xrender Xt atk-1.0 c cairo \
 		fontconfig freetype gdk_pixbuf-2.0 gio-2.0 glib-2.0 \
 		gobject-2.0 gthread-2.0 m \
 		nspr4 pango-1.0 pangocairo-1.0 pangoft2-1.0 \
-		plc4 plds4 pthread sqlite3>=31 \
-		sndio stdc++ z hunspell-1.3
-
-# hack to build against systemwide sqlite3 (# 546162)
-CONFIGURE_ENV +=	ac_cv_sqlite_secure_delete=yes
+		plc4 plds4 pthread sndio stdc++ z hunspell-1.3
 
 # --no-keep-memory avoids OOM when linking libxul
 # --relax avoids relocation overflow on ppc, needed since sm 2.7b, tb 10.0b, fx 15.0b
@@ -91,7 +103,6 @@ CONFIGURE_ARGS +=	--with-system-zlib=/usr	\
 		--with-system-bz2=${LOCALBASE}	\
 		--with-system-nspr		\
 		--enable-system-hunspell	\
-		--enable-system-sqlite		\
 		--enable-official-branding	\
 		--enable-gio			\
 		--disable-gconf			\
@@ -101,17 +112,6 @@ CONFIGURE_ARGS +=	--with-system-zlib=/usr	\
 		--disable-updater		\
 		--disable-dbus
 
-.if !defined(MOZILLA_USE_BUNDLED_NSS)
-MODMOZ_LIB_DEPENDS +=	security/nss>=3.20.1
-MODMOZ_WANTLIB +=	nss3 nssutil3 smime3 ssl3
-CONFIGURE_ARGS +=	--with-system-nss
-.endif
-
-.if !defined(MOZILLA_USE_BUNDLED_LIBEVENT)
-MODMOZ_WANTLIB += event
-CONFIGURE_ARGS += --with-system-libevent=/usr/
-.endif
-
 FLAVORS +=	debug
 .if ${PKGPATH} == "www/mozilla-firefox"
 FLAVORS += gtk3
@@ -119,9 +119,7 @@ FLAVORS += gtk3
 FLAVOR ?=
 
 .if ${FLAVOR:Mdebug}
-CONFIGURE_ARGS +=	--enable-debug \
-			--enable-profiling \
-			--enable-debug-symbols=yes \
+CONFIGURE_ARGS +=	--enable-debug-symbols=yes \
 			--disable-install-strip
 INSTALL_STRIP =
 .endif
@@ -143,15 +141,13 @@ PORTHOME =	${WRKSRC}
 # from browser/config/mozconfig
 CONFIGURE_ARGS +=--enable-application=${MOZILLA_CODENAME}
 
-.if ${PKGPATH} == "www/mozilla-firefox" || \
-	${PKGPATH} == "www/seamonkey" || \
-	(${MOZILLA_PROJECT} == "thunderbird" && ${MOZILLA_BRANCH} == "beta")
-WRKDIST ?=	${WRKDIR}/${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}
+# starting with esr45, only xulrunner will be special
+.if ${MOZILLA_PROJECT} == "thunderbird"
+WRKDIST ?=	${WRKDIR}/comm-${MOZILLA_BRANCH}
 .elif ${MOZILLA_PROJECT} == "xulrunner" || ${PKGPATH} == "www/firefox-esr"
 WRKDIST ?=	${WRKDIR}/mozilla-${MOZILLA_BRANCH}
-.elif ${PKGPATH} != "www/tbb/tor-browser"
-WRKDIST ?=	${WRKDIR}/comm-${MOZILLA_BRANCH}
-_MOZDIR =	mozilla
+.else
+WRKDIST ?=	${WRKDIR}/${MOZILLA_DIST}-${MOZILLA_DIST_VERSION}
 .endif
 
 # needed for PLIST
@@ -171,21 +167,3 @@ pre-configure:
 .for f in ${MOZILLA_SUBST_FILES}
 	${SUBST_CMD} ${WRKSRC}/${f}
 .endfor
-.if defined(MOZILLA_USE_BUNDLED_NSS)
-# honor our SO_VERSION in nss build system
-	sed -i.bak -E -e \
- 's/^DLL_SUFFIX[[:space:]]+=[[:space:]]+so.1.0/DLL_SUFFIX = so.${SO_VERSION}/' \
-		${WRKSRC}/security/nss/coreconf/OpenBSD.mk
-.endif
-
-love:
-	@echo '         HOMEPAGE: '${HOMEPAGE}
-	@echo '       MAINTAINER: '${MAINTAINER}
-	@echo '     MASTER_SITES: '${MASTER_SITES}
-	@echo '          PKGPATH: '${PKGPATH}
-	@echo '          PKGNAME: '${PKGNAME}
-	@echo '         DISTNAME: '${DISTNAME}
-	@echo '     EXTRACT_SUFX: '${EXTRACT_SUFX}
-	@echo '      DIST_SUBDIR: '${DIST_SUBDIR}
-	@echo '          WRKDIST: '${WRKDIST}
-	@echo '          _MOZDIR: '${_MOZDIR}
