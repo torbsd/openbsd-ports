@@ -27,9 +27,10 @@ PERMIT_PACKAGE_CDROM=	Yes
 MODULES =		www/mozilla devel/gettext lang/python
 
 MOZILLA_USE_BUNDLED_NSS = Yes
-MOZILLA_MASTER_SITES = 	https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
+# Things we must override to use www/mozilla:
+MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 EXTRACT_SUFX = 		.tar.gz
-DIST_SUBDIR = 		.
+DIST_SUBDIR = 		
 WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
 
 MODPY_RUNDEP =		No
