@@ -9,8 +9,6 @@ GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
 TBB_VERSION =		5.0.6
-BUILD_DEPENDS +=	net/tor>=0.2.7.6
-RUN_DEPENDS +=		net/tor>=0.2.7.6
 
 # Used by tor-launcher
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
@@ -19,7 +17,7 @@ ADDON_NAME ?=
 .if !empty(ADDON_NAME)
 # Everything in this .if (most of the file) is for add-ons like
 # torbutton, tor-launcher, ... tor-browser does its own thing.
-RUN_DEPENDS +=			www/tbb/tor-browser=${TBB_VERSION}
+#RUN_DEPENDS +=			www/tbb/tor-browser=${TBB_VERSION}
 ZIP ?=				zip
 
 # This should be set to Yes if the distfile for the addon is

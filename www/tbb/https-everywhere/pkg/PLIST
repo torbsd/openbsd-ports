@@ -1,4 +1,5 @@
 @comment $OpenBSD$
+${EXTDIR_ROOT}/
 ${EXTDIR_ROOT}/distribution/
 ${EXTDIR_ROOT}/distribution/extensions/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/
@@ -319,6 +320,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ht/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ht/https-everywhere.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ht/https-everywhere.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ht/ssl-observatory.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/httpse-translations-20160109/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/hu/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/hu/https-everywhere.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/hu/https-everywhere.properties

@@ -33,6 +33,10 @@ EXTRACT_SUFX = 		.tar.gz
 DIST_SUBDIR = 		${BROWSER_NAME}
 WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
 
+RUN_DEPENDS +=		net/tor>=0.2.7.6
+RUN_DEPENDS +=		www/tbb/torbutton www/tbb/tor-launcher
+RUN_DEPENDS +=		www/tbb/noscript www/tbb/https-everywhere
+
 MODPY_RUNDEP =		No
 
 # necessary glue to build with the correct compiler after fx 17
