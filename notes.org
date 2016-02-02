@@ -2158,3 +2158,35 @@ ditching my own build script in favor of patching theirs, since it's
 changed so much.
 
 They seem to just love bash.
+** 2016-02-02
+Dear diary: I suck.  It's been a process of stumbling from issue to
+issue but in the end we're good.  It took me almost a full week to
+realize that landry@ had slid in the really important diffs to
+mozilla.port.mk that I needed to base tor-browser's Makefile on his
+module and stop with the cut and paste.  This paves the way for us to
+be some kind of mutant cousin mozillan port in the real ports tree.
+
+Finally tripped through the last issues with httpse, which just can't
+stop reinventing itself in yet less portable ways.  No worries.  I
+simplified our patch and gave up on the idea of sending it upstream
+for now, it needs to be reworked completely to stand a chance of being
+acceptable.  At least it isn't schizophrenic any longer... it's either
+the $IS_OPENBSD way or it's the comment-out-the-bits-that-don't-matter
+way, but not both.
+
+Also reworked all the deps after thinking about it some more and how
+it works in other situations.  The tor-browser package now properly
+r-deps on everything else: net/tor and the four browser extension
+packages.  Installing tor-browser is thereore enough to get you a
+complete, working installation.  When you pkg_delete tor-browser
+you're left with the r-deps still installed, but that's like quite a
+lot of other situations and is what pkg_delete -a is for.  I do this
+all the time:
+  $ doas pkg_delete some-large-pkg
+  $ doas pkg_delete -a              # to clean up its deps
+
+The individual extension packages don't r-dep on anything now.
+This all seems to work.
+
+The only problem is that 5.0.6 is old news, and I need to actually
+be porting 5.5.  Right now.  So that, next.
