@@ -1,38 +1,107 @@
 $OpenBSD$
 
-Clean up for OpenBSD in makexpi.sh
---- makexpi.sh.orig	Wed Aug 26 18:59:28 2015
-+++ makexpi.sh	Sat Jan  9 18:19:45 2016
+Just keep the bits that make sense for us
+--- makexpi.sh.orig	Wed Aug 26 19:59:28 2015
++++ makexpi.sh	Tue Feb  2 11:20:46 2016
 @@ -1,4 +1,4 @@
 -#!/bin/bash
 +#!/usr/local/bin/bash
  set -o errexit
  APP_NAME=https-everywhere-eff
  
-@@ -19,11 +19,12 @@ cd "`dirname $0`"
- RULESETS_UNVALIDATED="$PWD/pkg/rulesets.unvalidated.sqlite"
- RULESETS_SQLITE="$PWD/src/defaults/rulesets.sqlite"
- ANDROID_APP_ID=org.mozilla.firefox
-+IS_OPENBSD=0; [ `uname` = OpenBSD ] && IS_OPENBSD=1
- 
+@@ -23,37 +23,37 @@ ANDROID_APP_ID=org.mozilla.firefox
  [ -d pkg ] || mkdir pkg
  
  # If the command line argument is a tag name, check that out and build it
 -if [ -n "$1" ] && [ "$2" != "--no-recurse" ] ; then
-+if [ $IS_OPENBSD -eq 0 ] && [ -n "$1" ] && [ "$2" != "--no-recurse" ] ; then
-   BRANCH=`git branch | head -n 1 | cut -d \  -f 2-`
-   SUBDIR=checkout
-   [ -d $SUBDIR ] || mkdir $SUBDIR
-@@ -88,7 +89,7 @@ fi
+-  BRANCH=`git branch | head -n 1 | cut -d \  -f 2-`
+-  SUBDIR=checkout
+-  [ -d $SUBDIR ] || mkdir $SUBDIR
+-  cp -r -f -a .git $SUBDIR
+-  cd $SUBDIR
+-  git reset --hard "$1"
+-  # When a file is renamed, the old copy can linger in the checkout directory.
+-  # Ensure a clean build.
+-  git clean -fdx
++#if [ -n "$1" ] && [ "$2" != "--no-recurse" ] ; then
++#  BRANCH=`git branch | head -n 1 | cut -d \  -f 2-`
++#  SUBDIR=checkout
++#  [ -d $SUBDIR ] || mkdir $SUBDIR
++#  cp -r -f -a .git $SUBDIR
++#  cd $SUBDIR
++#  git reset --hard "$1"
++#  # When a file is renamed, the old copy can linger in the checkout directory.
++#  # Ensure a clean build.
++#  git clean -fdx
++#
++#  git submodule update --recursive -f
++#  # Use the version of the build script that was current when that
++#  # tag/release/branch was made.
++#  ./makexpi.sh $1 --no-recurse || exit 1
++#
++#  # The fact that the above works even when the thing you are building predates
++#  # support for --no-recurse in this script is (1) non-intuitive; (2) crazy; and (3)
++#  # involves two pristine checkouts of $1 within each other
++#
++#  # Now escape from the horrible mess we've made
++#  cd ..
++#  XPI_NAME="$APP_NAME-$1"
++#  cp $SUBDIR/pkg/$XPI_NAME.xpi pkg/
++#  if ! cp $SUBDIR/pkg/$XPI_NAME-amo.xpi pkg/ 2> /dev/null ; then
++#    echo Old version does not support AMO
++#  fi
++#  rm -rf $SUBDIR
++#  exit 0
++#fi
+ 
+-  git submodule update --recursive -f
+-  # Use the version of the build script that was current when that
+-  # tag/release/branch was made.
+-  ./makexpi.sh $1 --no-recurse || exit 1
+-
+-  # The fact that the above works even when the thing you are building predates
+-  # support for --no-recurse in this script is (1) non-intuitive; (2) crazy; and (3)
+-  # involves two pristine checkouts of $1 within each other
+-
+-  # Now escape from the horrible mess we've made
+-  cd ..
+-  XPI_NAME="$APP_NAME-$1"
+-  cp $SUBDIR/pkg/$XPI_NAME.xpi pkg/
+-  if ! cp $SUBDIR/pkg/$XPI_NAME-amo.xpi pkg/ 2> /dev/null ; then
+-    echo Old version does not support AMO
+-  fi
+-  rm -rf $SUBDIR
+-  exit 0
+-fi
+-
+ # Only generate the sqlite database if any rulesets have changed. Tried
+ # implementing this with make, but make is very slow with 15k+ input files.
+ needs_update() {
+@@ -87,21 +87,21 @@ if [ "$RULESETS_UNVALIDATED" -nt "$RULESETS_SQLITE" ] 
+ fi
  
  # The name/version of the XPI we're building comes from src/install.rdf
- XPI_NAME="pkg/$APP_NAME-`grep em:version src/install.rdf | sed -e 's/[<>]/	/g' | cut -f3`"
+-XPI_NAME="pkg/$APP_NAME-`grep em:version src/install.rdf | sed -e 's/[<>]/	/g' | cut -f3`"
 -if [ "$1" ]; then
-+if [ "$1" -o $IS_OPENBSD -eq 1 ]; then
-   XPI_NAME="$XPI_NAME"
- else
-   # During development, generate packages named with the short hash of HEAD.
-@@ -101,7 +102,7 @@ fi
+-  XPI_NAME="$XPI_NAME"
+-else
+-  # During development, generate packages named with the short hash of HEAD.
+-  XPI_NAME="$XPI_NAME~`git rev-parse --short HEAD`"
+-        if ! git diff-index --quiet HEAD; then
+-            XPI_NAME="$XPI_NAME-dirty"
+-        fi
+-fi
++XPI_NAME="$APP_NAME-`grep em:version src/install.rdf | sed -e 's/[<>]/	/g' | cut -f3`"
++#if [ "$1" ]; then
++#  XPI_NAME="$XPI_NAME"
++#else
++#  # During development, generate packages named with the short hash of HEAD.
++#  XPI_NAME="$XPI_NAME~`git rev-parse --short HEAD`"
++#        if ! git diff-index --quiet HEAD; then
++#            XPI_NAME="$XPI_NAME-dirty"
++#        fi
++#fi
+ 
  # Prepare packages suitable for uploading to EFF and AMO, respectively.
  [ -d pkg ] || mkdir pkg
  rsync -a --delete --delete-excluded --exclude /chrome/content/rules src/ pkg/xpi-eff
@@ -41,16 +110,25 @@ Clean up for OpenBSD in makexpi.sh
  rsync -a --delete pkg/xpi-eff/ pkg/xpi-amo
  # The AMO version of the package cannot contain the updateKey or updateURL tags.
  # Also, it has a different id than the eff-hosted version, because Firefox now
-@@ -124,15 +125,15 @@ fi
- rm -f "${XPI_NAME}.xpi"
- rm -f "${XPI_NAME}-amo.xpi"
- python2.7 utils/create_xpi.py -n "${XPI_NAME}.xpi" -x ".build_exclusions" "pkg/xpi-eff"
--python2.7 utils/create_xpi.py -n "${XPI_NAME}-amo.xpi" -x ".build_exclusions" "pkg/xpi-amo"
-+#python2.7 utils/create_xpi.py -n "${XPI_NAME}-amo.xpi" -x ".build_exclusions" "pkg/xpi-amo"
+@@ -121,18 +121,20 @@ if [ -e "$GIT_OBJECT_FILE" ]; then
+ fi
  
+ # Build the XPI!
+-rm -f "${XPI_NAME}.xpi"
+-rm -f "${XPI_NAME}-amo.xpi"
+-python2.7 utils/create_xpi.py -n "${XPI_NAME}.xpi" -x ".build_exclusions" "pkg/xpi-eff"
+-python2.7 utils/create_xpi.py -n "${XPI_NAME}-amo.xpi" -x ".build_exclusions" "pkg/xpi-amo"
++rm -f "pkg/${XPI_NAME}.xpi"
++#rm -f "${XPI_NAME}-amo.xpi"
+ 
++#python2.7 utils/create_xpi.py -n "${XPI_NAME}.xpi" -x ".build_exclusions" "pkg/xpi-eff"
++#python2.7 utils/create_xpi.py -n "${XPI_NAME}-amo.xpi" -x ".build_exclusions" "pkg/xpi-amo"
++(cd pkg/xpi-eff; zip -q -X -9r "../${XPI_NAME}.xpi" . "-x@../../.build_exclusions")
++
  echo >&2 "Total included rules: `sqlite3 $RULESETS_SQLITE 'select count(*) from rulesets'`"
  echo >&2 "Rules disabled by default: `find src/chrome/content/rules -name "*.xml" | xargs grep -F default_off | wc -l`"
- echo >&2 "Created ${XPI_NAME}.xpi and ${XPI_NAME}-amo.xpi"
+-echo >&2 "Created ${XPI_NAME}.xpi and ${XPI_NAME}-amo.xpi"
++echo >&2 "Created pkg/${XPI_NAME}.xpi"
  
 -bash utils/android-push.sh "$XPI_NAME.xpi"
 +#bash utils/android-push.sh "$XPI_NAME.xpi"
