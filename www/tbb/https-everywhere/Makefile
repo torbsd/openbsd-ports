@@ -3,7 +3,7 @@
 ADDON_NAME =		https-everywhere
 V =			5.1.1
 COMMENT =		HTTPS Everywhere: Part of the Tor Browser Bundle
-GUID =			https-everywhere@eff.org
+GUID =			https-everywhere-eff@eff.org
 ALL_TARGET =		prerelease
 PERMIT_PACKAGE_CDROM =	Yes
 BUILD_DEPENDS +=	textproc/py-lxml shells/bash net/rsync
