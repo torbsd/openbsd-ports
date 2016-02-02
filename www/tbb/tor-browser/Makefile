@@ -30,7 +30,7 @@ MOZILLA_USE_BUNDLED_NSS = Yes
 # Things we must override to use www/mozilla:
 MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 EXTRACT_SUFX = 		.tar.gz
-DIST_SUBDIR = 		tor-browser
+DIST_SUBDIR = 		${BROWSER_NAME}
 WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
 
 MODPY_RUNDEP =		No
