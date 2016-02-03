@@ -320,7 +320,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ht/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ht/https-everywhere.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ht/https-everywhere.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ht/ssl-observatory.dtd
-${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/httpse-translations-20160109/
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/httpse-translations-20160203/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/hu/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/hu/https-everywhere.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/hu/https-everywhere.properties
@@ -684,6 +684,10 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/https-everywhere.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/https-everywhere.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/ssl-observatory.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tzm/
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tzm/https-everywhere.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tzm/https-everywhere.properties
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tzm/ssl-observatory.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ug@Arab/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ug@Arab/https-everywhere.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ug@Arab/https-everywhere.properties
