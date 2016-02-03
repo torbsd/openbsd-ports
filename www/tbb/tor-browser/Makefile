@@ -17,7 +17,7 @@ PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 DISTNAME =		${GH_TAGNAME}
 
 SO_VERSION =		1.0
-MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul clearkey
+MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
 MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
 MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
 
