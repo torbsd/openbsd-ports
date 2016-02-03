@@ -8,45 +8,23 @@ have your ports and src synced up (like I said: running -current).
 
 ## Branches and Versions ##
 
-As of 23 Octover 2015 the `master` branch has release __5.0.3__:
+As of 02 Feb 2016 the `master` branch has release __5.0.6__:
 
-    tor-browser       5.0.3 (based on ff-esr 38.3.0)
-    torbutton         1.9.3.4
+    ff-esr            38.5.0
+    torbutton         1.9.3.7
     tor-launcher      0.2.7.7
-    noscript          2.6.9.36
-    https-everywhere  5.0.7
+    noscript          2.7
+    https-everywhere  5.1.1
 
-The `develop` branch is always used to work on the next release.  We
-use tags to mark release points that correspond as closely as possible
-to TBB releases.  They are marked "-sans-pt" to indicate that
-Pluggable Transports (PT) is not yet a part of this set of ports...
-working on it...
+The `develop` branch is always used to work on the next release,
+currently 5.5.  The 5.0.6 release is sort of an orphan: it took us a
+long time to get it out, so now we're playing catch-up.  Unless you
+are interested in testing it's probably best to wait for 5.5, which
+should be done shortly (much faster than 5.0.6).
 
-## Meta Package ##
-
-There is also a meta/tbb package, but in order to use it it needs at
-least `/usr/ports/meta/Makefile.inc` dropped in; assuming you have
-copied the `meta` and `www` dirs from this repo to
-`/usr/ports/mystuff`:
-
-    # cp /usr/ports/meta/Makefile.inc /usr/ports/mystuff/meta/
-    # cd /usr/ports/mystuff/meta/tbb
-    # make install
-
-YMMV.  I mainly did that for convenience in testing, but it's morally
-no different than the `meta/avr` port.
-
-## Play Along at Home ##
-
-I keep notes in [notes.org](notes.org).  You're welcome to look over
-my shoulder but then don't be offended by what I say :-) ...  This
-work is sometimes irritating; if I'm going to be transparent then I
-have to vent transparently sometimes, as well... Also, we've started
-using [the GH issue tracker](https://github.com/torbsd/openbsd-ports/issues)
-to enumerate (if not organize) what we're working on.
-
-I generally build and test on amd64 first, i386 second.  Testing on
-other architectures greatly appreciated.
+We use tags to mark release points that correspond as closely as
+possible to TBB releases.  They are marked "-sans-pt" to indicate that
+Pluggable Transports (PT) is not yet a part of this set of ports.
 
 ## Repositories ##
 

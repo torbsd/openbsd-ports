@@ -1,20 +1,14 @@
 # $OpenBSD$ -*- mode: Makefile; tab-width: 4; -*-
 #
 # Most of the code here is for the firefox add-ons that are part of
-# the TBB.  A little bit is also used by the tor-browser port itself.
-#
-# Many things here come from www/firefox-esr/Makefile and
-# www/mozilla/mozilla.port.mk, either directly or adapted.
+# the TBB.
 
-# A few things are common across the board:
 MAINTAINER ?=		Sean Levy <attila@stalphonsos.com>
 HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		5.0.3
-BUILD_DEPENDS +=	net/tor>=0.2.6.10
-RUN_DEPENDS +=		net/tor>=0.2.6.10
+TBB_VERSION =		5.0.6
 
 # Used by tor-launcher
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
@@ -23,17 +17,16 @@ ADDON_NAME ?=
 .if !empty(ADDON_NAME)
 # Everything in this .if (most of the file) is for add-ons like
 # torbutton, tor-launcher, ... tor-browser does its own thing.
-# Some of it was adapted from mail/enigmail early on.
 ZIP ?=				zip
 
 # This should be set to Yes if the distfile for the addon is
 # the .xpi file itself, e.g. noscript.
 ADDON_XPI ?=
-.  if ${ADDON_XPI:L} == "yes"
+.	if ${ADDON_XPI:L} == "yes"
 EXTRACT_CASES = *.xpi) \
 	${UNZIP} -oq ${FULLDISTDIR}/$$archive -d ${WRKSRC};;
 EXTRACT_SUFX = .xpi
-.  endif
+.	endif
 
 TBBNAME ?=			${ADDON_NAME}-${V}
 PKGNAME ?=			${TBBNAME}
@@ -42,10 +35,10 @@ WRKDIST =			${WRKDIR}/${TBBNAME}
 # Directory that the port's makexpi.sh script dumps into, if it has one
 ADDON_SUBDIR ?=		pkg
 ADDON_BUILDDIR ?= 	${WRKBUILD}/${ADDON_SUBDIR}
-.  if !defined(MASTER_SITES)
+.	if !defined(MASTER_SITES)
 GH_PROJECT ?=		${ADDON_NAME}
 GH_TAGNAME ?=		${V}
-.  endif
+.	endif
 
 CONFIGURE_STYLE ?=	none
 BUILD_DEPENDS +=	archivers/zip \
@@ -58,13 +51,13 @@ REAL_EXTDIR ?=		${PREFIX}/${EXTDIR}
 
 SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
 
-.  if !defined(GUID)
+.	if !defined(GUID)
 ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
-.  endif
+.	endif
 
 SUBST_VARS +=		GUID
 
-.  if ${ADDON_XPI:L} == "yes"
+.	if ${ADDON_XPI:L} == "yes"
 # We just extract the xpi to "build", effectively.
 # I think we might just be able to install the .xpi directly
 # somewhere...
@@ -73,7 +66,7 @@ pre-extract:
 
 do-build:
 	cd ${WRKSRC} && ${ZIP} -X -9r ${WRKDIST}/${DISTNAME}.xpi ./ && mv ${WRKDIST}/${DISTNAME}.xpi ${ADDON_BUILDDIR}
-.  endif
+.	endif
 
 do-install:
 	${INSTALL_DATA_DIR} ${REAL_EXTDIR}/${GUID}

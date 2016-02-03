@@ -1,16 +1,17 @@
 # $OpenBSD$
 
 ADDON_NAME =		https-everywhere
-V =			5.0.7
+V =			5.1.1
 COMMENT =		HTTPS Everywhere: Part of the Tor Browser Bundle
-GUID =			https-everywhere@eff.org
+GUID =			https-everywhere-eff@eff.org
 ALL_TARGET =		prerelease
 PERMIT_PACKAGE_CDROM =	Yes
-BUILD_DEPENDS +=	textproc/py-lxml
-MAKE_ENV =		MAKEXPI=./openbsd.sh
+BUILD_DEPENDS +=	textproc/py-lxml shells/bash net/rsync
+
+# Gross hack due to git submodules
+XLATIONS = https://github.com/torbsd/httpse-translations/archive/20160109.tar.gz
 
 post-extract:
-	cp ${FILESDIR}/openbsd.sh ${WRKSRC}
-	chmod +x ${WRKSRC}/openbsd.sh
+	(cd ${WRKSRC}/translations; ftp -o - ${XLATIONS} | tar -s '/^httpse-translations-20160109\///' -zxf -)
 
 .include <bsd.port.mk>
