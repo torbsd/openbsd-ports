@@ -11,13 +11,13 @@ MOZILLA_CODENAME =	browser
 BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr38.5.0
+GH_TAGNAME =		v${TBB_VERSION}-esr38.6.0
 
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 DISTNAME =		${GH_TAGNAME}
 
 SO_VERSION =		1.0
-MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
+MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul clearkey
 MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
 MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
 

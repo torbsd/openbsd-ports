@@ -1,7 +1,7 @@
 # $OpenBSD$
 
 ADDON_NAME =		noscript
-V =			2.7
+V =			2.9.0.2
 COMMENT =		Flexible JS Blocker for Firefox (Tor Browser variant)
 ADDON_XPI =		Yes
 MAINTAINER =		sean levy <attila@stalphonsos.com>
