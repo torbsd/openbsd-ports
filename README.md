@@ -2,23 +2,25 @@
 
 These are the OpenBSD ports that correspond to the Tor browser bundle.
 They are a work in progress.  Please beware that until we make release
-announcements on [our web site](https://torbsd.github.io) you should be
-careful using this stuff.  You must be runing OpenBSD -current and
+announcements on [our web site](https://torbsd.github.io) you should
+be careful using this stuff.  You must be runing OpenBSD -current and
 have your ports and src synced up (like I said: running -current).
 
 ## Branches and Versions ##
 
 This is the develop branch and is used to work on the bleeding edge.
-As of 23 Oct 2015 this means working on __5.0.6__:
+As of 03 Feb 2016 this means working on __5.5__:
 
-    ff-esr            38.5.0
-    torbutton         1.9.3.7
-    tor-launcher      0.2.7.7
-    noscript          2.7
-    https-everywhere  5.1.1
+    ff-esr            38.6.0
+    torbutton         1.9.4.3
+    tor-launcher      0.2.7.8
+    noscript          2.9.0.2
+    https-everywhere  5.1.2
 
-Only `tor-launcher` has not changed since the last update (still
-at 0.2.7.7).
+Everything changes version in this update.  Hopefully the work done on
+5.0.6 that gets us riding on top of the official www/mozilla ports
+module will make this update easier than the last one, which was more
+or less all about making that switch.
 
 ## Repositories ##
 
