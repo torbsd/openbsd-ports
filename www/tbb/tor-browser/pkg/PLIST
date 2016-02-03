@@ -29,7 +29,6 @@ lib/${FULLPKGNAME}/browser/omni.ja
 lib/${FULLPKGNAME}/browser/searchplugins/
 lib/${FULLPKGNAME}/browser/searchplugins/ddg.xml
 lib/${FULLPKGNAME}/browser/searchplugins/disconnect.xml
-lib/${FULLPKGNAME}/browser/searchplugins/duckduckgo.xml
 lib/${FULLPKGNAME}/browser/searchplugins/google.xml
 lib/${FULLPKGNAME}/browser/searchplugins/startpage.xml
 lib/${FULLPKGNAME}/browser/searchplugins/twitter.xml
