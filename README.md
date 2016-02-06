@@ -8,19 +8,15 @@ have your ports and src synced up (like I said: running -current).
 
 ## Branches and Versions ##
 
-As of 02 Feb 2016 the `master` branch has release __5.0.6__:
+As of 05 Feb 2016 the `master` branch has release __5.5__:
 
-    ff-esr            38.5.0
-    torbutton         1.9.3.7
-    tor-launcher      0.2.7.7
-    noscript          2.7
-    https-everywhere  5.1.1
+    ff-esr            38.6.0
+    torbutton         1.9.4.3
+    tor-launcher      0.2.7.8
+    noscript          2.9.0.2
+    https-everywhere  5.1.2
 
-The `develop` branch is always used to work on the next release,
-currently 5.5.  The 5.0.6 release is sort of an orphan: it took us a
-long time to get it out, so now we're playing catch-up.  Unless you
-are interested in testing it's probably best to wait for 5.5, which
-should be done shortly (much faster than 5.0.6).
+The `develop` branch is always used to work on the next release.
 
 We use tags to mark release points that correspond as closely as
 possible to TBB releases.  They are marked "-sans-pt" to indicate that

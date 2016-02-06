@@ -15,9 +15,6 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/about.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutDialog.xul
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/aboutTor.xhtml
-${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/donation-banner-cd.jpg
-${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/donation-banner-lp.jpg
-${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/donation-banner-rd.jpg
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/onionArrow-extension.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/onionArrow-leftBend.png
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/content/aboutTor/onionArrow-rightBend.png
@@ -66,6 +63,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/am/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/am/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ar/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ar/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ar/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ar/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ar/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ar/brand.dtd
@@ -184,6 +182,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/da/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/da/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/de/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/de/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/de/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/de/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/de/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/de/brand.dtd
@@ -206,6 +205,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/el/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/el/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/en/brand.dtd
@@ -221,6 +221,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eo/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eo/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/es/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/es/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/es/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/es/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/es/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/es/brand.dtd
@@ -236,6 +237,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/et/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/et/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eu/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eu/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eu/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eu/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eu/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eu/brand.dtd
@@ -244,6 +246,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eu/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/eu/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fa/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fa/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fa/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fa/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fa/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fa/brand.dtd
@@ -273,6 +276,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fo/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fo/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fr/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fr/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fr/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fr/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fr/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/fr/brand.dtd
@@ -386,6 +390,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/is/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/is/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/it/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/it/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/it/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/it/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/it/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/it/brand.dtd
@@ -394,6 +399,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/it/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/it/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ja/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ja/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ja/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ja/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ja/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ja/brand.dtd
@@ -430,6 +436,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/kn/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/kn/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ko/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ko/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ko/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ko/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ko/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ko/brand.dtd
@@ -590,6 +597,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ne/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ne/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/nl/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/nl/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/nl/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/nl/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/nl/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/nl/brand.dtd
@@ -640,6 +648,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pap/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pap/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pl/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pl/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pl/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pl/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pl/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pl/brand.dtd
@@ -669,6 +678,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pt-BR/brand.propert
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pt-BR/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pt-BR/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pt/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pt/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pt/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pt/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/pt/brand.dtd
@@ -684,6 +694,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ro/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ro/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ru/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ru/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ru/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ru/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ru/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ru/brand.dtd
@@ -755,6 +766,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/su/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/su/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/sv/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/sv/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/sv/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/sv/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/sv/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/sv/brand.dtd
@@ -812,6 +824,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tk/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tk/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/tr/brand.dtd
@@ -841,6 +854,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ve/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/ve/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/vi/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/vi/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/vi/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/vi/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/vi/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/vi/brand.dtd
@@ -863,6 +877,7 @@ ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/wo/torbutton.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/wo/torbutton.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zh-CN/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zh-CN/aboutDialog.dtd
+${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zh-CN/aboutTBUpdate.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zh-CN/aboutTor.dtd
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zh-CN/aboutTor.properties
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}/chrome/locale/zh-CN/brand.dtd

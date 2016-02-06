@@ -8,7 +8,7 @@ HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		5.0.6
+TBB_VERSION =		5.5
 
 # Used by tor-launcher
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
