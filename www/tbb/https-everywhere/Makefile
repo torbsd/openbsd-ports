@@ -2,7 +2,7 @@
 
 ADDON_NAME =		https-everywhere
 V =			5.1.2
-COMMENT =		HTTPS Everywhere: Part of the Tor Browser Bundle
+COMMENT =		turn http:// into https:// where possible in Tor browser
 HOMEPAGE =		https://www.eff.org/https-everywhere
 GUID =			https-everywhere@eff.org
 ALL_TARGET =		prerelease

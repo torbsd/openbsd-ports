@@ -2,7 +2,7 @@
 
 ADDON_NAME =		tor-launcher
 V =			0.2.7.8
-COMMENT =		tor-launcher add-on: Part of the Tor Browser Bundle
+COMMENT =		firefox add-on to control/manage local tor instance
 USE_GMAKE =		Yes
 ALL_TARGET =		package
 GUID =			tor-launcher@torproject.org
