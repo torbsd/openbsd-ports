@@ -2,7 +2,7 @@
 
 ADDON_NAME =		noscript
 V =			2.9.0.2
-COMMENT =		Flexible JS Blocker for Firefox (Tor Browser variant)
+COMMENT =		flexible JS blocker for firefox (Tor browser variant)
 ADDON_XPI =		Yes
 MAINTAINER =		sean levy <attila@stalphonsos.com>
 HOMEPAGE =		http://noscript.net

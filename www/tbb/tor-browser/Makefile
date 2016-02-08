@@ -3,10 +3,10 @@
 # browser is a fork of ESR.  It is a good idea to look at that
 # Makefile when editing this one (ESR versions not always the same).
 
-COMMENT =		Tor browser, based on Firefox ESR
+COMMENT =		firefox-esr fork for browsing the web over Tor
 
 MOZILLA_VERSION =	${TBB_VERSION}
-MOZILLA_PROJECT =	${BROWSER_NAME} # tor-browser
+MOZILLA_PROJECT =	${BROWSER_NAME}
 MOZILLA_CODENAME =	browser
 BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
@@ -26,16 +26,12 @@ PERMIT_PACKAGE_CDROM=	Yes
 
 MODULES =		www/mozilla devel/gettext lang/python
 
-MOZILLA_USE_BUNDLED_NSS = Yes
 # Things we must override to use www/mozilla:
+MOZILLA_USE_BUNDLED_NSS = Yes
 MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 EXTRACT_SUFX = 		.tar.gz
 DIST_SUBDIR = 		${BROWSER_NAME}
 WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
-
-RUN_DEPENDS +=		net/tor>=0.2.7.6
-RUN_DEPENDS +=		www/tbb/torbutton www/tbb/tor-launcher
-RUN_DEPENDS +=		www/tbb/noscript www/tbb/https-everywhere
 
 MODPY_RUNDEP =		No
 
@@ -83,8 +79,7 @@ WANTLIB += icudata icui18n icuuc
 CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
-# XXX Not needed? Not in firefox-esr
-#RUN_DEPENDS +=		multimedia/gstreamer1/plugins-good
+RUN_DEPENDS +=		net/tor>=0.2.7.6
 # start-tor-browser.sh wants something to use for cries for help
 RUN_DEPENDS +=		x11/gxmessage
 # extensions that make up the rest of the "bundle"
