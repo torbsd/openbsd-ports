@@ -139,12 +139,12 @@ setup_dot_tor_browser () {
     check_dir_exists ${TOR_SHARE_DIR}
     check_dir_exists ${TBB_EXT_DIR}
     spew "Initializing ${DOTDIR} ..."
-    loudly mkdir -p "${DOTDIR}/tor_data"
-    # The tor-launcher port installs these... sigh
-    loudly cp "${TBB_SHARE_DIR}/torrc" "${DOTDIR}/"
-    loudly cp "${TBB_SHARE_DIR}/torrc-defaults" "${DOTDIR}/"
     # Set up ~/.tor-browser/tor_data
     _tord="${DOTDIR}/tor_data"
+    loudly mkdir -p "${_tord}"
+    # The tor-launcher port installs these... sigh
+    loudly cp "${TBB_SHARE_DIR}/torrc" "${DOTDIR}/"
+#   loudly cp "${TBB_SHARE_DIR}/torrc-defaults" "${DOTDIR}/"
     # geoip data is installed with net/tor:
     loudly cp "${TOR_SHARE_DIR}/geoip" "${_tord}/"
     loudly cp "${TOR_SHARE_DIR}/geoip6" "${_tord}/"

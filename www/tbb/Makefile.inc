@@ -6,27 +6,27 @@
 MAINTAINER ?=		Sean Levy <attila@stalphonsos.com>
 HOMEPAGE ?=			https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
+PERMIT_PACKAGE_CDROM ?= Yes
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
 TBB_VERSION =		5.5
 
-# Used by tor-launcher
+# Used by tor-launcher, tor-browser
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
 
 ADDON_NAME ?=
 .if !empty(ADDON_NAME)
 # Everything in this .if (most of the file) is for add-ons like
 # torbutton, tor-launcher, ... tor-browser does its own thing.
-ZIP ?=				zip
+.	if !defined(GUID)
+ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
+.	endif
+USE_GMAKE =			Yes
 
 # This should be set to Yes if the distfile for the addon is
 # the .xpi file itself, e.g. noscript.
-ADDON_XPI ?=
-.	if ${ADDON_XPI:L} == "yes"
-EXTRACT_CASES = *.xpi) \
-	${UNZIP} -oq ${FULLDISTDIR}/$$archive -d ${WRKSRC};;
-EXTRACT_SUFX = .xpi
-.	endif
+ADDON_IS_XPI ?= 	No
+ADDON_XPI_FILE ?=	${TBBNAME}.xpi
 
 TBBNAME ?=			${ADDON_NAME}-${V}
 PKGNAME ?=			${TBBNAME}
@@ -51,25 +51,20 @@ REAL_EXTDIR ?=		${PREFIX}/${EXTDIR}
 
 SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
 
-.	if !defined(GUID)
-ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
-.	endif
-
 SUBST_VARS +=		GUID
 
-.	if ${ADDON_XPI:L} == "yes"
-# We just extract the xpi to "build", effectively.
-# I think we might just be able to install the .xpi directly
-# somewhere...
-pre-extract:
+.	if ${ADDON_IS_XPI:L} == "yes"
+EXTRACT_SUFX = .xpi
+
+do-extract:
 	mkdir -p ${ADDON_BUILDDIR}
 
 do-build:
-	cd ${WRKSRC} && ${ZIP} -X -9r ${WRKDIST}/${DISTNAME}.xpi ./ && mv ${WRKDIST}/${DISTNAME}.xpi ${ADDON_BUILDDIR}
-.	endif
+	cp ${FULLDISTDIR}/${TBBNAME}.xpi ${ADDON_BUILDDIR}/${ADDON_XPI_FILE}
+.   endif
 
 do-install:
-	${INSTALL_DATA_DIR} ${REAL_EXTDIR}/${GUID}
-	${UNZIP} -oq ${ADDON_BUILDDIR}/${ADDON_NAME}*.xpi -d ${REAL_EXTDIR}/${GUID}
+	${INSTALL_DATA_DIR} ${REAL_EXTDIR}
+	${INSTALL_DATA} ${ADDON_BUILDDIR}/${ADDON_XPI_FILE} ${REAL_EXTDIR}/${GUID}.xpi
 
 .endif
