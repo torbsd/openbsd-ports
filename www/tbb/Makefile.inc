@@ -60,7 +60,7 @@ do-extract:
 	mkdir -p ${ADDON_BUILDDIR}
 
 do-build:
-	cp ${FULLDISTDIR}/${TBBNAME}.xpi ${ADDON_BUILDDIR}/${ADDON_XPI_FILE}
+	cp ${FULLDISTDIR}/${ADDON_XPI_FILE} ${ADDON_BUILDDIR}/${ADDON_XPI_FILE}
 .   endif
 
 do-install:
