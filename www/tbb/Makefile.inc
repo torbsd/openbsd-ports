@@ -25,7 +25,7 @@ USE_GMAKE =			Yes
 
 # This should be set to Yes if the distfile for the addon is
 # the .xpi file itself, e.g. noscript.
-ADDON_IS_XPI ?= 	No
+DISTFILE_IS_XPI ?= 	No
 ADDON_XPI_FILE ?=	${TBBNAME}.xpi
 
 TBBNAME ?=			${ADDON_NAME}-${V}
@@ -53,7 +53,7 @@ SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
 
 SUBST_VARS +=		GUID
 
-.	if ${ADDON_IS_XPI:L} == "yes"
+.	if ${DISTFILE_IS_XPI:L} == "yes"
 EXTRACT_SUFX = .xpi
 
 do-extract:

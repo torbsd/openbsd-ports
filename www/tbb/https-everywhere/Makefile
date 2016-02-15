@@ -8,6 +8,6 @@ MASTER_SITES =		https://www.eff.org/files/
 GUID =			https-everywhere-eff@eff.org
 ADDON_XPI_FILE =	${ADDON_NAME}-${V}-eff.xpi
 DISTFILES =		${ADDON_XPI_FILE}
-ADDON_IS_XPI =		Yes
+DISTFILE_IS_XPI =	Yes
 
 .include <bsd.port.mk>
