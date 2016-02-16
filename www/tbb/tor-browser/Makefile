@@ -105,7 +105,7 @@ post-extract:
 		> ${WRKSRC}/config/baseconfig.mk
 
 post-install:
-	# install prefs
+	# install prefs, bookmarks, app config file for Tor browser
 	${INSTALL_DATA_DIR} \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences
 	${SUBST_DATA} ${FILESDIR}/all-openbsd.js \
