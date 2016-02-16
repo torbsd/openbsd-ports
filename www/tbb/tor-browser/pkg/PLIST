@@ -1,5 +1,4 @@
 @comment $OpenBSD$
-bin/start-${BROWSER_NAME}
 bin/${BROWSER_NAME}
 lib/${FULLPKGNAME}/
 lib/${FULLPKGNAME}/application.ini
@@ -19,6 +18,8 @@ lib/${FULLPKGNAME}/browser/components/components.manifest
 lib/${FULLPKGNAME}/browser/defaults/
 lib/${FULLPKGNAME}/browser/defaults/preferences/
 lib/${FULLPKGNAME}/browser/defaults/preferences/all-openbsd.js
+lib/${FULLPKGNAME}/browser/defaults/profile/
+lib/${FULLPKGNAME}/browser/defaults/profile/bookmarks.html
 lib/${FULLPKGNAME}/browser/extensions/
 lib/${FULLPKGNAME}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/
 lib/${FULLPKGNAME}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/icon.png
@@ -67,6 +68,7 @@ lib/${FULLPKGNAME}/removed-files
 lib/${FULLPKGNAME}/run-mozilla.sh
 @bin lib/${FULLPKGNAME}/${BROWSER_NAME}
 @bin lib/${FULLPKGNAME}/${BROWSER_NAME}-bin
+lib/${FULLPKGNAME}/tor-browser.cfg
 lib/${FULLPKGNAME}/webapprt/
 @bin lib/${FULLPKGNAME}/webapprt-stub
 lib/${FULLPKGNAME}/webapprt/omni.ja
@@ -74,9 +76,5 @@ lib/${FULLPKGNAME}/webapprt/webapprt.ini
 share/applications/${BROWSER_NAME}.desktop
 share/pixmaps/
 share/pixmaps/${BROWSER_NAME}.png
-share/tbb/
-share/tbb/bookmarks.html
-share/tbb/extension-overrides.js
-share/tbb/profiles.ini
 @exec %D/bin/update-desktop-database
 @unexec-delete %D/bin/update-desktop-database
