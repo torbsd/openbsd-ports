@@ -112,7 +112,7 @@ post-install:
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences/all-openbsd.js
 	${INSTALL_DATA_DIR} \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
-	${INTSALL_DATA} ${FILESDIR}/bookmarks.html \
+	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
 	${INSTALL_DATA} ${FILESDIR}/tor-browser.cfg \
 	  ${PREFIX}/lib/${PKGNAME}/tor-browser.cfg
