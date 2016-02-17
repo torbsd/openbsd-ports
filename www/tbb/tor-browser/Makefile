@@ -114,8 +114,8 @@ post-install:
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
 	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
-	${INSTALL_DATA} ${FILESDIR}/tor-browser.cfg \
-	  ${PREFIX}/lib/${PKGNAME}/tor-browser.cfg
+	${INSTALL_DATA} ${FILESDIR}/${BROWSER_NAME}.cfg \
+	  ${PREFIX}/lib/${PKGNAME}/${BROWSER_NAME}.cfg
 	# install desktop file
 	${INSTALL_DATA_DIR} ${PREFIX}/share/applications/
 	${SUBST_DATA} ${FILESDIR}/${BROWSER_NAME}.desktop \
