@@ -8,8 +8,6 @@ ALL_TARGET =		package
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/tbb
-	${SUBST_DATA} ${FILESDIR}/torrc \
-		${PREFIX}/share/tbb/torrc
 	${SUBST_DATA} ${FILESDIR}/torrc-defaults \
 		${PREFIX}/share/tbb/torrc-defaults
 

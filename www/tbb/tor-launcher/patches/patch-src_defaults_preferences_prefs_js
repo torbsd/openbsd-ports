@@ -1,6 +1,6 @@
 $OpenBSD$
---- src/defaults/preferences/prefs.js.orig	Thu Apr  2 08:45:36 2015
-+++ src/defaults/preferences/prefs.js	Thu Apr  2 08:48:16 2015
+--- src/defaults/preferences/prefs.js.orig	Thu Jan 21 08:41:57 2016
++++ src/defaults/preferences/prefs.js	Wed Feb 17 11:09:13 2016
 @@ -1,5 +1,5 @@
 -pref("extensions.torlauncher.loglevel", 4);  // 1=verbose, 2=debug, 3=info, 4=note, 5=warn
 -pref("extensions.torlauncher.logmethod", 1);  // 0=stdout, 1=errorconsole, 2=debuglog
@@ -17,7 +17,7 @@ $OpenBSD$
 -pref("extensions.torlauncher.torrc_path", "");
 -pref("extensions.torlauncher.tordatadir_path", "");
 +pref("extensions.torlauncher.tor_path", "/usr/local/bin/tor");
-+pref("extensions.torlauncher.torrc-defaults_path", "/usr/local/share/tbb/torrc");
++pref("extensions.torlauncher.torrc-defaults_path", "/usr/local/share/tbb/torrc-defaults");
 +pref("extensions.torlauncher.torrc_path", "torrc");
 +pref("extensions.torlauncher.tordatadir_path", "tor_data");
  

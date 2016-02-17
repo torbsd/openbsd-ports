@@ -4,5 +4,4 @@ ${EXTDIR_ROOT}/distribution/
 ${EXTDIR_ROOT}/distribution/extensions/
 ${EXTDIR_ROOT}/distribution/extensions/${GUID}.xpi
 share/tbb/
-share/tbb/torrc
 share/tbb/torrc-defaults
