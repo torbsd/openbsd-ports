@@ -80,13 +80,6 @@ CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
 RUN_DEPENDS +=		net/tor>=0.2.7.6
-# start-tor-browser.sh wants something to use for cries for help
-RUN_DEPENDS +=		x11/gxmessage
-# extensions that make up the rest of the "bundle"
-RUN_DEPENDS +=		www/tbb/torbutton \
-			www/tbb/tor-launcher \
-			www/tbb/noscript \
-			www/tbb/https-everywhere
 
 MOZILLA_AUTOCONF_DIRS +=	js/src
 
@@ -105,24 +98,21 @@ post-extract:
 		> ${WRKSRC}/config/baseconfig.mk
 
 post-install:
-	# install prefs
+	# install prefs, bookmarks, app config file for Tor browser
 	${INSTALL_DATA_DIR} \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences
 	${SUBST_DATA} ${FILESDIR}/all-openbsd.js \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences/all-openbsd.js
+	${INSTALL_DATA_DIR} \
+	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
+	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
+	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
+	${INSTALL_DATA} ${FILESDIR}/${BROWSER_NAME}.cfg \
+	  ${PREFIX}/lib/${PKGNAME}/${BROWSER_NAME}.cfg
 	# install desktop file
-	${SUBST_PROGRAM} ${FILESDIR}/start-${BROWSER_NAME}.sh \
-		${PREFIX}/bin/start-${BROWSER_NAME}
 	${INSTALL_DATA_DIR} ${PREFIX}/share/applications/
 	${SUBST_DATA} ${FILESDIR}/${BROWSER_NAME}.desktop \
 		${PREFIX}/share/applications/${BROWSER_NAME}.desktop
-	${INSTALL_DATA_DIR} ${PREFIX}/share/tbb
-	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
-		${PREFIX}/share/tbb/bookmarks.html
-	${INSTALL_DATA} ${FILESDIR}/profiles.ini \
-		${PREFIX}/share/tbb/profiles.ini
-	${INSTALL_DATA} ${FILESDIR}/extension-overrides.js \
-		${PREFIX}/share/tbb/extension-overrides.js
 	# install icon for desktop file
 	${INSTALL_DATA_DIR} ${PREFIX}/share/pixmaps/
 	${INSTALL_DATA} ${PREFIX}/lib/${PKGNAME}/browser/icons/mozicon128.png \

@@ -20,7 +20,9 @@ The `develop` branch is always used to work on the next release.
 
 We use tags to mark release points that correspond as closely as
 possible to TBB releases.  They are marked "-sans-pt" to indicate that
-Pluggable Transports (PT) is not yet a part of this set of ports.
+Pluggable Transports (PT) is not yet a part of this set of ports
+(e.g. tbb-5.5-sans-pt).  There may also be fixes, which are tagged
+...-fixN, e.g. tbb-5.5-sans-pt-fix1, -fix2, ...
 
 ## Repositories ##
 
