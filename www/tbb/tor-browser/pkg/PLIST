@@ -47,7 +47,6 @@ lib/${FULLPKGNAME}/dependentlibs.list
 lib/${FULLPKGNAME}/dictionaries/
 lib/${FULLPKGNAME}/dictionaries/en-US.aff
 lib/${FULLPKGNAME}/dictionaries/en-US.dic
-lib/${FULLPKGNAME}/distribution/extensions/
 lib/${FULLPKGNAME}/libfreebl3.chk
 @lib lib/${FULLPKGNAME}/libfreebl3.so.${LIBfreebl3_VERSION}
 @lib lib/${FULLPKGNAME}/libmozalloc.so.${LIBmozalloc_VERSION}
