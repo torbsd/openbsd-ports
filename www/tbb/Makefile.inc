@@ -23,15 +23,15 @@ ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
 .	endif
 USE_GMAKE =			Yes
 
-# This should be set to Yes if the distfile for the addon is
-# the .xpi file itself, e.g. noscript.
+# This should be set to Yes if the distfile for the addon is the .xpi
+# file itself (noscript, https-everywhere)
 DISTFILE_IS_XPI ?= 	No
-ADDON_XPI_FILE ?=	${TBBNAME}.xpi
 
 TBBNAME ?=			${ADDON_NAME}-${V}
 PKGNAME ?=			${TBBNAME}
 DISTNAME ?=			${TBBNAME}
 WRKDIST =			${WRKDIR}/${TBBNAME}
+ADDON_XPI_FILE ?=	${TBBNAME}.xpi
 # Directory that the port's makexpi.sh script dumps into, if it has one
 ADDON_SUBDIR ?=		pkg
 ADDON_BUILDDIR ?= 	${WRKBUILD}/${ADDON_SUBDIR}
@@ -41,8 +41,8 @@ GH_TAGNAME ?=		${V}
 .	endif
 
 CONFIGURE_STYLE ?=	none
-BUILD_DEPENDS +=	archivers/zip \
-					archivers/unzip
+BUILD_DEPENDS +=	archivers/zip archivers/unzip
+RUN_DEPENDS +=		www/tbb/tor-browser
 
 EXTDIR_ROOT ?=		lib/${BROWSER_NAME}-${TBB_VERSION}
 EXTDIR_BASE ?=  	${EXTDIR_ROOT}/distribution

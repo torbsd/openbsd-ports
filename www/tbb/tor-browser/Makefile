@@ -80,13 +80,6 @@ CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
 RUN_DEPENDS +=		net/tor>=0.2.7.6
-# start-tor-browser.sh wants something to use for cries for help
-RUN_DEPENDS +=		x11/gxmessage
-# extensions that make up the rest of the "bundle"
-RUN_DEPENDS +=		www/tbb/torbutton \
-			www/tbb/tor-launcher \
-			www/tbb/noscript \
-			www/tbb/https-everywhere
 
 MOZILLA_AUTOCONF_DIRS +=	js/src
 
