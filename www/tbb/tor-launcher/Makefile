@@ -2,17 +2,12 @@
 
 ADDON_NAME =		tor-launcher
 V =			0.2.7.8
-COMMENT =		tor-launcher add-on: Part of the Tor Browser Bundle
-USE_GMAKE =		Yes
-ALL_TARGET =		package
+COMMENT =		firefox add-on to control/manage tor server
 GUID =			tor-launcher@torproject.org
-PERMIT_PACKAGE_CDROM =	Yes
-RUN_DEPENDS +=		www/tbb/torbutton
+ALL_TARGET =		package
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/tbb
-	${SUBST_DATA} ${FILESDIR}/torrc \
-		${PREFIX}/share/tbb/torrc
 	${SUBST_DATA} ${FILESDIR}/torrc-defaults \
 		${PREFIX}/share/tbb/torrc-defaults
 

@@ -8,8 +8,7 @@ have your ports and src synced up (like I said: running -current).
 
 ## Branches and Versions ##
 
-This is the develop branch and is used to work on the bleeding edge.
-As of 03 Feb 2016 this means working on __5.5__:
+As of 05 Feb 2016 the `master` branch has release __5.5__:
 
     ff-esr            38.6.0
     torbutton         1.9.4.3
@@ -17,10 +16,13 @@ As of 03 Feb 2016 this means working on __5.5__:
     noscript          2.9.0.2
     https-everywhere  5.1.2
 
-Everything changes version in this update.  Hopefully the work done on
-5.0.6 that gets us riding on top of the official www/mozilla ports
-module will make this update easier than the last one, which was more
-or less all about making that switch.
+The `develop` branch is always used to work on the next release.
+
+We use tags to mark release points that correspond as closely as
+possible to TBB releases.  They are marked "-sans-pt" to indicate that
+Pluggable Transports (PT) is not yet a part of this set of ports
+(e.g. tbb-5.5-sans-pt).  There may also be fixes, which are tagged
+...-fixN, e.g. tbb-5.5-sans-pt-fix1, -fix2, ...
 
 ## Repositories ##
 
@@ -36,10 +38,15 @@ Where possible I prefer to have ports pull source from some
 authoritative download area maintained by the project itself; in the
 case of noscript I do this, for example.
 
+## Beware: Experimental Until Otherwise Stated ##
+
+This is still work in progress.  Until we make an official release
+statement you should use this only if you want to help in testing. 
+
 ## Contact ##
 
 You can get my attention by posting [issues](https://github.com/torbsd/openbsd-ports/issues) to this repository if you
 like, or use one of the contact methods mentioned on my
 [home page](http://trac.haqistan.net/~attila).
 
-`--attila`
+--attila

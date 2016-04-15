@@ -3,10 +3,10 @@
 # browser is a fork of ESR.  It is a good idea to look at that
 # Makefile when editing this one (ESR versions not always the same).
 
-COMMENT =		Tor browser, based on Firefox ESR
+COMMENT =		firefox-esr fork for browsing the web over Tor
 
 MOZILLA_VERSION =	${TBB_VERSION}
-MOZILLA_PROJECT =	${BROWSER_NAME} # tor-browser
+MOZILLA_PROJECT =	${BROWSER_NAME}
 MOZILLA_CODENAME =	browser
 BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
@@ -26,16 +26,12 @@ PERMIT_PACKAGE_CDROM=	Yes
 
 MODULES =		www/mozilla devel/gettext lang/python
 
-MOZILLA_USE_BUNDLED_NSS = Yes
 # Things we must override to use www/mozilla:
+MOZILLA_USE_BUNDLED_NSS = Yes
 MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 EXTRACT_SUFX = 		.tar.gz
 DIST_SUBDIR = 		${BROWSER_NAME}
 WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
-
-RUN_DEPENDS +=		net/tor>=0.2.7.6
-RUN_DEPENDS +=		www/tbb/torbutton www/tbb/tor-launcher
-RUN_DEPENDS +=		www/tbb/noscript www/tbb/https-everywhere
 
 MODPY_RUNDEP =		No
 
@@ -83,10 +79,7 @@ WANTLIB += icudata icui18n icuuc
 CONFIGURE_ARGS +=	--enable-gstreamer=1.0
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
-# XXX Not needed? Not in firefox-esr
-#RUN_DEPENDS +=		multimedia/gstreamer1/plugins-good
-# start-tor-browser.sh wants something to use for cries for help
-RUN_DEPENDS +=		x11/gxmessage
+RUN_DEPENDS +=		net/tor>=0.2.7.6
 
 MOZILLA_AUTOCONF_DIRS +=	js/src
 
@@ -105,24 +98,21 @@ post-extract:
 		> ${WRKSRC}/config/baseconfig.mk
 
 post-install:
-	# install prefs
+	# install prefs, bookmarks, app config file for Tor browser
 	${INSTALL_DATA_DIR} \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences
 	${SUBST_DATA} ${FILESDIR}/all-openbsd.js \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences/all-openbsd.js
+	${INSTALL_DATA_DIR} \
+	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
+	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
+	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
+	${INSTALL_DATA} ${FILESDIR}/${BROWSER_NAME}.cfg \
+	  ${PREFIX}/lib/${PKGNAME}/${BROWSER_NAME}.cfg
 	# install desktop file
-	${SUBST_PROGRAM} ${FILESDIR}/start-${BROWSER_NAME}.sh \
-		${PREFIX}/bin/start-${BROWSER_NAME}
 	${INSTALL_DATA_DIR} ${PREFIX}/share/applications/
 	${SUBST_DATA} ${FILESDIR}/${BROWSER_NAME}.desktop \
 		${PREFIX}/share/applications/${BROWSER_NAME}.desktop
-	${INSTALL_DATA_DIR} ${PREFIX}/share/tbb
-	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
-		${PREFIX}/share/tbb/bookmarks.html
-	${INSTALL_DATA} ${FILESDIR}/profiles.ini \
-		${PREFIX}/share/tbb/profiles.ini
-	${INSTALL_DATA} ${FILESDIR}/extension-overrides.js \
-		${PREFIX}/share/tbb/extension-overrides.js
 	# install icon for desktop file
 	${INSTALL_DATA_DIR} ${PREFIX}/share/pixmaps/
 	${INSTALL_DATA} ${PREFIX}/lib/${PKGNAME}/browser/icons/mozicon128.png \

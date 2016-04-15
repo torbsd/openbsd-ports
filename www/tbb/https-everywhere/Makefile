@@ -2,14 +2,12 @@
 
 ADDON_NAME =		https-everywhere
 V =			5.1.2
-COMMENT =		HTTPS Everywhere: Part of the Tor Browser Bundle
+COMMENT =		http:// -> https:// where possible in Tor browser
 HOMEPAGE =		https://www.eff.org/https-everywhere
-GUID =			https-everywhere@eff.org
-ALL_TARGET =		prerelease
-PERMIT_PACKAGE_CDROM =	Yes
-BUILD_DEPENDS +=	textproc/py-lxml shells/bash net/rsync
-
-MASTER_SITES =		http://bits.haqistan.net/~tdp/
-DISTFILES =		${ADDON_NAME}-${V}.tar.gz
+MASTER_SITES =		https://www.eff.org/files/
+GUID =			https-everywhere-eff@eff.org
+ADDON_XPI_FILE =	${ADDON_NAME}-${V}-eff.xpi
+DISTFILES =		${ADDON_XPI_FILE}
+DISTFILE_IS_XPI =	Yes
 
 .include <bsd.port.mk>
