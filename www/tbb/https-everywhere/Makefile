@@ -1,7 +1,7 @@
 # $OpenBSD$
 
 ADDON_NAME =		https-everywhere
-V =			5.1.2
+V =			5.1.4
 COMMENT =		http:// -> https:// where possible in Tor browser
 HOMEPAGE =		https://www.eff.org/https-everywhere
 MASTER_SITES =		https://www.eff.org/files/

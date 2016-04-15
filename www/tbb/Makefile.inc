@@ -9,7 +9,7 @@ GH_ACCOUNT ?=		torbsd
 PERMIT_PACKAGE_CDROM ?= Yes
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		5.5
+TBB_VERSION =		5.5.4
 
 # Used by tor-launcher, tor-browser
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb

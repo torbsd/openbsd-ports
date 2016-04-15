@@ -1,7 +1,7 @@
 # $OpenBSD$
 
 ADDON_NAME =		noscript
-V =			2.9.0.2
+V =			2.9.0.4
 COMMENT =		flexible JS blocker for firefox (Tor browser variant)
 HOMEPAGE =		http://noscript.net
 MASTER_SITES =		https://secure.informaction.com/download/releases/
