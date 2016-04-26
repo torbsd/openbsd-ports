@@ -24,7 +24,7 @@ MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
 # mozilla public license
 PERMIT_PACKAGE_CDROM=	Yes
 
-MODULES =		www/mozilla devel/gettext lang/python
+MODULES =		www/mozilla lang/python
 
 # Things we must override to use www/mozilla:
 MOZILLA_USE_BUNDLED_NSS = Yes
@@ -53,6 +53,12 @@ MAKE_ENV +=	BUILD_OPT=1 \
 		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
 
 CONFIGURE_STYLE =	autoconf no-autoheader
+
+LIB_DEPENDS +=		devel/gettext>=0.10.38 \
+			converters/libiconv
+BUILD_DEPENDS +=	devel/gettext>=0.10.38
+RUN_DEPENDS +=		devel/gettext>=0.10.38
+WANTLIB +=		intl>=5 iconv>=6
 
 # to be able to link when building with clang on i386 or gcc on ppc
 .if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "powerpc"

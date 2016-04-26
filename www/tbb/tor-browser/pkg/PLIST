@@ -67,13 +67,13 @@ lib/${FULLPKGNAME}/removed-files
 lib/${FULLPKGNAME}/run-mozilla.sh
 @bin lib/${FULLPKGNAME}/${BROWSER_NAME}
 @bin lib/${FULLPKGNAME}/${BROWSER_NAME}-bin
-lib/${FULLPKGNAME}/tor-browser.cfg
+lib/${FULLPKGNAME}/${BROWSER_NAME}.cfg
 lib/${FULLPKGNAME}/webapprt/
 @bin lib/${FULLPKGNAME}/webapprt-stub
 lib/${FULLPKGNAME}/webapprt/omni.ja
 lib/${FULLPKGNAME}/webapprt/webapprt.ini
 share/applications/${BROWSER_NAME}.desktop
 share/pixmaps/
-share/pixmaps/${BROWSER_NAME}.png
 @exec %D/bin/update-desktop-database
 @unexec-delete %D/bin/update-desktop-database
+share/pixmaps/${BROWSER_NAME}.png

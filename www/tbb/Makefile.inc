@@ -45,8 +45,8 @@ BUILD_DEPENDS +=	archivers/zip archivers/unzip
 RUN_DEPENDS +=		www/tbb/tor-browser
 
 EXTDIR_ROOT ?=		lib/${BROWSER_NAME}-${TBB_VERSION}
-EXTDIR_BASE ?=  	${EXTDIR_ROOT}/distribution
-EXTDIR ?=			${EXTDIR_BASE}/extensions/
+EXTDIR_BASE ?=  	${EXTDIR_ROOT}/browser
+EXTDIR ?=		${EXTDIR_BASE}/extensions/
 REAL_EXTDIR ?=		${PREFIX}/${EXTDIR}
 
 SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
