@@ -1,7 +1,4 @@
-# $OpenBSD$ -*- mode: Makefile; tab-width: 4; -*-
-#
-# Most of the code here is for the firefox add-ons that are part of
-# the TBB.
+# $OpenBSD$
 
 MAINTAINER ?=		Sean Levy <attila@stalphonsos.com>
 HOMEPAGE ?=			https://www.torproject.org
@@ -18,9 +15,9 @@ ADDON_NAME ?=
 .if !empty(ADDON_NAME)
 # Everything in this .if (most of the file) is for add-ons like
 # torbutton, tor-launcher, ... tor-browser does its own thing.
-.	if !defined(GUID)
+.  if !defined(GUID)
 ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
-.	endif
+.  endif
 USE_GMAKE =			Yes
 
 # This should be set to Yes if the distfile for the addon is the .xpi
@@ -35,10 +32,10 @@ ADDON_XPI_FILE ?=	${TBBNAME}.xpi
 # Directory that the port's makexpi.sh script dumps into, if it has one
 ADDON_SUBDIR ?=		pkg
 ADDON_BUILDDIR ?= 	${WRKBUILD}/${ADDON_SUBDIR}
-.	if !defined(MASTER_SITES)
+.  if !defined(MASTER_SITES)
 GH_PROJECT ?=		${ADDON_NAME}
 GH_TAGNAME ?=		${V}
-.	endif
+.  endif
 
 CONFIGURE_STYLE ?=	none
 BUILD_DEPENDS +=	archivers/zip archivers/unzip
@@ -53,7 +50,7 @@ SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
 
 SUBST_VARS +=		GUID
 
-.	if ${DISTFILE_IS_XPI:L} == "yes"
+.  if ${DISTFILE_IS_XPI:L} == "yes"
 EXTRACT_SUFX = .xpi
 
 do-extract:
@@ -61,10 +58,15 @@ do-extract:
 
 do-build:
 	cp ${FULLDISTDIR}/${ADDON_XPI_FILE} ${ADDON_BUILDDIR}/${ADDON_XPI_FILE}
-.   endif
+.  endif
 
 do-install:
 	${INSTALL_DATA_DIR} ${REAL_EXTDIR}
 	${INSTALL_DATA} ${ADDON_BUILDDIR}/${ADDON_XPI_FILE} ${REAL_EXTDIR}/${GUID}.xpi
 
 .endif
+
+# Local variables:
+# mode: makefile
+# End:
+
