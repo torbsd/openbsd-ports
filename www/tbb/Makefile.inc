@@ -65,8 +65,3 @@ do-install:
 	${INSTALL_DATA} ${ADDON_BUILDDIR}/${ADDON_XPI_FILE} ${REAL_EXTDIR}/${GUID}.xpi
 
 .endif
-
-# Local variables:
-# mode: makefile
-# End:
-
