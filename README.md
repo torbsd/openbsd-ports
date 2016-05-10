@@ -9,13 +9,13 @@ have your ports and src synced up (like I said: running -current).
 ## Branches and Versions ##
 
 This is the `develop` branch, currently being used to work on
-an update to __5.5.4__:
+an update to __5.5.5__:
 
-    ff-esr            38.7.1
+    ff-esr            38.8.0
     torbutton         1.9.4.5
-    tor-launcher      0.2.7.8
-    noscript          2.9.0.4
-    https-everywhere  5.1.4
+    tor-launcher      0.2.7.9
+    noscript          2.9.0.11
+    https-everywhere  5.1.6
 
 We use tags to mark release points that correspond as closely as
 possible to TBB releases.  They are marked "-sans-pt" to indicate that
