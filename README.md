@@ -8,20 +8,16 @@ have your ports and src synced up (like I said: running -current).
 
 ## Branches and Versions ##
 
-This is the `develop` branch, currently being used to work on
-an update to __5.5.5__:
+This is the `leap-6.0` branch, a fork of `develop` to push ahead
+on TBB __6.0__, which was just released.  We almost had 5.5.5
+sussed out but it looks like moving to 6.0 is a better idea
+all around:
 
-    ff-esr            38.8.0
-    torbutton         1.9.4.5
-    tor-launcher      0.2.7.9
+    ff-esr            45.1.1
+    torbutton         1.9.5.4
+    tor-launcher      0.2.9.3
     noscript          2.9.0.11
-    https-everywhere  5.1.6
-
-We use tags to mark release points that correspond as closely as
-possible to TBB releases.  They are marked "-sans-pt" to indicate that
-Pluggable Transports (PT) is not yet a part of this set of ports
-(e.g. tbb-5.5-sans-pt).  There may also be fixes, which are tagged
-...-fixN, e.g. tbb-5.5-sans-pt-fix1, -fix2, ...
+    https-everywhere  5.1.9
 
 ## Repositories ##
 

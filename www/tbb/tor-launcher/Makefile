@@ -1,7 +1,7 @@
 # $OpenBSD$
 
 ADDON_NAME =		tor-launcher
-V =			0.2.7.9
+V =			0.2.9.3
 COMMENT =		firefox add-on to control/manage tor server
 GUID =			tor-launcher@torproject.org
 ALL_TARGET =		package

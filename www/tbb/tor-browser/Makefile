@@ -11,7 +11,7 @@ MOZILLA_CODENAME =	browser
 BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr38.8.0
+GH_TAGNAME =		v${TBB_VERSION}-esr45.1.1
 
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 DISTNAME =		${GH_TAGNAME}
@@ -82,7 +82,7 @@ LIB_DEPENDS +=	textproc/icu4c
 CONFIGURE_ARGS += --with-system-icu
 WANTLIB += icudata icui18n icuuc
 
-CONFIGURE_ARGS +=	--enable-gstreamer=1.0
+CONFIGURE_ARGS +=	--disable-gstreamer
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
 RUN_DEPENDS +=		net/tor>=0.2.7.6
