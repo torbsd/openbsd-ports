@@ -17,7 +17,7 @@ PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 DISTNAME =		${GH_TAGNAME}
 
 SO_VERSION =		1.0
-MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
+MOZILLA_LIBS =		browsercomps xul lgpllibs
 MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
 MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
 
@@ -28,6 +28,7 @@ MODULES =		www/mozilla lang/python
 
 # Things we must override to use www/mozilla:
 MOZILLA_USE_BUNDLED_NSS = Yes
+MOZILLA_USE_BUNDLED_LIBEVENT = Yes
 MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 EXTRACT_SUFX = 		.tar.gz
 DIST_SUBDIR = 		${BROWSER_NAME}
