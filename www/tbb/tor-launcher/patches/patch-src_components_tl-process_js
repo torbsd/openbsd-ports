@@ -1,27 +1,37 @@
 $OpenBSD$
---- src/components/tl-process.js.orig	Thu Jan 21 08:41:57 2016
-+++ src/components/tl-process.js	Wed Feb 17 10:40:58 2016
-@@ -310,9 +310,9 @@ TorProcessService.prototype =
-       // starting tor (but we don't know how to do that).  Instead, we
-       // rely on the TBB launcher to start Firefox from the right place.
-       var exeFile = this._getTorFile("tor");
--      var torrcFile = this._getTorFile("torrc");
-+      var torrcFile = this._getTorFile("torrc",true);
-       var torrcDefaultsFile = this._getTorFile("torrc-defaults");
--      var dataDir = this._getTorFile("tordatadir");
-+      var dataDir = this._getTorFile("tordatadir",true);
+
+Let geoip/geoip6 file paths be set by prefs like everything else.  Go
+back to old way of munging relative paths, their new way is
+effectively a no-op for us anyway.
+--- src/components/tl-process.js.orig	Tue May 24 16:33:24 2016
++++ src/components/tl-process.js	Thu Jun 16 13:06:32 2016
+@@ -309,6 +309,7 @@ TorProcessService.prototype =
+   mIsQuitting: false,
+   mObsSvc: null,
+   mProtocolSvc: null,
++  mTorFileBaseDir: null,
+   mTorProcess: null,    // nsIProcess
+   mTorProcessStartTime: null, // JS Date.now()
+   // mIsUserDataOutsideOfAppDir is true when TorBrowser-Data is used.
+@@ -341,6 +342,8 @@ TorProcessService.prototype =
+       var exeFile = this._getTorFile("tor", false);
+       var torrcFile = this._getTorFile("torrc", true);
+       var torrcDefaultsFile = this._getTorFile("torrc-defaults", false);
++      var geoipFile = this._getTorFile("geoip", false);
++      var geoip6File = this._getTorFile("geoip6", false);
        var hashedPassword = this.mProtocolSvc.TorGetPassword(true);
  
        var detailsKey;
-@@ -335,26 +335,17 @@ TorProcessService.prototype =
-         return;
+@@ -364,18 +367,12 @@ TorProcessService.prototype =
        }
  
--      var geoipFile = dataDir.clone();
--      geoipFile.append("geoip");
+ 
+-      // The geoip and geoip6 files are in the same directory as torrc-defaults.
+-      var geoipFile = torrcDefaultsFile.clone();
+-      geoipFile.leafName = "geoip";
 -
--      var geoip6File = dataDir.clone();
--      geoip6File.append("geoip6");
+-      var geoip6File = torrcDefaultsFile.clone();
+-      geoip6File.leafName = "geoip6";
 -
        var args = [];
        if (torrcDefaultsFile)
@@ -32,122 +42,42 @@ $OpenBSD$
        }
        args.push("-f");
        args.push(torrcFile.path);
-       args.push("DataDirectory");
-       args.push(dataDir.path);
--      args.push("GeoIPFile");
--      args.push(geoipFile.path);
--      args.push("GeoIPv6File");
--      args.push(geoip6File.path);
-       args.push("HashedControlPassword");
-       args.push(hashedPassword);
- 
-@@ -647,17 +638,12 @@ TorProcessService.prototype =
-   {
-     if (!aTorFileType)
-       return null;
-+    var dontCheck = (arguments.length > 1) ? arguments[1] : false;
- 
--    var isRelativePath = true;
-     var prefName = "extensions.torlauncher." + aTorFileType + "_path";
-     var path = TorLauncherUtil.getCharPref(prefName);
--    if (path)
-+    if (!path)
-     {
--      var re = (TorLauncherUtil.isWindows) ?  /^[A-Za-z]:\\/ : /^\//;
--      isRelativePath = !re.test(path);
--    }
--    else
--    {
-       // Get default path.
-       if (TorLauncherUtil.isWindows)
-       {
-@@ -670,68 +656,37 @@ TorProcessService.prototype =
-         else if ("tordatadir" == aTorFileType)
-           path = "Data\\Tor";
-       }
--      else // Linux, Mac OS and others.
-+      else // BSD Unix
-       {
-+        // Relative to ~/.tor-browser unless absolute
-         if ("tor" == aTorFileType)
--          path = "Tor/tor";
-+          path = "/usr/local/bin/tor";
-         else if ("torrc-defaults" == aTorFileType)
--          path = "Data/Tor/torrc-defaults";
-+          path = "/etc/tor/torrc-defaults";
-         else if ("torrc" == aTorFileType)
--          path = "Data/Tor/torrc";
-+          path = "torrc";
-         else if ("tordatadir" == aTorFileType)
--          path = "Data/Tor/";
-+          path = "tor_data";
-       }
-     }
- 
-     if (!path)
+@@ -679,10 +676,9 @@ TorProcessService.prototype =
        return null;
  
-+    var re = (TorLauncherUtil.isWindows) ? /^[A-Za-z]:\\/ : /^\//;
-+    var isRelativePath = !re.test(path);
-+
-     try
+     let isRelativePath = true;
+-    let isUserData = (aTorFileType != "tor") &&
+-                     (aTorFileType != "torrc-defaults");
+     let prefName = "extensions.torlauncher." + aTorFileType + "_path";
+     let path = TorLauncherUtil.getCharPref(prefName);
++    // N.B. On OpenBSD, path will always be set via prefs.js
+     if (path)
      {
-       var f;
+       let re = (TorLauncherUtil.isWindows) ?  /^[A-Za-z]:\\/ : /^\//;
+@@ -763,16 +759,13 @@ TorProcessService.prototype =
        if (isRelativePath)
        {
--        // Turn into an absolute path.
-         if (!this.mTorFileBaseDir)
+         // Turn 'path' into an absolute path.
+-        if (this._isUserDataOutsideOfAppDir)
++        if (!this.mTorFileBaseDir)
          {
--          var topDir;
--          var appInfo = Cc["@mozilla.org/xre/app-info;1"]
--                          .getService(Ci.nsIXULAppInfo);
--          if (appInfo.ID == this.kThunderbirdID || appInfo.ID == this.kInstantbirdID)
--          {
--            topDir = Cc["@mozilla.org/file/directory_service;1"]
--                       .getService(Ci.nsIProperties).get("CurProcD", Ci.nsIFile);
--            topDir.append("extensions");
--            topDir.append(this.kTorLauncherExtPath);
--          }
--          else
--          {
--            // For Firefox, paths are relative to the top of the TBB install.
--            var tbbBrowserDepth = 0; // Windows and Linux
--            if (TorLauncherUtil.isAppVersionAtLeast("21.0"))
--            {
--              // In FF21+, CurProcD is the "browser" directory that is next to
--              // the firefox binary, e.g., <TorFileBaseDir>/Browser/browser
--              ++tbbBrowserDepth;
--            }
--            if (TorLauncherUtil.isMac)
--              tbbBrowserDepth += 2;
--
--            topDir = Cc["@mozilla.org/file/directory_service;1"]
--                    .getService(Ci.nsIProperties).get("CurProcD", Ci.nsIFile);
--            while (tbbBrowserDepth > 0)
--            {
--              var didRemove = (topDir.leafName != ".");
--              topDir = topDir.parent;
--              if (didRemove)
--                tbbBrowserDepth--;
--            }
--          }
--
--          topDir.append("TorBrowser");
--          this.mTorFileBaseDir = topDir;
+-          let baseDir = isUserData ? this._dataDir : this._appDir;
+-          f = baseDir.clone();
 +          this.mTorFileBaseDir = Cc["@mozilla.org/file/directory_service;1"]
 +                                   .getService(Ci.nsIProperties)
 +                                   .get("DefProfRt", Ci.nsIFile);
          }
--
-         f = this.mTorFileBaseDir.clone();
+-        else
+-        {
+-          f = this._appDir.clone();
+-          f.append("TorBrowser");
+-        }
++        f = this.mTorFileBaseDir.clone();
          f.appendRelativePath(path);
        }
-@@ -741,9 +696,11 @@ TorProcessService.prototype =
-         f.initWithPath(path);
-       }
- 
--      if (f.exists())
-+      if (dontCheck || f.exists())
+       else
+@@ -800,6 +793,8 @@ TorProcessService.prototype =
+       if (f.exists())
        {
          try { f.normalize(); } catch(e) {}
 +
