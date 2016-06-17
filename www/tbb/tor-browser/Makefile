@@ -66,14 +66,11 @@ WANTLIB +=		intl>=5 iconv>=6
 CONFIGURE_ARGS +=	--disable-debug-symbols
 .endif
 
-# Avoid conflict with other firefox installs (ESR, regular, seamonkey).
-#
+# Avoid conflict with other firefox installs, use ~/.tor-browser
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 			--with-tor-browser-version=${TBB_VERSION}	\
-			--disable-tor-browser-update
-# Reminder: dig deeper, fix --with-user-appdir and submit a patch
-# upstream so I can get rid of the patch in nsXREDirProvider.cpp.
-#CONFIGURE_ARGS += --with-user-appdir=.${BROWSER_NAME}
+			--disable-tor-browser-update			\
+			--with-user-appdir=.${BROWSER_NAME}
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
