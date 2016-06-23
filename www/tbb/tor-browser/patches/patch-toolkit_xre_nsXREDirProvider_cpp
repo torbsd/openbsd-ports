@@ -3,7 +3,7 @@ $OpenBSD$
 Make sure our profiles go under ~/.tor-browser, get rid of tor browser
 update stuff that isn't relevant under OpenBSD
 --- toolkit/xre/nsXREDirProvider.cpp.orig	Tue May 31 07:26:30 2016
-+++ toolkit/xre/nsXREDirProvider.cpp	Fri Jun 10 17:37:03 2016
++++ toolkit/xre/nsXREDirProvider.cpp	Wed Jun 22 20:52:55 2016
 @@ -32,14 +32,11 @@
  #include "nsArrayEnumerator.h"
  #include "nsEnumeratorUtils.h"
@@ -278,20 +278,24 @@ update stuff that isn't relevant under OpenBSD
  
  #elif defined(ANDROID)
    // The directory used for storing profiles
-@@ -1545,6 +1594,12 @@ nsXREDirProvider::AppendProfilePath(nsIFile* aFile,
+@@ -1545,6 +1594,16 @@ nsXREDirProvider::AppendProfilePath(nsIFile* aFile,
    rv = aFile->AppendNative(nsDependentCString("mozilla"));
    NS_ENSURE_SUCCESS(rv, rv);
  #elif defined(XP_UNIX)
 +  nsAutoCString folder;
 +  // Make it hidden (by starting with "."), except when local (the
 +  // profile is already under ~/.cache or XDG_CACHE_HOME).
++#ifdef __OpenBSD__
++  folder.Assign(MOZ_USER_DIR);
++  rv = aFile->AppendNative(folder);
++#else
 +  if (!aLocal)
 +    folder.Assign('.');
 +
    if (!profile.IsEmpty()) {
      // Skip any leading path characters
      const char* profileStart = profile.get();
-@@ -1553,17 +1608,31 @@ nsXREDirProvider::AppendProfilePath(nsIFile* aFile,
+@@ -1553,17 +1612,32 @@ nsXREDirProvider::AppendProfilePath(nsIFile* aFile,
  
      // On the off chance that someone wanted their folder to be hidden don't
      // let it become ".."
@@ -323,6 +327,7 @@ update stuff that isn't relevant under OpenBSD
 +
 +    rv = aFile->AppendNative(folder);
 +  }
++#endif /* __OpenBSD__ */
 +  NS_ENSURE_SUCCESS(rv, rv);
  
  #else
