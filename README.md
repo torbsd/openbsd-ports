@@ -9,7 +9,7 @@ have your ports and src synced up (like I said: running -current).
 ## Versions ##
 
 These are the versions of the major components of TBB in this branch,
-which is for
+which is
 [TBB 6.0.2](https://blog.torproject.org/blog/tor-browser-602-released).
 
     ff-esr            45.2.0
