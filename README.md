@@ -6,15 +6,14 @@ announcements on [our web site](https://torbsd.github.io) you should
 be careful using this stuff.  You must be runing OpenBSD -current and
 have your ports and src synced up (like I said: running -current).
 
-## Branches and Versions ##
+## Versions ##
 
-This is the `leap-6.0` branch, a fork of `develop` to push ahead
-on TBB __6.0__, which was just released.  We almost had 5.5.5
-sussed out but it looks like moving to 6.0 is a better idea
-all around:
+These are the versions of the major components of TBB in this branch,
+which is
+[TBB 6.0.2](https://blog.torproject.org/blog/tor-browser-602-released).
 
-    ff-esr            45.1.1
-    torbutton         1.9.5.4
+    ff-esr            45.2.0
+    torbutton         1.9.5.5
     tor-launcher      0.2.9.3
     noscript          2.9.0.11
     https-everywhere  5.1.9
