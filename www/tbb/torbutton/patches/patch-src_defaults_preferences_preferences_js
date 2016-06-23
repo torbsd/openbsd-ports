@@ -1,7 +1,8 @@
 $OpenBSD$
 
---- src/defaults/preferences/preferences.js.orig	Thu Apr  2 08:28:22 2015
-+++ src/defaults/preferences/preferences.js	Thu Apr  2 08:31:16 2015
+Turn on no_updates.  Turn off versioncheck.
+--- src/defaults/preferences/preferences.js.orig	Tue May 24 15:27:03 2016
++++ src/defaults/preferences/preferences.js	Thu Jun 23 13:15:11 2016
 @@ -1,7 +1,7 @@
  // debug prefs
  pref("extensions.torbutton.debug",true);
@@ -11,13 +12,22 @@ $OpenBSD$
 +pref("extensions.torbutton.logmethod",0); // 0=stdout, 1=errorconsole, 2=debuglog
  
  // Display prefs
- pref("extensions.torbutton.display_panel",true);
-@@ -30,7 +30,7 @@ pref("extensions.torbutton.local_tor_check",true);
+ pref("extensions.torbutton.display_circuit", true);
+@@ -33,7 +33,7 @@ pref("extensions.torbutton.local_tor_check",true);
  pref("extensions.torbutton.test_failed",false);
  pref("extensions.torbutton.no_proxies_on","");
  pref("extensions.torbutton.versioncheck_url","https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions");
 -pref("extensions.torbutton.versioncheck_enabled",true);
 +pref("extensions.torbutton.versioncheck_enabled",false);
+ pref("extensions.torbutton.use_nontor_proxy",false);
  
  // XXX: wtf prefs? These seem not actually connected, but govern
- // if user wants own tor proxy settings
+@@ -133,7 +133,7 @@ pref("extensions.torbutton.block_thread",true);
+ pref("extensions.torbutton.block_thwrite",true);
+ pref("extensions.torbutton.block_nthread",false);
+ pref("extensions.torbutton.block_nthwrite",false);
+-pref("extensions.torbutton.no_updates",false);
++pref("extensions.torbutton.no_updates",true);
+ pref("extensions.torbutton.isolate_content",true);
+ pref("extensions.torbutton.no_search",true);
+ pref("extensions.torbutton.set_uagent",true);

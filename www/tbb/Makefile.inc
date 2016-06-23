@@ -6,7 +6,7 @@ GH_ACCOUNT ?=		torbsd
 PERMIT_PACKAGE_CDROM ?= Yes
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		5.5.4
+TBB_VERSION =		6.0
 
 # Used by tor-launcher, tor-browser
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
@@ -42,11 +42,9 @@ BUILD_DEPENDS +=	archivers/zip archivers/unzip
 RUN_DEPENDS +=		www/tbb/tor-browser
 
 EXTDIR_ROOT ?=		lib/${BROWSER_NAME}-${TBB_VERSION}
-EXTDIR_BASE ?=  	${EXTDIR_ROOT}/browser
-EXTDIR ?=		${EXTDIR_BASE}/extensions/
-REAL_EXTDIR ?=		${PREFIX}/${EXTDIR}
+REAL_EXTDIR ?=		${PREFIX}/${EXTDIR_ROOT}/browser/extensions
 
-SUBST_VARS +=		EXTDIR_ROOT EXTDIR_BASE EXTDIR TBB_VERSION
+SUBST_VARS +=		EXTDIR_ROOT TBB_VERSION
 
 SUBST_VARS +=		GUID
 

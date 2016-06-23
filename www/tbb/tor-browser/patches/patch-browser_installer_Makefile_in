@@ -2,15 +2,13 @@ $OpenBSD$
 Don't install the sdk / headers etc
 
 Patch taken from www/firefox-esr
---- browser/installer/Makefile.in.orig	Tue Sep  1 08:53:38 2015
-+++ browser/installer/Makefile.in	Wed Sep  9 15:58:57 2015
-@@ -114,10 +114,6 @@ MOZ_PKG_MAC_ICON=branding/disk.icns
+--- browser/installer/Makefile.in.orig	Tue May 31 07:26:30 2016
++++ browser/installer/Makefile.in	Wed Jun  1 18:33:10 2016
+@@ -95,8 +95,6 @@ MOZ_PKG_MAC_ICON=branding/disk.icns
  MOZ_PKG_MAC_EXTRA=--symlink '/Applications:/ '
  endif
  
--ifndef LIBXUL_SDK
 -INSTALL_SDK = 1
--endif
 -
  include $(topsrcdir)/toolkit/mozapps/installer/signing.mk
  include $(topsrcdir)/toolkit/mozapps/installer/packager.mk
