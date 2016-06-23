@@ -1,8 +1,8 @@
 $OpenBSD$
 
-This patch is mainly for debugging, can go away soon.
+Turn on no_updates.  Turn off versioncheck.
 --- src/defaults/preferences/preferences.js.orig	Tue May 24 15:27:03 2016
-+++ src/defaults/preferences/preferences.js	Thu Jun 16 12:10:57 2016
++++ src/defaults/preferences/preferences.js	Thu Jun 23 13:15:11 2016
 @@ -1,7 +1,7 @@
  // debug prefs
  pref("extensions.torbutton.debug",true);
@@ -22,3 +22,12 @@ This patch is mainly for debugging, can go away soon.
  pref("extensions.torbutton.use_nontor_proxy",false);
  
  // XXX: wtf prefs? These seem not actually connected, but govern
+@@ -133,7 +133,7 @@ pref("extensions.torbutton.block_thread",true);
+ pref("extensions.torbutton.block_thwrite",true);
+ pref("extensions.torbutton.block_nthread",false);
+ pref("extensions.torbutton.block_nthwrite",false);
+-pref("extensions.torbutton.no_updates",false);
++pref("extensions.torbutton.no_updates",true);
+ pref("extensions.torbutton.isolate_content",true);
+ pref("extensions.torbutton.no_search",true);
+ pref("extensions.torbutton.set_uagent",true);
