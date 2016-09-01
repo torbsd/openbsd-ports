@@ -1,9 +1,9 @@
 $OpenBSD$
 
 Taken from security/nss
---- security/nss/Makefile.orig	Fri Sep 11 16:37:24 2015
-+++ security/nss/Makefile	Fri Sep 11 16:37:34 2015
-@@ -44,7 +44,7 @@ include $(CORE_DEPTH)/coreconf/rules.mk
+--- security/nss/Makefile.orig	Tue May 31 07:26:30 2016
++++ security/nss/Makefile	Wed Jun  1 18:35:53 2016
+@@ -46,7 +46,7 @@ include $(CORE_DEPTH)/coreconf/rules.mk
  # (7) Execute "local" rules. (OPTIONAL).                              #
  #######################################################################
  

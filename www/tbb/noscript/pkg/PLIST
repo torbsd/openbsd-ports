@@ -1,2 +1,2 @@
 @comment $OpenBSD$
-${EXTDIR}/${GUID}.xpi
+${EXTDIR_ROOT}/browser/extensions/${GUID}.xpi

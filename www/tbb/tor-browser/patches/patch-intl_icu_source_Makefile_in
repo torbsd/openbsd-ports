@@ -10,9 +10,9 @@ gmake[6]: Leaving directory '/usr/obj/ports/firefox-29.0beta3/build-amd64/js/src
 Makefile:77: recipe for target 'buildicu' failed
 
 Patch taken from www/firefox-esr
---- intl/icu/source/Makefile.in.orig	Sun Mar 30 23:17:59 2014
-+++ intl/icu/source/Makefile.in	Sun Mar 30 23:18:18 2014
-@@ -311,7 +311,7 @@ $(top_builddir)/config/pkgdataMakefile:
+--- intl/icu/source/Makefile.in.orig	Tue May 31 07:26:30 2016
++++ intl/icu/source/Makefile.in	Wed Jun  1 18:33:48 2016
+@@ -333,7 +333,7 @@ $(top_builddir)/config/pkgdataMakefile:
  
  $(top_builddir)/config/icu-config: $(top_builddir)/Makefile $(top_srcdir)/config/icu-config-top $(top_srcdir)/config/icu-config-bottom $(top_builddir)/config/Makefile.inc @platform_make_fragment@ $(top_srcdir)/config/make2sh.sed
  	-$(RMV) $@

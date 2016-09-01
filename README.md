@@ -6,22 +6,17 @@ announcements on [our web site](https://torbsd.github.io) you should
 be careful using this stuff.  You must be runing OpenBSD -current and
 have your ports and src synced up (like I said: running -current).
 
-## Branches and Versions ##
+## Versions ##
 
-This is the `develop` branch, currently being used to work on
-an update to __5.5.5__:
+These are the versions of the major components of TBB in this branch,
+which is
+[TBB 6.0.2](https://blog.torproject.org/blog/tor-browser-602-released).
 
-    ff-esr            38.8.0
-    torbutton         1.9.4.5
-    tor-launcher      0.2.7.9
+    ff-esr            45.2.0
+    torbutton         1.9.5.5
+    tor-launcher      0.2.9.3
     noscript          2.9.0.11
-    https-everywhere  5.1.6
-
-We use tags to mark release points that correspond as closely as
-possible to TBB releases.  They are marked "-sans-pt" to indicate that
-Pluggable Transports (PT) is not yet a part of this set of ports
-(e.g. tbb-5.5-sans-pt).  There may also be fixes, which are tagged
-...-fixN, e.g. tbb-5.5-sans-pt-fix1, -fix2, ...
+    https-everywhere  5.1.9
 
 ## Repositories ##
 

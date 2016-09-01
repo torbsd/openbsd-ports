@@ -11,13 +11,13 @@ MOZILLA_CODENAME =	browser
 BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr38.8.0
+GH_TAGNAME =		v${TBB_VERSION}-esr45.2.0
 
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 DISTNAME =		${GH_TAGNAME}
 
 SO_VERSION =		1.0
-MOZILLA_LIBS =		browsercomps mozalloc mozgnome xul
+MOZILLA_LIBS =		browsercomps xul lgpllibs
 MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
 MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
 
@@ -28,6 +28,7 @@ MODULES =		www/mozilla lang/python
 
 # Things we must override to use www/mozilla:
 MOZILLA_USE_BUNDLED_NSS = Yes
+MOZILLA_USE_BUNDLED_LIBEVENT = Yes
 MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 EXTRACT_SUFX = 		.tar.gz
 DIST_SUBDIR = 		${BROWSER_NAME}
@@ -65,14 +66,11 @@ WANTLIB +=		intl>=5 iconv>=6
 CONFIGURE_ARGS +=	--disable-debug-symbols
 .endif
 
-# Avoid conflict with other firefox installs (ESR, regular, seamonkey).
-#
+# Avoid conflict with other firefox installs, use ~/.tor-browser
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 			--with-tor-browser-version=${TBB_VERSION}	\
-			--disable-tor-browser-update
-# Reminder: dig deeper, fix --with-user-appdir and submit a patch
-# upstream so I can get rid of the patch in nsXREDirProvider.cpp.
-#CONFIGURE_ARGS += --with-user-appdir=.${BROWSER_NAME}
+			--disable-tor-browser-update			\
+			--with-user-appdir=.${BROWSER_NAME}
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
@@ -82,7 +80,7 @@ LIB_DEPENDS +=	textproc/icu4c
 CONFIGURE_ARGS += --with-system-icu
 WANTLIB += icudata icui18n icuuc
 
-CONFIGURE_ARGS +=	--enable-gstreamer=1.0
+CONFIGURE_ARGS +=	--disable-gstreamer
 
 BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
 RUN_DEPENDS +=		net/tor>=0.2.7.6
