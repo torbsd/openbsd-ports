@@ -1,0 +1,20 @@
+$OpenBSD$
+
+Turn off stuff we have already turned off in Makefile
+--- .mozconfig.orig	Mon Sep  5 14:01:00 2016
++++ .mozconfig	Mon Sep  5 14:02:57 2016
+@@ -9,10 +9,10 @@ ac_add_options --enable-optimize
+ #ac_add_options --disable-optimize
+ ac_add_options --enable-official-branding
+ 
+-ac_add_options --enable-tor-browser-update
+-ac_add_options --enable-update-packaging
+-ac_add_options --enable-signmar
+-ac_add_options --enable-verify-mar
++#ac_add_options --enable-tor-browser-update
++#ac_add_options --enable-update-packaging
++#ac_add_options --enable-signmar
++#ac_add_options --enable-verify-mar
+ 
+ ac_add_options --disable-strip
+ ac_add_options --disable-install-strip

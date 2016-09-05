@@ -23,8 +23,8 @@ DISTNAME =		${GH_TAGNAME}
 
 SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps xul lgpllibs
-#MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
-#MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
+MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
+MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
 
 # mozilla public license
 PERMIT_PACKAGE_CDROM=	Yes
@@ -48,19 +48,22 @@ MODCLANG_LANGS =	c c++
 NO_TEST =		Yes
 
 # for nss build system
-#MAKE_ENV +=	BUILD_OPT=1 \
-#		LOCALBASE="${LOCALBASE}" \
-#		NSS_ENABLE_ECC=1 \
-#		NSS_USE_SYSTEM_SQLITE=1 \
-#		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
+MAKE_ENV +=	BUILD_OPT=1 \
+		LOCALBASE="${LOCALBASE}" \
+		NSS_ENABLE_ECC=1 \
+		NSS_USE_SYSTEM_SQLITE=1 \
+		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
 
-CONFIGURE_STYLE =	gnu
+#CONFIGURE_STYLE =	gnu
+CONFIGURE_STYLE =	autoconf no-autoheader
 
 LIB_DEPENDS +=		devel/gettext>=0.10.38 \
 			converters/libiconv
 BUILD_DEPENDS +=	devel/gettext>=0.10.38
 RUN_DEPENDS +=		devel/gettext>=0.10.38
 WANTLIB +=		intl>=5 iconv>=6
+
+BUILD_DEPENDS +=	devel/py-virtualenv
 
 # to be able to link when building with clang on i386 or gcc on ppc
 .if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "powerpc"
@@ -89,21 +92,23 @@ RUN_DEPENDS +=		net/tor>=0.2.8.6
 # bug 857628
 CONFIGURE_ARGS +=	--enable-pie
 
-#MOZILLA_AUTOCONF_DIRS +=	js/src
+MOZILLA_AUTOCONF_DIRS +=	js/src
 
 # pkg/PLIST fu
 SUBST_VARS += 		BROWSER_NAME TBB_VERSION
 
+# there are sometimes .orig files in the source... why?
 post-extract:
+	-find ${WRKSRC} -name '*.orig' -print -exec rm {} \;
+
+post-patch:
 	# hack .mozconfig
-	cp ${WRKSRC}/.mozconfig ${WRKSRC}/.mozconfig.bak
-	sed -e 's/@TOPSRCDIR@\/obj-@CONFIG_GUESS@/${WRKBUILD:S/\//\\\//g}/' \
-		< ${WRKSRC}/.mozconfig.bak > ${WRKSRC}/.mozconfig
+	sed -i.bak -e \
+		's/@TOPSRCDIR@\/obj-@CONFIG_GUESS@/${WRKBUILD:S/\//\\\//g}/' \
+		${WRKSRC}/.mozconfig
 	# hack config/baseconfig.mk to not use MOZ_APP_VERSION in a few places
-	cp ${WRKSRC}/config/baseconfig.mk ${WRKSRC}/config/baseconfig.mk.bak
-	sed -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
-		< ${WRKSRC}/config/baseconfig.mk.bak 		\
-		> ${WRKSRC}/config/baseconfig.mk
+	sed -i.bak -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
+		${WRKSRC}/config/baseconfig.mk
 
 post-install:
 	# install prefs, bookmarks, app config file for Tor browser
