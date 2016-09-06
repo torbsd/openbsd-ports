@@ -99,7 +99,7 @@ SUBST_VARS += 		BROWSER_NAME TBB_VERSION
 
 # there are sometimes .orig files in the source... why?
 post-extract:
-	-find ${WRKSRC} -name '*.orig' -print -exec rm {} \;
+	-find ${WRKSRC} -name '*.orig' -exec rm {} \;
 
 post-patch:
 	# hack .mozconfig
