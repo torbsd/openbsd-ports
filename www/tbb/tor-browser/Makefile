@@ -97,7 +97,7 @@ MOZILLA_AUTOCONF_DIRS +=	js/src
 # pkg/PLIST fu
 SUBST_VARS += 		BROWSER_NAME TBB_VERSION
 
-# there are sometimes .orig files in the source... why?
+# there are sometimes .orig files in the source, messes with update-patches
 post-extract:
 	-find ${WRKSRC} -name '*.orig' -exec rm {} \;
 
@@ -110,6 +110,8 @@ post-patch:
 	sed -i.bak -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
 		${WRKSRC}/config/baseconfig.mk
 
+BROWSER_CFG = ${PREFIX}/lib/${PKGNAME}/${BROWSER_NAME}.cfg
+
 post-install:
 	# install prefs, bookmarks, app config file for Tor browser
 	${INSTALL_DATA_DIR} \
@@ -120,8 +122,11 @@ post-install:
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
 	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
-	${INSTALL_DATA} ${FILESDIR}/${BROWSER_NAME}.cfg \
-	  ${PREFIX}/lib/${PKGNAME}/${BROWSER_NAME}.cfg
+	# put tor-browser.cfg together
+	(sed -e 's/^#/\/\/#/' < ${FILESDIR}/extension-overrides.js; \
+	 cat ${FILESDIR}/tor-browser-cfg-tail.js) > ${BROWSER_CFG}
+	chown ${SHAREOWN}:${SHAREGRP} ${BROWSER_CFG}
+	chmod ${SHAREMODE} ${BROWSER_CFG}
 	# install desktop file
 	${INSTALL_DATA_DIR} ${PREFIX}/share/applications/
 	${SUBST_DATA} ${FILESDIR}/${BROWSER_NAME}.desktop \
