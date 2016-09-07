@@ -2,15 +2,7 @@ $OpenBSD$
 
 Set all path-related prefs to minimize patching of tl-process.js
 --- src/defaults/preferences/prefs.js.orig	Tue May 24 16:33:24 2016
-+++ src/defaults/preferences/prefs.js	Thu Jun 23 10:08:20 2016
-@@ -1,5 +1,5 @@
--pref("extensions.torlauncher.loglevel", 4);  // 1=verbose, 2=debug, 3=info, 4=note, 5=warn
--pref("extensions.torlauncher.logmethod", 1);  // 0=stdout, 1=errorconsole, 2=debuglog
-+pref("extensions.torlauncher.loglevel", 1);  // 1=verbose, 2=debug, 3=info, 4=note, 5=warn
-+pref("extensions.torlauncher.logmethod", 0);  // 0=stdout, 1=errorconsole, 2=debuglog
- pref("extensions.torlauncher.max_tor_log_entries", 1000);
- 
- pref("extensions.torlauncher.control_host", "127.0.0.1");
++++ src/defaults/preferences/prefs.js	Wed Sep  7 16:33:18 2016
 @@ -11,14 +11,17 @@ pref("extensions.torlauncher.prompt_at_startup", true)
  // The tor_path is relative to the application directory. On Linux and
  // Windows this is the Browser/ directory that contains the firefox
