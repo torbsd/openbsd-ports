@@ -2,22 +2,27 @@ $OpenBSD$
 
 Add a compile-time option to make Tor browser look for its data
 directory in the user's home directory and turn it on for OpenBSD.
-Also fold in nearly identical logic for defined(ANDROID) in the hope
-this makes the patch easier to upstream.
---- xpcom/io/TorFileUtils.cpp.orig	Tue Aug 23 14:52:47 2016
-+++ xpcom/io/TorFileUtils.cpp	Tue Sep  6 13:36:05 2016
-@@ -6,6 +6,10 @@
+Also fold in nearly identical logic for defined(ANDROID).
+--- xpcom/io/TorFileUtils.cpp.orig	Wed Sep  7 02:07:10 2016
++++ xpcom/io/TorFileUtils.cpp	Tue Sep 20 14:43:18 2016
+@@ -6,6 +6,16 @@
  
  #include "TorFileUtils.h"
  
-+#if defined(ANDROID) || defined(__OpenBSD__)
++#if defined(ANDROID)
 +# define TOR_BROWSER_DATA_IN_HOME_DIR 1
++# define TOR_BROWSER_DATA_IN_HOME_SUBDIR 0
++#endif
++#if defined(__OpenBSD__)
++# define TOR_BROWSER_DATA_IN_HOME_DIR 1
++# define TOR_BROWSER_DATA_IN_HOME_SUBDIR 1
++# define TOR_BROWSER_DATA_SUBDIR ".tor-browser"
 +#endif /* __OpenBSD__ */
 +
  static nsresult GetAppRootDir(nsIFile *aExeFile, nsIFile** aFile);
  
  //-----------------------------------------------------------------------------
-@@ -14,9 +18,20 @@ TorBrowser_GetUserDataDir(nsIFile *aExeFile, nsIFile**
+@@ -14,9 +24,21 @@ TorBrowser_GetUserDataDir(nsIFile *aExeFile, nsIFile**
  {
    NS_ENSURE_ARG_POINTER(aFile);
    nsCOMPtr<nsIFile> tbDataDir;
@@ -32,15 +37,16 @@ this makes the patch easier to upstream.
 +  nsresult rv = NS_NewNativeLocalFile(nsDependentCString(homeDir), true,
 +                                      getter_AddRefs(tbDataDir));
 +  NS_ENSURE_SUCCESS(rv, rv);
-+#if defined(__OpenBSD__)
-+  rv = tbDataDir->AppendNative(tbDataLeafName);
++#if defined(TOR_BROWSER_DATA_IN_HOME_SUBDIR)
++  nsAutoCString leafSubdir(NS_LITERAL_CSTRING(TOR_BROWSER_DATA_SUBDIR));
++  rv = tbDataDir->AppendNative(leafSubdir);
 +  NS_ENSURE_SUCCESS(rv, rv);
-+#endif /* __OpenBSD__ */
++#endif
 +#elif defined(TOR_BROWSER_DATA_OUTSIDE_APP_DIR)
    nsCOMPtr<nsIFile> appRootDir;
    nsresult rv = GetAppRootDir(aExeFile, getter_AddRefs(appRootDir));
    NS_ENSURE_SUCCESS(rv, rv);
-@@ -80,14 +95,6 @@ TorBrowser_GetUserDataDir(nsIFile *aExeFile, nsIFile**
+@@ -80,14 +102,6 @@ TorBrowser_GetUserDataDir(nsIFile *aExeFile, nsIFile**
      NS_ENSURE_SUCCESS(rv, rv);
    }
  #endif
