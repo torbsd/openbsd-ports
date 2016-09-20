@@ -10,13 +10,13 @@ have your ports and src synced up (like I said: running -current).
 
 These are the versions of the major components of TBB in this branch,
 which is
-[TBB 6.0.4](https://blog.torproject.org/blog/tor-browser-604-released).
+[TBB 6.0.5](https://blog.torproject.org/blog/tor-browser-605-released).
 
-    ff-esr            45.3.6
-    torbutton         1.9.5.6
+    ff-esr            45.4.0
+    torbutton         1.9.5.7
     tor-launcher      0.2.9.3
     noscript          2.9.0.14
-    https-everywhere  5.2.1
+    https-everywhere  5.2.4
 
 ## Repositories ##
 
