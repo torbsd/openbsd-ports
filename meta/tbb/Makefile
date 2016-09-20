@@ -4,7 +4,7 @@ COMMENT=	Tor Browser Bundle meta-package
 
 MAINTAINER=	Sean Levy <attila@stalphonsos.com>
 
-PKGNAME=	tbb-6.0.2
+PKGNAME=	tbb-6.0.4
 
 RUN_DEPENDS=	www/tbb/tor-browser \
 		www/tbb/torbutton \
