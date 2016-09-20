@@ -10,8 +10,13 @@ MOZILLA_PROJECT =	${BROWSER_NAME}
 MOZILLA_CODENAME =	browser
 BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
+MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
+EXTRACT_SUFX = 		.tar.gz
+DIST_SUBDIR = 		${BROWSER_NAME}
+WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
+
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr45.2.0
+GH_TAGNAME =		v${TBB_VERSION}-esr45.3.0
 
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 DISTNAME =		${GH_TAGNAME}
@@ -26,15 +31,11 @@ PERMIT_PACKAGE_CDROM=	Yes
 
 MODULES =		www/mozilla lang/python
 
+MODPY_RUNDEP =		No
+
 # Things we must override to use www/mozilla:
 MOZILLA_USE_BUNDLED_NSS = Yes
 MOZILLA_USE_BUNDLED_LIBEVENT = Yes
-MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
-EXTRACT_SUFX = 		.tar.gz
-DIST_SUBDIR = 		${BROWSER_NAME}
-WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
-
-MODPY_RUNDEP =		No
 
 # necessary glue to build with the correct compiler after fx 17
 MODULES +=		gcc4 lang/clang
@@ -53,6 +54,7 @@ MAKE_ENV +=	BUILD_OPT=1 \
 		NSS_USE_SYSTEM_SQLITE=1 \
 		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
 
+#CONFIGURE_STYLE =	gnu
 CONFIGURE_STYLE =	autoconf no-autoheader
 
 LIB_DEPENDS +=		devel/gettext>=0.10.38 \
@@ -60,6 +62,8 @@ LIB_DEPENDS +=		devel/gettext>=0.10.38 \
 BUILD_DEPENDS +=	devel/gettext>=0.10.38
 RUN_DEPENDS +=		devel/gettext>=0.10.38
 WANTLIB +=		intl>=5 iconv>=6
+
+BUILD_DEPENDS +=	devel/py-virtualenv
 
 # to be able to link when building with clang on i386 or gcc on ppc
 .if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "powerpc"
@@ -70,7 +74,8 @@ CONFIGURE_ARGS +=	--disable-debug-symbols
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 			--with-tor-browser-version=${TBB_VERSION}	\
 			--disable-tor-browser-update			\
-			--with-user-appdir=.${BROWSER_NAME}
+			--with-user-appdir=.${BROWSER_NAME}		\
+			--enable-tor-browser-data-outside-app-dir
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
@@ -82,24 +87,30 @@ WANTLIB += icudata icui18n icuuc
 
 CONFIGURE_ARGS +=	--disable-gstreamer
 
-BUILD_DEPENDS +=	multimedia/gstreamer1/plugins-base
-RUN_DEPENDS +=		net/tor>=0.2.7.6
+RUN_DEPENDS +=		net/tor>=0.2.8.6
+
+# bug 857628
+CONFIGURE_ARGS +=	--enable-pie
 
 MOZILLA_AUTOCONF_DIRS +=	js/src
 
 # pkg/PLIST fu
 SUBST_VARS += 		BROWSER_NAME TBB_VERSION
 
+# there are sometimes .orig files in the source, messes with update-patches
 post-extract:
+	-find ${WRKSRC} -name '*.orig' -exec rm {} \;
+
+post-patch:
 	# hack .mozconfig
-	cp ${WRKSRC}/.mozconfig ${WRKSRC}/.mozconfig.bak
-	sed -e 's/@TOPSRCDIR@\/obj-@CONFIG_GUESS@/${WRKBUILD:S/\//\\\//g}/' \
-		< ${WRKSRC}/.mozconfig.bak > ${WRKSRC}/.mozconfig
+	sed -i.bak -e \
+		's/@TOPSRCDIR@\/obj-@CONFIG_GUESS@/${WRKBUILD:S/\//\\\//g}/' \
+		${WRKSRC}/.mozconfig
 	# hack config/baseconfig.mk to not use MOZ_APP_VERSION in a few places
-	cp ${WRKSRC}/config/baseconfig.mk ${WRKSRC}/config/baseconfig.mk.bak
-	sed -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
-		< ${WRKSRC}/config/baseconfig.mk.bak 		\
-		> ${WRKSRC}/config/baseconfig.mk
+	sed -i.bak -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
+		${WRKSRC}/config/baseconfig.mk
+
+BROWSER_CFG = ${PREFIX}/lib/${PKGNAME}/${BROWSER_NAME}.cfg
 
 post-install:
 	# install prefs, bookmarks, app config file for Tor browser
@@ -111,8 +122,11 @@ post-install:
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
 	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
 	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
-	${INSTALL_DATA} ${FILESDIR}/${BROWSER_NAME}.cfg \
-	  ${PREFIX}/lib/${PKGNAME}/${BROWSER_NAME}.cfg
+	# put tor-browser.cfg together
+	(sed -e 's/^#/\/\/#/' < ${FILESDIR}/extension-overrides.js; \
+	 cat ${FILESDIR}/tor-browser-cfg-tail.js) > ${BROWSER_CFG}
+	chown ${SHAREOWN}:${SHAREGRP} ${BROWSER_CFG}
+	chmod ${SHAREMODE} ${BROWSER_CFG}
 	# install desktop file
 	${INSTALL_DATA_DIR} ${PREFIX}/share/applications/
 	${SUBST_DATA} ${FILESDIR}/${BROWSER_NAME}.desktop \

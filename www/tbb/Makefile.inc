@@ -1,12 +1,12 @@
 # $OpenBSD$
 
 MAINTAINER ?=		Sean Levy <attila@stalphonsos.com>
-HOMEPAGE ?=			https://www.torproject.org
+HOMEPAGE ?=		https://www.torproject.org
 GH_ACCOUNT ?=		torbsd
 PERMIT_PACKAGE_CDROM ?= Yes
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		6.0.2
+TBB_VERSION =		6.0.4
 
 # Used by tor-launcher, tor-browser
 TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
@@ -18,16 +18,16 @@ ADDON_NAME ?=
 .  if !defined(GUID)
 ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
 .  endif
-USE_GMAKE =			Yes
+USE_GMAKE =		Yes
 
 # This should be set to Yes if the distfile for the addon is the .xpi
 # file itself (noscript, https-everywhere)
 DISTFILE_IS_XPI ?= 	No
 
-TBBNAME ?=			${ADDON_NAME}-${V}
-PKGNAME ?=			${TBBNAME}
-DISTNAME ?=			${TBBNAME}
-WRKDIST =			${WRKDIR}/${TBBNAME}
+TBBNAME ?=		${ADDON_NAME}-${V}
+PKGNAME ?=		${TBBNAME}
+DISTNAME ?=		${TBBNAME}
+WRKDIST =		${WRKDIR}/${TBBNAME}
 ADDON_XPI_FILE ?=	${TBBNAME}.xpi
 # Directory that the port's makexpi.sh script dumps into, if it has one
 ADDON_SUBDIR ?=		pkg
