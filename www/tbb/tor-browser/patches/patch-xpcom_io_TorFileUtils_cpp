@@ -1,8 +1,6 @@
 $OpenBSD$
 
-Add a compile-time option to make Tor browser look for its data
-directory in the user's home directory and turn it on for OpenBSD.
-Also fold in nearly identical logic for defined(ANDROID).
+Honor the --enable-tor-browser-data-in-home-dir configure option
 --- xpcom/io/TorFileUtils.cpp.orig	Wed Sep  7 02:07:10 2016
 +++ xpcom/io/TorFileUtils.cpp	Wed Sep 21 15:18:32 2016
 @@ -15,7 +15,17 @@ TorBrowser_GetUserDataDir(nsIFile *aExeFile, nsIFile**
