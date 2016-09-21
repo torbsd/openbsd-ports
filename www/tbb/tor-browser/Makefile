@@ -75,19 +75,19 @@ CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 			--with-tor-browser-version=${TBB_VERSION}	\
 			--disable-tor-browser-update			\
 			--with-user-appdir=.${BROWSER_NAME}		\
-			--enable-tor-browser-data-outside-app-dir
+			--enable-tor-brower-data-in-home-dir
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
 
 # bug #1064665
-LIB_DEPENDS +=	textproc/icu4c
-CONFIGURE_ARGS += --with-system-icu
-WANTLIB += icudata icui18n icuuc
+LIB_DEPENDS +=		textproc/icu4c
+CONFIGURE_ARGS += 	--with-system-icu
+WANTLIB += 		icudata icui18n icuuc
 
 CONFIGURE_ARGS +=	--disable-gstreamer
 
-RUN_DEPENDS +=		net/tor>=0.2.8.6
+RUN_DEPENDS +=		net/tor>=0.2.8.7
 
 # bug 857628
 CONFIGURE_ARGS +=	--enable-pie

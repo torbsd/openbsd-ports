@@ -1,0 +1,25 @@
+$OpenBSD$
+
+Don't interpose an extra ./Browser/ subdirectory when the 
+tor-browser-data-in-home-dir configure option is turned on.
+--- xpcom/io/nsAppFileLocationProvider.cpp.orig	Wed Sep 21 15:19:46 2016
++++ xpcom/io/nsAppFileLocationProvider.cpp	Wed Sep 21 15:23:02 2016
+@@ -313,13 +313,15 @@ nsAppFileLocationProvider::GetProductDirectory(nsIFile
+   rv = TorBrowser_GetUserDataDir(exeFile, getter_AddRefs(localDir));
+   NS_ENSURE_SUCCESS(rv, rv);
+ 
+-#ifdef TOR_BROWSER_DATA_OUTSIDE_APP_DIR
++#ifndef TOR_BROWSER_DATA_IN_HOME_DIR
++# ifdef TOR_BROWSER_DATA_OUTSIDE_APP_DIR
+   rv = localDir->AppendNative(NS_LITERAL_CSTRING("Browser"));
+-#else
++# else
+   rv = localDir->AppendRelativeNativePath(NS_LITERAL_CSTRING("Data"
+                                         XPCOM_FILE_PATH_SEPARATOR "Browser"));
+-#endif
++# endif
+   NS_ENSURE_SUCCESS(rv, rv);
++#endif
+ 
+   if (aLocal) {
+     rv = localDir->AppendNative(NS_LITERAL_CSTRING("Caches"));
