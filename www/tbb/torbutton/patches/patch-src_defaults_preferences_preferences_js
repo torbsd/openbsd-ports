@@ -1,17 +1,8 @@
 $OpenBSD$
 
-Turn on no_updates.  Turn off versioncheck.
---- src/defaults/preferences/preferences.js.orig	Fri Jul 22 10:33:41 2016
-+++ src/defaults/preferences/preferences.js	Wed Sep  7 16:29:25 2016
-@@ -33,7 +33,7 @@ pref("extensions.torbutton.local_tor_check",true);
- pref("extensions.torbutton.test_failed",false);
- pref("extensions.torbutton.no_proxies_on","");
- pref("extensions.torbutton.versioncheck_url","https://www.torproject.org/projects/torbrowser/RecommendedTBBVersions");
--pref("extensions.torbutton.versioncheck_enabled",true);
-+pref("extensions.torbutton.versioncheck_enabled",false);
- pref("extensions.torbutton.use_nontor_proxy",false);
- 
- // XXX: wtf prefs? These seem not actually connected, but govern
+Turn on no_updates.
+--- src/defaults/preferences/preferences.js.orig	Wed Sep  7 02:13:55 2016
++++ src/defaults/preferences/preferences.js	Thu Sep 22 15:29:01 2016
 @@ -133,7 +133,7 @@ pref("extensions.torbutton.block_thread",true);
  pref("extensions.torbutton.block_thwrite",true);
  pref("extensions.torbutton.block_nthread",false);
