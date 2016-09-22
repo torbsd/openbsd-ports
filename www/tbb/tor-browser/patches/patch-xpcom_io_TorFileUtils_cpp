@@ -1,8 +1,8 @@
 $OpenBSD$
 
-Honor the --enable-tor-browser-data-in-home-dir configure option
+Honor the --enable-tor-data-in-home-dir configure option.
 --- xpcom/io/TorFileUtils.cpp.orig	Wed Sep  7 02:07:10 2016
-+++ xpcom/io/TorFileUtils.cpp	Wed Sep 21 15:18:32 2016
++++ xpcom/io/TorFileUtils.cpp	Thu Sep 22 12:55:26 2016
 @@ -15,7 +15,17 @@ TorBrowser_GetUserDataDir(nsIFile *aExeFile, nsIFile**
    NS_ENSURE_ARG_POINTER(aFile);
    nsCOMPtr<nsIFile> tbDataDir;
@@ -15,7 +15,7 @@ Honor the --enable-tor-browser-data-in-home-dir configure option
 +  nsresult rv = NS_NewNativeLocalFile(nsDependentCString(homeDir), true,
 +                                      getter_AddRefs(tbDataDir));
 +  NS_ENSURE_SUCCESS(rv, rv);
-+  nsAutoCString leafSubdir(NS_LITERAL_CSTRING(MOZ_USER_DIR));
++  nsAutoCString leafSubdir(NS_LITERAL_CSTRING("TorBrowser-Data"));
 +  rv = tbDataDir->AppendNative(leafSubdir);
 +  NS_ENSURE_SUCCESS(rv, rv);
 +#elif defined(TOR_BROWSER_DATA_OUTSIDE_APP_DIR)
