@@ -25,6 +25,7 @@ SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps xul lgpllibs
 MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
 MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
+MOZILLA_LIBS +=		mozsqlite3
 
 # mozilla public license
 PERMIT_PACKAGE_CDROM=	Yes
@@ -36,6 +37,7 @@ MODPY_RUNDEP =		No
 # Things we must override to use www/mozilla:
 MOZILLA_USE_BUNDLED_NSS = Yes
 MOZILLA_USE_BUNDLED_LIBEVENT = Yes
+MOZILLA_USE_BUNDLED_SQLITE = Yes
 
 # necessary glue to build with the correct compiler after fx 17
 MODULES +=		gcc4 lang/clang
@@ -48,11 +50,10 @@ MODCLANG_LANGS =	c c++
 NO_TEST =		Yes
 
 # for nss build system
-MAKE_ENV +=	BUILD_OPT=1 \
-		LOCALBASE="${LOCALBASE}" \
-		NSS_ENABLE_ECC=1 \
-		NSS_USE_SYSTEM_SQLITE=1 \
-		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
+MAKE_ENV +=		BUILD_OPT=1 \
+			LOCALBASE="${LOCALBASE}" \
+			NSS_ENABLE_ECC=1 \
+			XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
 
 #CONFIGURE_STYLE =	gnu
 CONFIGURE_STYLE =	autoconf no-autoheader
@@ -79,6 +80,11 @@ CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
+
+# SQLITE_CFLAGS is set from pkgconfig, but it's not used for all files that need it
+#CONFIGURE_ENV +=	CPPFLAGS="-I${LOCALBASE}/include"		\
+#			CFLAGS="-I${LOCALBASE}/include"			\
+#			INCLUDES="-I${LOCALBASE}/include"
 
 # bug #1064665
 LIB_DEPENDS +=		textproc/icu4c

@@ -1,62 +1,63 @@
 @comment $OpenBSD$
 bin/${BROWSER_NAME}
-lib/${FULLPKGNAME}/
-lib/${FULLPKGNAME}/application.ini
-lib/${FULLPKGNAME}/browser/
-lib/${FULLPKGNAME}/browser/blocklist.xml
-lib/${FULLPKGNAME}/browser/chrome/
-lib/${FULLPKGNAME}/browser/chrome.manifest
-lib/${FULLPKGNAME}/browser/chrome/icons/
-lib/${FULLPKGNAME}/browser/chrome/icons/default/
-lib/${FULLPKGNAME}/browser/chrome/icons/default/default.png
-lib/${FULLPKGNAME}/browser/chrome/icons/default/default16.png
-lib/${FULLPKGNAME}/browser/chrome/icons/default/default32.png
-lib/${FULLPKGNAME}/browser/chrome/icons/default/default48.png
-lib/${FULLPKGNAME}/browser/components/
-lib/${FULLPKGNAME}/browser/components/components.manifest
-@lib lib/${FULLPKGNAME}/browser/components/libbrowsercomps.so.${LIBbrowsercomps_VERSION}
-lib/${FULLPKGNAME}/browser/defaults/
-lib/${FULLPKGNAME}/browser/defaults/preferences/
-lib/${FULLPKGNAME}/browser/defaults/preferences/all-openbsd.js
-lib/${FULLPKGNAME}/browser/defaults/profile/
-lib/${FULLPKGNAME}/browser/defaults/profile/bookmarks.html
-lib/${FULLPKGNAME}/browser/extensions/
-lib/${FULLPKGNAME}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}.xpi
-lib/${FULLPKGNAME}/browser/icons/
-lib/${FULLPKGNAME}/browser/icons/mozicon128.png
-lib/${FULLPKGNAME}/browser/omni.ja
-lib/${FULLPKGNAME}/defaults/
-lib/${FULLPKGNAME}/defaults/pref/
-lib/${FULLPKGNAME}/defaults/pref/channel-prefs.js
-lib/${FULLPKGNAME}/dependentlibs.list
-lib/${FULLPKGNAME}/dictionaries/
-lib/${FULLPKGNAME}/dictionaries/en-US.aff
-lib/${FULLPKGNAME}/dictionaries/en-US.dic
-lib/${FULLPKGNAME}/libfreebl3.chk
-@lib lib/${FULLPKGNAME}/libfreebl3.so.${LIBfreebl3_VERSION}
-@lib lib/${FULLPKGNAME}/liblgpllibs.so.${LIBlgpllibs_VERSION}
-@lib lib/${FULLPKGNAME}/libnss3.so.${LIBnss3_VERSION}
-@lib lib/${FULLPKGNAME}/libnssckbi.so.${LIBnssckbi_VERSION}
-lib/${FULLPKGNAME}/libnssdbm3.chk
-@lib lib/${FULLPKGNAME}/libnssdbm3.so.${LIBnssdbm3_VERSION}
-@lib lib/${FULLPKGNAME}/libnssutil3.so.${LIBnssutil3_VERSION}
-@lib lib/${FULLPKGNAME}/libsmime3.so.${LIBsmime3_VERSION}
-lib/${FULLPKGNAME}/libsoftokn3.chk
-@lib lib/${FULLPKGNAME}/libsoftokn3.so.${LIBsoftokn3_VERSION}
-@lib lib/${FULLPKGNAME}/libssl3.so.${LIBssl3_VERSION}
-@lib lib/${FULLPKGNAME}/libxul.so.${LIBxul_VERSION}
-lib/${FULLPKGNAME}/omni.ja
-lib/${FULLPKGNAME}/platform.ini
-@bin lib/${FULLPKGNAME}/plugin-container
-lib/${FULLPKGNAME}/removed-files
-lib/${FULLPKGNAME}/run-mozilla.sh
-@bin lib/${FULLPKGNAME}/${BROWSER_NAME}
-@bin lib/${FULLPKGNAME}/${BROWSER_NAME}-bin
-lib/${FULLPKGNAME}/${BROWSER_NAME}.cfg
-lib/${FULLPKGNAME}/webapprt/
-@bin lib/${FULLPKGNAME}/webapprt-stub
-lib/${FULLPKGNAME}/webapprt/omni.ja
-lib/${FULLPKGNAME}/webapprt/webapprt.ini
+lib/${BROWSER_NAME}-${TBB_VERSION}/
+lib/${BROWSER_NAME}-${TBB_VERSION}/application.ini
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/blocklist.xml
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/chrome/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/chrome.manifest
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/chrome/icons/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/chrome/icons/default/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/chrome/icons/default/default.png
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/chrome/icons/default/default16.png
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/chrome/icons/default/default32.png
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/chrome/icons/default/default48.png
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/components/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/components/components.manifest
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/browser/components/libbrowsercomps.so.${LIBbrowsercomps_VERSION}
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/defaults/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/defaults/preferences/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/defaults/preferences/all-openbsd.js
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/defaults/profile/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/defaults/profile/bookmarks.html
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/extensions/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}.xpi
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/icons/
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/icons/mozicon128.png
+lib/${BROWSER_NAME}-${TBB_VERSION}/browser/omni.ja
+lib/${BROWSER_NAME}-${TBB_VERSION}/defaults/
+lib/${BROWSER_NAME}-${TBB_VERSION}/defaults/pref/
+lib/${BROWSER_NAME}-${TBB_VERSION}/defaults/pref/channel-prefs.js
+lib/${BROWSER_NAME}-${TBB_VERSION}/dependentlibs.list
+lib/${BROWSER_NAME}-${TBB_VERSION}/dictionaries/
+lib/${BROWSER_NAME}-${TBB_VERSION}/dictionaries/en-US.aff
+lib/${BROWSER_NAME}-${TBB_VERSION}/dictionaries/en-US.dic
+lib/${BROWSER_NAME}-${TBB_VERSION}/libfreebl3.chk
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libfreebl3.so.${LIBfreebl3_VERSION}
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/liblgpllibs.so.${LIBlgpllibs_VERSION}
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libmozsqlite3.so.${LIBmozsqlite3_VERSION}
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libnss3.so.${LIBnss3_VERSION}
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libnssckbi.so.${LIBnssckbi_VERSION}
+lib/${BROWSER_NAME}-${TBB_VERSION}/libnssdbm3.chk
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libnssdbm3.so.${LIBnssdbm3_VERSION}
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libnssutil3.so.${LIBnssutil3_VERSION}
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libsmime3.so.${LIBsmime3_VERSION}
+lib/${BROWSER_NAME}-${TBB_VERSION}/libsoftokn3.chk
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libsoftokn3.so.${LIBsoftokn3_VERSION}
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libssl3.so.${LIBssl3_VERSION}
+@lib lib/${BROWSER_NAME}-${TBB_VERSION}/libxul.so.${LIBxul_VERSION}
+lib/${BROWSER_NAME}-${TBB_VERSION}/omni.ja
+lib/${BROWSER_NAME}-${TBB_VERSION}/platform.ini
+@bin lib/${BROWSER_NAME}-${TBB_VERSION}/plugin-container
+lib/${BROWSER_NAME}-${TBB_VERSION}/removed-files
+lib/${BROWSER_NAME}-${TBB_VERSION}/run-mozilla.sh
+@bin lib/${BROWSER_NAME}-${TBB_VERSION}/${BROWSER_NAME}
+@bin lib/${BROWSER_NAME}-${TBB_VERSION}/${BROWSER_NAME}-bin
+lib/${BROWSER_NAME}-${TBB_VERSION}/${BROWSER_NAME}.cfg
+lib/${BROWSER_NAME}-${TBB_VERSION}/webapprt/
+@bin lib/${BROWSER_NAME}-${TBB_VERSION}/webapprt-stub
+lib/${BROWSER_NAME}-${TBB_VERSION}/webapprt/omni.ja
+lib/${BROWSER_NAME}-${TBB_VERSION}/webapprt/webapprt.ini
 share/applications/${BROWSER_NAME}.desktop
 share/pixmaps/
 @exec %D/bin/update-desktop-database
