@@ -34,7 +34,6 @@ MODULES =		www/mozilla lang/python
 
 MODPY_RUNDEP =		No
 
-# Things we must override to use www/mozilla:
 MOZILLA_USE_BUNDLED_NSS = Yes
 MOZILLA_USE_BUNDLED_LIBEVENT = Yes
 MOZILLA_USE_BUNDLED_SQLITE = Yes
@@ -80,11 +79,6 @@ CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
-
-# SQLITE_CFLAGS is set from pkgconfig, but it's not used for all files that need it
-#CONFIGURE_ENV +=	CPPFLAGS="-I${LOCALBASE}/include"		\
-#			CFLAGS="-I${LOCALBASE}/include"			\
-#			INCLUDES="-I${LOCALBASE}/include"
 
 # bug #1064665
 LIB_DEPENDS +=		textproc/icu4c
