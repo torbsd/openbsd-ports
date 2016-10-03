@@ -70,11 +70,10 @@ BUILD_DEPENDS +=	devel/py-virtualenv
 CONFIGURE_ARGS +=	--disable-debug-symbols
 .endif
 
-# Avoid conflict with other firefox installs, use ~/.tor-browser
+# Set browser name, enable ~/TorBrowser-Data
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 			--with-tor-browser-version=${TBB_VERSION}	\
 			--disable-tor-browser-update			\
-			--with-user-appdir=.${BROWSER_NAME}		\
 			--enable-tor-brower-data-in-home-dir
 
 # relies on pulseaudio for sound and broken at runtime
