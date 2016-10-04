@@ -16,7 +16,7 @@ DIST_SUBDIR = 		${BROWSER_NAME}
 WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr45.3.0
+GH_TAGNAME =		v${TBB_VERSION}-esr45.4.0
 
 PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
 DISTNAME =		${GH_TAGNAME}
@@ -25,6 +25,7 @@ SO_VERSION =		1.0
 MOZILLA_LIBS =		browsercomps xul lgpllibs
 MOZILLA_LIBS +=		freebl3 nss3 nssckbi nssdbm3
 MOZILLA_LIBS +=		nssutil3 smime3 softokn3 ssl3
+MOZILLA_LIBS +=		mozsqlite3
 
 # mozilla public license
 PERMIT_PACKAGE_CDROM=	Yes
@@ -33,9 +34,9 @@ MODULES =		www/mozilla lang/python
 
 MODPY_RUNDEP =		No
 
-# Things we must override to use www/mozilla:
 MOZILLA_USE_BUNDLED_NSS = Yes
 MOZILLA_USE_BUNDLED_LIBEVENT = Yes
+MOZILLA_USE_BUNDLED_SQLITE = Yes
 
 # necessary glue to build with the correct compiler after fx 17
 MODULES +=		gcc4 lang/clang
@@ -48,11 +49,10 @@ MODCLANG_LANGS =	c c++
 NO_TEST =		Yes
 
 # for nss build system
-MAKE_ENV +=	BUILD_OPT=1 \
-		LOCALBASE="${LOCALBASE}" \
-		NSS_ENABLE_ECC=1 \
-		NSS_USE_SYSTEM_SQLITE=1 \
-		XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
+MAKE_ENV +=		BUILD_OPT=1 \
+			LOCALBASE="${LOCALBASE}" \
+			NSS_ENABLE_ECC=1 \
+			XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
 
 #CONFIGURE_STYLE =	gnu
 CONFIGURE_STYLE =	autoconf no-autoheader
@@ -70,24 +70,23 @@ BUILD_DEPENDS +=	devel/py-virtualenv
 CONFIGURE_ARGS +=	--disable-debug-symbols
 .endif
 
-# Avoid conflict with other firefox installs, use ~/.tor-browser
+# Set browser name, enable ~/TorBrowser-Data
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
 			--with-tor-browser-version=${TBB_VERSION}	\
 			--disable-tor-browser-update			\
-			--with-user-appdir=.${BROWSER_NAME}		\
-			--enable-tor-browser-data-outside-app-dir
+			--enable-tor-brower-data-in-home-dir
 
 # relies on pulseaudio for sound and broken at runtime
 CONFIGURE_ARGS +=	--disable-webrtc
 
 # bug #1064665
-LIB_DEPENDS +=	textproc/icu4c
-CONFIGURE_ARGS += --with-system-icu
-WANTLIB += icudata icui18n icuuc
+LIB_DEPENDS +=		textproc/icu4c
+CONFIGURE_ARGS += 	--with-system-icu
+WANTLIB += 		icudata icui18n icuuc
 
 CONFIGURE_ARGS +=	--disable-gstreamer
 
-RUN_DEPENDS +=		net/tor>=0.2.8.6
+RUN_DEPENDS +=		net/tor>=0.2.8.7
 
 # bug 857628
 CONFIGURE_ARGS +=	--enable-pie

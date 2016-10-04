@@ -1,7 +1,7 @@
 # $OpenBSD$
 
 ADDON_NAME =		torbutton
-V =			1.9.5.6
+V =			1.9.5.7
 COMMENT =		firefox add-on: onion menu, etc. for Tor browser
 GUID =			torbutton@torproject.org
 

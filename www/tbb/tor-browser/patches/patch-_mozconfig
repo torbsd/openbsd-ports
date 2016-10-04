@@ -1,8 +1,8 @@
 $OpenBSD$
 
-Turn off stuff we have already turned off in Makefile
---- .mozconfig.orig	Tue Aug 23 14:52:47 2016
-+++ .mozconfig	Mon Sep  5 15:55:02 2016
+Turn off auto-update stuff.  Turn on data-in-home-dir
+--- .mozconfig.orig	Wed Sep  7 02:07:10 2016
++++ .mozconfig	Tue Sep 20 19:57:12 2016
 @@ -9,10 +9,11 @@ ac_add_options --enable-optimize
  #ac_add_options --disable-optimize
  ac_add_options --enable-official-branding
@@ -15,7 +15,7 @@ Turn off stuff we have already turned off in Makefile
 +#ac_add_options --enable-update-packaging
 +#ac_add_options --enable-signmar
 +#ac_add_options --enable-verify-mar
-+ac_add_options --enable-tor-browser-data-outside-app-dir
++ac_add_options --enable-tor-browser-data-in-home-dir
  
  ac_add_options --disable-strip
  ac_add_options --disable-install-strip
