@@ -5,6 +5,7 @@ V =			0.2.9.3
 COMMENT =		firefox add-on to control/manage tor server
 GUID =			tor-launcher@torproject.org
 ALL_TARGET =		package
+USE_GMAKE =		Yes
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/tbb

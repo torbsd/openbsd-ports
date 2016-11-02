@@ -18,7 +18,6 @@ ADDON_NAME ?=
 .  if !defined(GUID)
 ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
 .  endif
-USE_GMAKE =		Yes
 
 # This should be set to Yes if the distfile for the addon is the .xpi
 # file itself (noscript, https-everywhere)
