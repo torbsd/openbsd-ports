@@ -1,6 +1,7 @@
 $OpenBSD$
 
-Honor the --enable-tor-data-in-home-dir configure option.
+Honor the --enable-tor-data-in-home-dir configure option.  Hopefully
+this goes away soon c.f. https://trac.torproject.org/projects/tor/ticket/20497
 --- xpcom/io/TorFileUtils.cpp.orig	Wed Sep  7 02:07:10 2016
 +++ xpcom/io/TorFileUtils.cpp	Thu Sep 22 12:55:26 2016
 @@ -15,7 +15,17 @@ TorBrowser_GetUserDataDir(nsIFile *aExeFile, nsIFile**

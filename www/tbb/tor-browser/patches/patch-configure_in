@@ -1,8 +1,7 @@
 $OpenBSD$
 
 Add --enable-tor-browser-data-in-home-dir which implies
---enable-tor-browser-data-outside-app-dir and makes ~/.tor-browser
-happen, c.f. patch-xpcom_io_TorFileUtils_cpp
+--enable-tor-browser-data-outside-app-dir, c.f. patch-xpcom_io_TorFileUtils_cpp
 --- configure.in.orig	Wed Sep  7 02:07:10 2016
 +++ configure.in	Wed Sep 21 14:54:53 2016
 @@ -6539,11 +6539,22 @@ if test -n "$TOR_BROWSER_UPDATE"; then
