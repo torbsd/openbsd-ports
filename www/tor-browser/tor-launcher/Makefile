@@ -8,8 +8,8 @@ ALL_TARGET =		package
 USE_GMAKE =		Yes
 
 post-install:
-	${INSTALL_DATA_DIR} ${PREFIX}/share/tbb
+	${INSTALL_DATA_DIR} ${PREFIX}/share/${BROWSER_NAME}
 	${SUBST_DATA} ${FILESDIR}/torrc-defaults \
-		${PREFIX}/share/tbb/torrc-defaults
+		${PREFIX}/share/${BROWSER_NAME}/torrc-defaults
 
 .include <bsd.port.mk>

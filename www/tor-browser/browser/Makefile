@@ -5,10 +5,9 @@
 
 COMMENT =		firefox-esr fork for browsing the web over Tor
 
-MOZILLA_VERSION =	${TBB_VERSION}
+MOZILLA_VERSION =	${TB_VERSION}
 MOZILLA_PROJECT =	${BROWSER_NAME}
 MOZILLA_CODENAME =	browser
-BROKEN-sparc64 =	xpcshell SIGBUS during fake
 
 MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
 EXTRACT_SUFX = 		.tar.gz
@@ -16,9 +15,9 @@ DIST_SUBDIR = 		${BROWSER_NAME}
 WRKDIST = 		${WRKDIR}/${GH_PROJECT}-${GH_TAGNAME:C/^v//}
 
 GH_PROJECT =		torb
-GH_TAGNAME =		v${TBB_VERSION}-esr45.4.0
+GH_TAGNAME =		v${TB_VERSION}-esr45.4.0
 
-PKGNAME =		${BROWSER_NAME}-${TBB_VERSION}
+PKGNAME =		${TB_PREFIX}-browser-${TB_VERSION}
 DISTNAME =		${GH_TAGNAME}
 
 SO_VERSION =		1.0
@@ -32,16 +31,15 @@ PERMIT_PACKAGE_CDROM=	Yes
 
 MODULES =		www/mozilla lang/python
 
+MOZILLA_USE_BUNDLED_NSS =	Yes
+MOZILLA_USE_BUNDLED_LIBEVENT = 	Yes
+MOZILLA_USE_BUNDLED_SQLITE =	Yes
+MOZILLA_AUTOCONF_DIRS +=	js/src
+
 MODPY_RUNDEP =		No
 
-MOZILLA_USE_BUNDLED_NSS = Yes
-MOZILLA_USE_BUNDLED_LIBEVENT = Yes
-MOZILLA_USE_BUNDLED_SQLITE = Yes
-
 # necessary glue to build with the correct compiler after fx 17
-MODULES +=		gcc4 lang/clang
-MODGCC4_ARCHS =		powerpc sparc64 alpha
-MODGCC4_LANGS =		c c++
+MODULES +=		lang/clang
 MODCLANG_ARCHS =	amd64 i386
 MODCLANG_LANGS =	c c++
 
@@ -54,13 +52,10 @@ MAKE_ENV +=		BUILD_OPT=1 \
 			NSS_ENABLE_ECC=1 \
 			XCFLAGS="-I${LOCALBASE}/include ${CFLAGS}"
 
-#CONFIGURE_STYLE =	gnu
-CONFIGURE_STYLE =	autoconf no-autoheader
+CONFIGURE_STYLE =	gnu
 
-LIB_DEPENDS +=		devel/gettext>=0.10.38 \
+LIB_DEPENDS +=		devel/gettext>=0.10.38 	\
 			converters/libiconv
-BUILD_DEPENDS +=	devel/gettext>=0.10.38
-RUN_DEPENDS +=		devel/gettext>=0.10.38
 WANTLIB +=		intl>=5 iconv>=6
 
 BUILD_DEPENDS +=	devel/py-virtualenv
@@ -72,7 +67,7 @@ CONFIGURE_ARGS +=	--disable-debug-symbols
 
 # Set browser name, enable ~/TorBrowser-Data
 CONFIGURE_ARGS +=	--with-app-name=${BROWSER_NAME} 		\
-			--with-tor-browser-version=${TBB_VERSION}	\
+			--with-tor-browser-version=${TB_VERSION}	\
 			--disable-tor-browser-update			\
 			--enable-tor-brower-data-in-home-dir
 
@@ -91,10 +86,8 @@ RUN_DEPENDS +=		net/tor>=0.2.8.7
 # bug 857628
 CONFIGURE_ARGS +=	--enable-pie
 
-MOZILLA_AUTOCONF_DIRS +=	js/src
-
 # pkg/PLIST fu
-SUBST_VARS += 		BROWSER_NAME TBB_VERSION
+SUBST_VARS += 		BROWSER_NAME TB_VERSION
 
 # there are sometimes .orig files in the source, messes with update-patches
 post-extract:
@@ -106,21 +99,20 @@ post-patch:
 		's/@TOPSRCDIR@\/obj-@CONFIG_GUESS@/${WRKBUILD:S/\//\\\//g}/' \
 		${WRKSRC}/.mozconfig
 	# hack config/baseconfig.mk to not use MOZ_APP_VERSION in a few places
-	sed -i.bak -e 's/-$$(MOZ_APP_VERSION)/-${TBB_VERSION}/'	\
+	sed -i.bak -e 's/-$$(MOZ_APP_VERSION)/-${TB_VERSION}/'	\
 		${WRKSRC}/config/baseconfig.mk
 
-BROWSER_CFG = ${PREFIX}/lib/${PKGNAME}/${BROWSER_NAME}.cfg
+BROWSER_DIR = ${PREFIX}/lib/${BROWSER_NAME}-${TB_VERSION}
+BROWSER_CFG = ${BROWSER_DIR}/${BROWSER_NAME}.cfg
 
 post-install:
 	# install prefs, bookmarks, app config file for Tor browser
-	${INSTALL_DATA_DIR} \
-	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences
+	${INSTALL_DATA_DIR} ${BROWSER_DIR}/browser/defaults/preferences
 	${SUBST_DATA} ${FILESDIR}/all-openbsd.js \
-	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/preferences/all-openbsd.js
-	${INSTALL_DATA_DIR} \
-	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
+	  ${BROWSER_DIR}/browser/defaults/preferences/all-openbsd.js
+	${INSTALL_DATA_DIR} ${BROWSER_DIR}/browser/defaults/profile
 	${INSTALL_DATA} ${FILESDIR}/bookmarks.html \
-	  ${PREFIX}/lib/${PKGNAME}/browser/defaults/profile
+	  ${BROWSER_DIR}/browser/defaults/profile
 	# put tor-browser.cfg together
 	(sed -e 's/^#/\/\/#/' < ${FILESDIR}/extension-overrides.js; \
 	 cat ${FILESDIR}/tor-browser-cfg-tail.js) > ${BROWSER_CFG}
@@ -132,11 +124,10 @@ post-install:
 		${PREFIX}/share/applications/${BROWSER_NAME}.desktop
 	# install icon for desktop file
 	${INSTALL_DATA_DIR} ${PREFIX}/share/pixmaps/
-	${INSTALL_DATA} ${PREFIX}/lib/${PKGNAME}/browser/icons/mozicon128.png \
+	${INSTALL_DATA} ${BROWSER_DIR}/browser/icons/mozicon128.png \
 		${PREFIX}/share/pixmaps/${BROWSER_NAME}.png
 	# link default48.png to default.png to be used by default
 	# by non-icccm compliant wm
-	ln -f \
-	 ${PREFIX}/lib/${PKGNAME}/browser/chrome/icons/default/default{48,}.png
+	ln -f ${BROWSER_DIR}/browser/chrome/icons/default/default{48,}.png
 
 .include <bsd.port.mk>

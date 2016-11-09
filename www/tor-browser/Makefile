@@ -1,9 +1,7 @@
 # $OpenBSD$
 
     SUBDIR =
-.if !defined(ADDONS_ONLY)
-    SUBDIR += tor-browser
-.endif
+    SUBDIR += browser
     SUBDIR += torbutton
     SUBDIR += tor-launcher
     SUBDIR += noscript

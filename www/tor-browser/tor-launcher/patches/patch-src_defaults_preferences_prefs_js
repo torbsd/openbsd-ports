@@ -9,7 +9,7 @@ Set all path-related prefs to minimize patching of tl-process.js
  // executables, and on Mac OS it is the TorBrowser.app directory.
 -pref("extensions.torlauncher.tor_path", "");
 +pref("extensions.torlauncher.tor_path", "/usr/local/bin/tor");
-+pref("extensions.torlauncher.torrc-defaults_path", "/usr/local/share/tbb/torrc-defaults");
++pref("extensions.torlauncher.torrc-defaults_path", "/usr/local/share/tor-browser/torrc-defaults");
 +pref("extensions.torlauncher.geoip_path", "/usr/local/share/tor/geoip");
 +pref("extensions.torlauncher.geoip6_path", "/usr/local/share/tor/geoip6");
  

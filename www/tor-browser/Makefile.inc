@@ -6,10 +6,8 @@ GH_ACCOUNT ?=		torbsd
 PERMIT_PACKAGE_CDROM ?= Yes
 CATEGORIES =		www
 BROWSER_NAME =		tor-browser
-TBB_VERSION =		6.0.5
-
-# Used by tor-launcher, tor-browser
-TBB_EXAMPLES =		${PREFIX}/share/examples/tbb
+TB_VERSION =		6.0.5
+TB_PREFIX =		tb
 
 ADDON_NAME ?=
 .if !empty(ADDON_NAME)
@@ -23,11 +21,11 @@ ERRORS += "GUID missing: please set a GUID for ${ADDON_NAME}"
 # file itself (noscript, https-everywhere)
 DISTFILE_IS_XPI ?= 	No
 
-TBBNAME ?=		${ADDON_NAME}-${V}
-PKGNAME ?=		${TBBNAME}
-DISTNAME ?=		${TBBNAME}
-WRKDIST =		${WRKDIR}/${TBBNAME}
-ADDON_XPI_FILE ?=	${TBBNAME}.xpi
+TB_NAME ?=		${ADDON_NAME}-${V}
+PKGNAME ?=		${TB_PREFIX}-${TB_NAME}
+DISTNAME ?=		${TB_NAME}
+WRKDIST =		${WRKDIR}/${TB_NAME}
+ADDON_XPI_FILE ?=	${TB_NAME}.xpi
 # Directory that the port's makexpi.sh script dumps into, if it has one
 ADDON_SUBDIR ?=		pkg
 ADDON_BUILDDIR ?= 	${WRKBUILD}/${ADDON_SUBDIR}
@@ -38,14 +36,12 @@ GH_TAGNAME ?=		${V}
 
 CONFIGURE_STYLE ?=	none
 BUILD_DEPENDS +=	archivers/zip archivers/unzip
-RUN_DEPENDS +=		www/tbb/tor-browser
+RUN_DEPENDS +=		www/tor-browser/browser
 
-EXTDIR_ROOT ?=		lib/${BROWSER_NAME}-${TBB_VERSION}
+EXTDIR_ROOT ?=		lib/${BROWSER_NAME}-${TB_VERSION}
 REAL_EXTDIR ?=		${PREFIX}/${EXTDIR_ROOT}/browser/extensions
 
-SUBST_VARS +=		EXTDIR_ROOT TBB_VERSION
-
-SUBST_VARS +=		GUID
+SUBST_VARS +=		EXTDIR_ROOT TB_VERSION GUID
 
 .  if ${DISTFILE_IS_XPI:L} == "yes"
 EXTRACT_SUFX = .xpi
