@@ -85,9 +85,6 @@ RUN_DEPENDS +=		net/tor>=0.2.8.7
 # bug 857628
 CONFIGURE_ARGS +=	--enable-pie
 
-# pkg/PLIST fu
-SUBST_VARS += 		BROWSER_NAME TB_VERSION
-
 # there are sometimes .orig files in the source, messes with update-patches
 post-extract:
 	-find ${WRKSRC} -name '*.orig' -exec rm {} \;

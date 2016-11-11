@@ -9,12 +9,13 @@ Firefox add-ons:
 
 * torbutton: an add-on from the Tor project that provides a configuration
   GUI in the browser (the onion button);
-* tor-launcher: another add-on from the Tor project that provides a
-  allows Tor Browser to control and interface with a private instance
-  of the tor daemon used by Tor Browser;
+* tor-launcher: another add-on from the Tor project that allows Tor
+  Browser to control and interface with a private instance of the tor
+  daemon used by Tor Browser;
 * noscript: a well-known add-on for Firefox that allows flexible blocking
   of JS.  The version in the Tor Browser ports is specifically configured
-  for use in Tor Browser by the Tor project;
+  for use in Tor Browser by the Tor project and is not for use with other
+  Mozilla-based browsers;
 * https-everywhere: an add-on for Firefox from EFF that attempts to turn
   http:// requests into https:// requests wherever possible.  Like noscript,
   the verison in the Tor Browser ports is specifically configured for use

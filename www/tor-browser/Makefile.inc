@@ -9,6 +9,8 @@ BROWSER_NAME =		tor-browser
 TB_VERSION =		6.0.5
 TB_PREFIX =		tb
 
+SUBST_VARS +=		BROWSER_NAME TB_VERSION
+
 ADDON_NAME ?=
 .if !empty(ADDON_NAME)
 # Everything in this .if (most of the file) is for add-ons like
@@ -41,7 +43,7 @@ RUN_DEPENDS +=		www/tor-browser/browser
 EXTDIR_ROOT ?=		lib/${BROWSER_NAME}-${TB_VERSION}
 REAL_EXTDIR ?=		${PREFIX}/${EXTDIR_ROOT}/browser/extensions
 
-SUBST_VARS +=		EXTDIR_ROOT TB_VERSION GUID
+SUBST_VARS +=		EXTDIR_ROOT GUID
 
 .  if ${DISTFILE_IS_XPI:L} == "yes"
 EXTRACT_SUFX = .xpi
