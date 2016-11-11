@@ -1,3 +1,7 @@
-HTTPS Everywhere is a Firefox, Chrome, and Opera extension that
-encrypts your communications with many major websites, making your
-browsing more secure.
+HTTPS Everywhere is a Firefox extension that encrypts your
+communications with many major websites, making your browsing more
+secure.
+
+This package provides the HTTPS Everywhere add-on for use with Tor
+Browser.  It will not work with any other Mozilla-based browser
+package.
