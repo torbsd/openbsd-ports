@@ -90,10 +90,6 @@ post-extract:
 	-find ${WRKSRC} -name '*.orig' -exec rm {} \;
 
 post-patch:
-	# hack .mozconfig
-	sed -i.bak -e \
-		's/@TOPSRCDIR@\/obj-@CONFIG_GUESS@/${WRKBUILD:S/\//\\\//g}/' \
-		${WRKSRC}/.mozconfig
 	# hack config/baseconfig.mk to not use MOZ_APP_VERSION in a few places
 	sed -i.bak -e 's/-$$(MOZ_APP_VERSION)/-${TB_VERSION}/'	\
 		${WRKSRC}/config/baseconfig.mk
