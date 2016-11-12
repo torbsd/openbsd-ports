@@ -2,7 +2,7 @@
 
 ADDON_NAME =		https-everywhere
 V =			5.2.4
-COMMENT =		Firefox add-on to force https where possible (Tor Browser)
+COMMENT =		Firefox add-on: force https where possible (Tor Browser)
 HOMEPAGE =		https://www.eff.org/https-everywhere
 MASTER_SITES =		https://www.eff.org/files/
 GUID =			https-everywhere-eff@eff.org

@@ -2,7 +2,7 @@
 
 ADDON_NAME =		tor-launcher
 V =			0.2.9.3
-COMMENT =		Firefox add-on to control private tor instance
+COMMENT =		Firefox add-on to manage tor instance (Tor Browser)
 GUID =			tor-launcher@torproject.org
 PKGNAME =		${TB_NAME}
 ALL_TARGET =		package
