@@ -1,0 +1,4 @@
+@comment $OpenBSD$
+${EXTDIR_ROOT}/browser/extensions/${GUID}.xpi
+share/${BROWSER_NAME}/
+share/${BROWSER_NAME}/torrc-defaults
