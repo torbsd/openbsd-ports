@@ -3,7 +3,7 @@
 # browser is a fork of ESR.  It is a good idea to look at that
 # Makefile when editing this one (ESR versions not always the same).
 
-COMMENT =		modified verion of Firefox ESR for web browsing over Tor
+COMMENT =		modified version of Firefox ESR for browsing over Tor
 
 MOZILLA_VERSION =	${TB_VERSION}
 MOZILLA_PROJECT =	${BROWSER_NAME}
