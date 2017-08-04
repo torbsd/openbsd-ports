@@ -5,8 +5,8 @@ ${MODGO_PACKAGES}/
 ${MODGO_PACKAGES}/github.com/
 ${MODGO_PACKAGES}/github.com/agl/
 ${MODGO_PACKAGES}/github.com/agl/ed25519/
-${MODGO_PACKAGES}/github.com/agl/ed25519.a
 ${MODGO_PACKAGES}/github.com/agl/ed25519/edwards25519.a
+${MODGO_PACKAGES}/github.com/agl/ed25519/extra25519.a
 ${MODGO_SOURCES}/
 ${MODGO_SOURCES}/github.com/
 ${MODGO_SOURCES}/github.com/agl/

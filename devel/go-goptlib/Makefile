@@ -19,6 +19,8 @@ PERMIT_PACKAGE_CDROM =	Yes
 
 MODULES +=		lang/go
 
+ALL_TARGET =		git.torproject.org/pluggable-transports/goptlib.git
+
 MODGO_TYPE =		lib
 
 .include <bsd.port.mk>

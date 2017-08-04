@@ -1,4 +1,4 @@
-# $OpenBSD#
+# $OpenBSD$
 
 COMMENT =		SipHash-2-4 in go
 

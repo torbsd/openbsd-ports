@@ -1,4 +1,4 @@
-# $OpenBSD#
+# $OpenBSD$
 
 COMMENT =		ed25519 in go
 
@@ -23,6 +23,9 @@ PERMIT_PACKAGE_CDROM =	Yes
 MODULES +=		lang/go
 
 MODGO_TYPE =		lib
+WRKSRC =		${MODGO_WORKSPACE}/src/github.com/agl/ed25519
+ALL_TARGET += 		github.com/agl/ed25519/edwards25519 \
+			github.com/agl/ed25519/extra25519
 
 BUILD_DEPENDS =		security/go-crypto
 
