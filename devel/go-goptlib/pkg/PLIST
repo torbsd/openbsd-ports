@@ -1,0 +1,26 @@
+@comment $OpenBSD$
+go-pkg/
+go-pkg/pkg/
+${MODGO_PACKAGES}/
+${MODGO_PACKAGES}/github.com/
+${MODGO_PACKAGES}/github.com/torbsd/
+${MODGO_PACKAGES}/github.com/torbsd/goptlib.a
+${MODGO_SOURCES}/
+${MODGO_SOURCES}/github.com/
+${MODGO_SOURCES}/github.com/torbsd/
+${MODGO_SOURCES}/github.com/torbsd/goptlib/
+${MODGO_SOURCES}/github.com/torbsd/goptlib/.gitignore
+${MODGO_SOURCES}/github.com/torbsd/goptlib/COPYING
+${MODGO_SOURCES}/github.com/torbsd/goptlib/README
+${MODGO_SOURCES}/github.com/torbsd/goptlib/args.go
+${MODGO_SOURCES}/github.com/torbsd/goptlib/args_test.go
+${MODGO_SOURCES}/github.com/torbsd/goptlib/examples/
+${MODGO_SOURCES}/github.com/torbsd/goptlib/examples/dummy-client/
+${MODGO_SOURCES}/github.com/torbsd/goptlib/examples/dummy-client/dummy-client.go
+${MODGO_SOURCES}/github.com/torbsd/goptlib/examples/dummy-server/
+${MODGO_SOURCES}/github.com/torbsd/goptlib/examples/dummy-server/dummy-server.go
+${MODGO_SOURCES}/github.com/torbsd/goptlib/proxy_test.go
+${MODGO_SOURCES}/github.com/torbsd/goptlib/pt.go
+${MODGO_SOURCES}/github.com/torbsd/goptlib/pt_test.go
+${MODGO_SOURCES}/github.com/torbsd/goptlib/socks.go
+${MODGO_SOURCES}/github.com/torbsd/goptlib/socks_test.go
