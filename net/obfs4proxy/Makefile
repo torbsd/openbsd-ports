@@ -1,4 +1,4 @@
-# $OpenBSD#
+# $OpenBSD$
 
 COMMENT =		a look-like nothing obfuscation protocol for TCP
 
