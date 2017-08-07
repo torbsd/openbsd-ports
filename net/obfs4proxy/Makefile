@@ -17,8 +17,6 @@ MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 # BSD
 PERMIT_PACKAGE_CDROM =	Yes
 
-#WANTLIB =		c pthread
-
 MODULES +=		lang/go
 MODGO_SUBDIR =		${WRKDIR}/${GH_PROJECT}-obfs4proxy-${GH_TAGNAME}
 ALL_TARGET_BASE =	git.torproject.org/pluggable-transports/obfs4.git
@@ -34,8 +32,6 @@ BUILD_DEPENDS =		net/go-net \
 			security/go-ed25519 \
 			security/go-siphash \
 			devel/go-goptlib
-
-#NO_TEST =		Yes
 
 post-install:
 	${INSTALL_MAN} ${WRKSRC}/doc/obfs4proxy.1 \
