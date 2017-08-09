@@ -5,6 +5,8 @@ COMMENT =		a look-like nothing obfuscation protocol for TCP
 V =			0.0.7
 DISTNAME =		obfs4proxy-${V}
 
+WANTLIB +=		c pthread
+
 MASTER_SITES =		https://people.torproject.org/~yawning/releases/obfs4proxy/
 
 EXTRACT_SUFX =		.tar.xz
@@ -19,7 +21,7 @@ MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 PERMIT_PACKAGE_CDROM =	Yes
 
 MODULES +=		lang/go
-MODGO_SUBDIR =		${WRKDIR}/${GH_PROJECT}-obfs4proxy-${GH_TAGNAME}
+#MODGO_SUBDIR =		${WRKDIR}/${GH_PROJECT}-obfs4proxy-${GH_TAGNAME}
 ALL_TARGET_BASE =	git.torproject.org/pluggable-transports/obfs4.git
 WRKSRC =		${MODGO_WORKSPACE}/src/${ALL_TARGET_BASE}
 ALL_TARGET =		${ALL_TARGET_BASE}/obfs4proxy \
