@@ -11,7 +11,7 @@ EXTRACT_SUFX =		.tar.xz
 
 CATEGORIES =		net www
 
-HOMEPAGE =		https://github.com/Yawning/obfs4/blob/master/doc/obfs4-spec.txt
+HOMEPAGE =		https://gitweb.torproject.org/pluggable-transports/obfs4.git/tree/README.md
 
 MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 
