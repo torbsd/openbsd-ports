@@ -2,15 +2,16 @@
 
 COMMENT =		a look-like nothing obfuscation protocol for TCP
 
-GH_ACCOUNT =		Yawning
-GH_PROJECT =		obfs4
-GH_TAGNAME =		0.0.7
-DISTNAME =		obfs4proxy-${GH_TAGNAME}
-MASTER_SITES = 		https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/archive/
+V =			0.0.7
+DISTNAME =		obfs4proxy-${V}
+
+MASTER_SITES =		https://people.torproject.org/~yawning/releases/obfs4proxy/
+
+EXTRACT_SUFX =		.tar.xz
 
 CATEGORIES =		net www
 
-HOMEPAGE =		https://www.torproject.org/docs/pluggable-transports
+HOMEPAGE =		https://github.com/Yawning/obfs4/blob/master/doc/obfs4-spec.txt
 
 MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 
