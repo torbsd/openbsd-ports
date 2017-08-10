@@ -13,7 +13,7 @@ PKGNAME =		${DISTNAME}-20170116
 
 CATEGORIES =		security
 
-HOMEPAGE =		https://github.com/agl/ed25519
+HOMEPAGE =		https://github.com/agl/ed25519/
 
 MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 

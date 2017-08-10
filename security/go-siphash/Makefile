@@ -10,7 +10,7 @@ PKGNAME =		${DISTNAME}-${GH_TAGNAME:S/^v//}
 
 CATEGORIES =		security
 
-HOMEPAGE =		https://github.com/dchest/siphash
+HOMEPAGE =		https://github.com/dchest/siphash/
 
 MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 
