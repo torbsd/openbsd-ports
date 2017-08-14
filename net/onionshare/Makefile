@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile.template,v 1.72 2015/04/08 17:53:19 sthen Exp $
-# DEPS: build-essential fakeroot python3-all python3-stdeb dh-python python3-flask python3-stem python3-pyqt5 python-nautilus python3-nose
+# DEPS: build-essential fakeroot python3-all python3-stdeb dh-python
+# python3-flask python3-stem python3-pyqt5 python-nautilus python3-nose
+# install build_deb.sh => build_posix.sh?
 
 COMMENT =		secure and anonymous file-sharing over Tor
 
