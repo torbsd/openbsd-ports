@@ -2,26 +2,24 @@
 
 COMMENT =		a look-like nothing obfuscation protocol for TCP
 
-V =			0.0.7
-DISTNAME =		obfs4proxy-${V}
+DISTNAME =		obfs4proxy-0.0.7
 
-WANTLIB +=		c pthread
-
-MASTER_SITES =		https://people.torproject.org/~yawning/releases/obfs4proxy/
-
+MASTER_SITES =	https://people.torproject.org/~yawning/releases/obfs4proxy/
 EXTRACT_SUFX =		.tar.xz
 
 CATEGORIES =		net www
 
-HOMEPAGE =		https://gitweb.torproject.org/pluggable-transports/obfs4.git/tree/README.md
+HOMEPAGE = \
+https://gitweb.torproject.org/pluggable-transports/obfs4.git/tree/README.md
 
 MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 
 # BSD
 PERMIT_PACKAGE_CDROM =	Yes
 
+WANTLIB +=		c pthread
+
 MODULES +=		lang/go
-#MODGO_SUBDIR =		${WRKDIR}/${GH_PROJECT}-obfs4proxy-${GH_TAGNAME}
 ALL_TARGET_BASE =	git.torproject.org/pluggable-transports/obfs4.git
 WRKSRC =		${MODGO_WORKSPACE}/src/${ALL_TARGET_BASE}
 ALL_TARGET =		${ALL_TARGET_BASE}/obfs4proxy \
@@ -30,7 +28,7 @@ ALL_TARGET =		${ALL_TARGET_BASE}/obfs4proxy \
 			${ALL_TARGET_BASE}/transports \
 			${ALL_TARGET_BASE}/transports/base
 
-BUILD_DEPENDS =		net/go-net \
+BUILD_DEPENDS +=	net/go-net \
 			security/go-crypto \
 			security/go-ed25519 \
 			security/go-siphash \

@@ -14,7 +14,7 @@ HOMEPAGE =		https://www.torproject.org/docs/pluggable-transports
 
 MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 
-# BSD
+# CC0
 PERMIT_PACKAGE_CDROM =	Yes
 
 MODULES +=		lang/go
@@ -22,5 +22,7 @@ MODULES +=		lang/go
 ALL_TARGET =		git.torproject.org/pluggable-transports/goptlib.git
 
 MODGO_TYPE =		lib
+
+BUILD_DEPENDS +=	net/go-net security/go-crypto
 
 .include <bsd.port.mk>

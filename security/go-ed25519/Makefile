@@ -24,6 +24,6 @@ WRKSRC =		${MODGO_WORKSPACE}/src/github.com/agl/ed25519
 ALL_TARGET += 		github.com/agl/ed25519/edwards25519 \
 			github.com/agl/ed25519/extra25519
 
-BUILD_DEPENDS =		security/go-crypto
+BUILD_DEPENDS +=	security/go-crypto
 
 .include <bsd.port.mk>

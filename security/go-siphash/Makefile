@@ -14,7 +14,7 @@ HOMEPAGE =		https://github.com/dchest/siphash/
 
 MAINTAINER =		Sean Levy <attila@stalphonsos.com>
 
-# BSD
+# CC0
 PERMIT_PACKAGE_CDROM =	Yes
 
 MODULES +=		lang/go
