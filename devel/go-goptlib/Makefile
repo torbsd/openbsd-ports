@@ -23,4 +23,6 @@ ALL_TARGET =		git.torproject.org/pluggable-transports/goptlib.git
 
 MODGO_TYPE =		lib
 
+BUILD_DEPENDS +=	net/go-net security/go-crypto
+
 .include <bsd.port.mk>

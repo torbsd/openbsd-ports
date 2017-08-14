@@ -28,7 +28,7 @@ ALL_TARGET =		${ALL_TARGET_BASE}/obfs4proxy \
 			${ALL_TARGET_BASE}/transports \
 			${ALL_TARGET_BASE}/transports/base
 
-BUILD_DEPENDS =		net/go-net \
+BUILD_DEPENDS +=	net/go-net \
 			security/go-crypto \
 			security/go-ed25519 \
 			security/go-siphash \
