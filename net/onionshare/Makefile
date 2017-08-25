@@ -12,7 +12,7 @@ CATEGORIES =		net
 
 HOMEPAGE =		https://onionshare.org/
 
-MAINTAINER =		George Rosamond <george@nycbug.org>
+MAINTAINER =            Sean Levy <attila@stalphonsos.com>
 
 # GPLv3
 PERMIT_PACKAGE_CDROM =	Yes
