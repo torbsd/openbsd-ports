@@ -30,7 +30,7 @@ MODPY_SETUPTOOLS =	Yes
 RUN_DEPENDS =		x11/py-qt5${MODPY_FLAVOR} \
 			devel/py-sip${MODPY_FLAVOR} \
 			www/py-flask${MODPY_FLAVOR} \
-			security/py-stem${MODPY_FLAVOR}
+			net/stem${MODPY_FLAVOR}
 TEST_DEPENDS =		devel/py-nose${MODPY_FLAVOR}
 
 #NO_TEST =		Yes
