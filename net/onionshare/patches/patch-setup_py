@@ -1,0 +1,14 @@
+$OpenBSD$
+
+I can find no evidence that nautilus-python is a thing here, and appears
+not to be developed since 2014
+
+--- setup.py.orig
++++ setup.py
+@@ -62,6 +62,5 @@ setup(
+         (os.path.join(sys.prefix, 'share/onionshare/images'), file_list('share/images')),
+         (os.path.join(sys.prefix, 'share/onionshare/locale'), file_list('share/locale')),
+         (os.path.join(sys.prefix, 'share/onionshare/html'), file_list('share/html')),
+-        ('/usr/share/nautilus-python/extensions/', ['install/scripts/onionshare-nautilus.py'])
+     ]
+ )
