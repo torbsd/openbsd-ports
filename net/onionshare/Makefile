@@ -24,7 +24,8 @@ MODPY_SETUPTOOLS =	No
 RUN_DEPENDS =		x11/py-qt5${MODPY_FLAVOR} \
 			devel/py-sip${MODPY_FLAVOR} \
 			www/py-flask${MODPY_FLAVOR} \
-			net/stem${MODPY_FLAVOR}
+			net/stem${MODPY_FLAVOR} \
+			devel/desktop-file-utils
 TEST_DEPENDS =		devel/py-nose${MODPY_FLAVOR}
 
 do-test:
