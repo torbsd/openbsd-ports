@@ -1,15 +1,18 @@
 $OpenBSD$
 
-Use common.platform_is_unixy() defined in patch-onionshare_common_py
+https://github.com/micahflee/onionshare/pull/585
 
+Index: onionshare_gui/__init__.py
 --- onionshare_gui/__init__.py.orig
 +++ onionshare_gui/__init__.py
-@@ -36,7 +36,7 @@ class Application(QtWidgets.QApplication):
+@@ -35,8 +35,8 @@ class Application(QtWidgets.QApplication):
+     and the quick keyboard shortcut.
      """
      def __init__(self):
-         system = platform.system()
+-        system = platform.system()
 -        if system == 'Linux':
-+        if common.platform_is_unixy():
++        system = common.get_platform()
++        if system == 'Linux' or system == 'BSD':
              self.setAttribute(QtCore.Qt.AA_X11InitThreads, True)
          QtWidgets.QApplication.__init__(self, sys.argv)
          self.installEventFilter(self)
