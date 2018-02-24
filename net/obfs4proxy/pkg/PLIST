@@ -1,4 +1,0 @@
-@comment $OpenBSD$
-@bin bin/obfs4proxy
-@man man/man1/obfs4proxy.1
-share/doc/pkg-readmes/${FULLPKGNAME}
